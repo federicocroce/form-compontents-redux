@@ -1,0 +1,37 @@
+{
+  "name": "fc-cv",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "del-cli": "^1.1.0",
+    "firebase": "^4.9.0",
+    "html-react-parser": "^0.4.3",
+    "jquery-lite": "^2.2.3",
+    "node-sass-chokidar": "^1.1.2",
+    "nodemon": "^1.17.2",
+    "npm-run-all": "^4.1.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "react-scripts": "1.1.1",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/Styles/Main/index.scss src/Styles/Main/index.css",
+    "watch-css": "nodemon -e scss -x npm-run-all build-css",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "react-scripts build npm-run-all build-css",
+    "deploy": "npm-run-all clean && react-scripts build build-css && firebase deploy",
+    "install-firebase": "npm i -g firebase-tools && firebase login --interactive && firebase init",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "clean": "del-cli build"
+  }
+}

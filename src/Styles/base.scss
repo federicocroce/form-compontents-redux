@@ -1,0 +1,70 @@
+$primary-color: #01579b;
+$primary-color-light: #3aa7de;
+$color-aca: #398aca;
+$color-1e0: #6eb1e0;
+$color-f6e: #002f6e;
+$color-515: #151515;;
+$primary-color-dark: #002f6c;
+$primary-color-text: #ffffff;
+$secondary-color: #263238;
+$grey-dark: #737373;
+$secondary-color-light: #e3e3e3;
+$secondary-color-dark: #000a12;
+$secondary-color-text: #ffffff;
+
+$color-919 : #191919;
+
+
+
+
+
+
+
+
+// @import url('https://fonts.googleapis.com/css?family=Mina');
+// @import url('https://fonts.googleapis.com/css?family=Raleway');
+// @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+// @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+// @import url('https://fonts.googleapis.com/css?family=Catamaran');
+// @import url('https://fonts.googleapis.com/css?family=Montserrat');
+// @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed');
+// @import url('https://fonts.googleapis.com/css?family=Meera+Inimai');
+// @import url('https://fonts.googleapis.com/css?family=PT+Serif');
+// @import url('https://fonts.googleapis.com/css?family=Merriweather');
+// @import url('https://fonts.googleapis.com/css?family=Exo+2:600');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+
+body{
+    // font-family: 'Mina', sans-serif;
+    // font-family: 'Raleway', sans-serif;
+    // font-family: 'Titillium Web', sans-serif;
+    // font-family: 'Nanum Gothic', sans-serif;
+    // font-family: 'Catamaran', sans-serif;
+    // font-family: 'Montserrat', sans-serif;
+    // font-family: 'IBM Plex Sans Condensed', sans-serif;
+    // font-family: 'Meera Inimai', sans-serif;
+    // font-family: 'PT Serif', serif;
+    // font-family: 'Merriweather', serif;
+    // font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.table {
+    display: table;
+    width: 100%;
+    > * {display: table-cell; vertical-align: top;}
+}
+
+
+// h1{
+//     text-align: center;
+//     padding: 30px;
+//     font-size: 50px;
+//     z-index: 1;
+//     color: white
+// }
+
+
+
