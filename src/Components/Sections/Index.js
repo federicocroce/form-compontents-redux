@@ -19,7 +19,7 @@ const Index = () => {
     <Provider store={config.storeHistory.store}>
       <ConnectedRouter history={config.storeHistory.history}>
         <div>
-          <components.MinCV />
+          <components.Home />
           <div className="nav-bar-container">
             <Switch>
 

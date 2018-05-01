@@ -4,23 +4,19 @@
 import React from 'react';
 
 const data = {
-    list: [],
-    mainData: {},
-    skills:{}
+    values: {}
 }
 
 
-const reducerPersonalData = (state = data, action) => {
+
+const reducerReduxForm = (state = data, action) => {
     // console.error("ENTRA");
     switch (action.type) {
-        case 'FETCH_PERSONAL_DATA':  
-   
-        action.payload.personalData.sort((a, b) => a.index - b.index);  
+        case 'SET_VALUES':
+                      
             return {
                 ...state,
-                list: action.payload.personalData,
-                mainData: action.payload.mainData,
-                skills: action.payload.skills
+                values: Object.assign(state.values,  action.payload )
             };
         case 'FETCH_TEXTO':
             return {
@@ -42,4 +38,4 @@ const reducerPersonalData = (state = data, action) => {
     }
 }
 
-export { reducerPersonalData };
+export { reducerReduxForm };
