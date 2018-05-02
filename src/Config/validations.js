@@ -1,8 +1,8 @@
-import React, { actions } from 'react';
+import React, { functions, actions } from 'react';
 
 const fieldValidations = {}
 
-const required = params => value => value ? undefined : 'Ingrese ' + params;
+const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? undefined : 'Ingrese ' + params;
 
 // const required = (params) => value => value ? undefined : 'Ingrese ' + params;
 
@@ -21,14 +21,13 @@ fieldValidations.validations = {
 }
 
 fieldValidations.getValidation = (validations, value, form) => {
-    let result = validations.map((val, index) => val(value)).filter(val => val != undefined);
-
-    // let invalid = result != [] ? true : false
-    // if(invalid != form.invalid){
-    //     actions.actionsReduxForm.setInvalid(invalid);
-    // }
+    let error = validations.map((val, index) => val(value)).filter(val => val != undefined);
+    let invalid = !functions.isUndefinedOrNullOrEmpty(error) ? true : false;
     
-    return result;
+    return {
+        error,
+        invalid
+    }
 }
 
 

@@ -20,6 +20,13 @@ const setValues = (value) =>{
     });
 };
 
+const setInputDetails = (details) =>{
+    config.storeHistory.dispatch({
+        type: 'SET_INPUT_DETAILS',
+        payload: details
+    });
+};
+
 const setSubmite = (submite) =>{
     config.storeHistory.dispatch({
         type: 'SET_SUBMITE',
@@ -37,7 +44,8 @@ const setInvalid = (state) =>{
 const functionsAction = {
     setValues,
     setSubmite,
-    setInvalid
+    setInvalid,
+    setInputDetails
 }
 
 
