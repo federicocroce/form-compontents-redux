@@ -53,9 +53,10 @@ class Home extends React.Component {
                     placeholderFloating='Edad'
                     customPlaceholder='29'
                     validate={config.fieldValidations.validations.age}
+                    required={true}
                 />
 
-                {/* <p>Edad:</p> */}
+
                 <components.Input
                     props={props}
                     name='nombre'
@@ -63,6 +64,16 @@ class Home extends React.Component {
                     placeholderFloating='Nombre'
                     customPlaceholder='Federico Croce'
                     validate={config.fieldValidations.validations.name}
+                />
+
+                <components.Input
+                    props={props}
+                    name='localidad'
+                    style='inline'
+                    placeholderFloating='Localidad'
+                    customPlaceholder='CABA'
+                    validate={config.fieldValidations.validations.name}
+                    required={true}
                 />
 
                 <input type="submit" value="Submit" />
