@@ -4,7 +4,9 @@
 import React from 'react';
 
 const data = {
-    values: {}
+    values: {},
+    invalid: false,
+    submite: false
 }
 
 
@@ -18,15 +20,15 @@ const reducerReduxForm = (state = data, action) => {
                 ...state,
                 values: Object.assign(state.values,  action.payload )
             };
-        case 'FETCH_TEXTO':
+        case 'SET_SUBMITE':
             return {
                 ...state,
-                text: action.payload
+                submite: action.payload
             };
-        case 'SET_SELECTED':
+        case 'SET_INVALID':
             return {
                 ...state,
-                selected: action.selected
+                invalid: action.state
             };
         case 'CLEAR_POST':
             return {

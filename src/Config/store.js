@@ -20,7 +20,9 @@ storeHistory.store = createStore(
             middleware            
         )
     )
-)
+);
+
+storeHistory.dispatch = storeHistory.store.dispatch;
 
 export default storeHistory;
 

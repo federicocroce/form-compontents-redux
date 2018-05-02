@@ -48,9 +48,9 @@ const frameworkConfig = props => {
 
     Object.assign(React, {
         functions : functions,
+        config: config,
         components : components,
-        actions: actions,
-        config: config
+        actions: actions        
     });
 
 

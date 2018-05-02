@@ -1,4 +1,4 @@
-import React, { actions, components } from 'react';
+import React, { actions, components, config } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Parser from 'html-react-parser';
@@ -9,20 +9,21 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {value: ''};
-    
+        this.state = { value: '' };
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    
-      handleChange(event) {
-        this.setState({value: event.target.value});
-      }
-    
-      handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
+    }
+
+    handleChange(event) {
+        this.setState({ value: event.target.value });
+    }
+
+    handleSubmit(event) {
+        // alert('A name was submitted: ' + this.state.value);
+        this.props.actionsReduxForm.setSubmite(true);
         event.preventDefault();
-      }
+    }
 
     componentDidMount() {
 
@@ -36,21 +37,37 @@ class Home extends React.Component {
 
         const props = this.props;
 
-            
+
 
         return (
 
 
             <form onSubmit={this.handleSubmit}>
-            {/* <pre>Algo : {props.reduxForm.values}</pre> */}
-            {/* {props.reduxForm.values} */}
+                {/* <pre>Algo : {props.reduxForm.values}</pre> */}
+                {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
-                <components.Input props={props} name='edad' placeholderFloating='Edad' customPlaceholder='29'/>
+                <components.Input
+                    props={props}
+                    name='edad'
+                    style='inline'
+                    placeholderFloating='Edad'
+                    customPlaceholder='29'
+                    validate={config.fieldValidations.validations.age}
+                />
 
                 {/* <p>Edad:</p> */}
-                <components.Input props={props} name='nombre' placeholderFloating='Nombre' customPlaceholder='Federico Croce'/>
+                <components.Input
+                    props={props}
+                    name='nombre'
+                    style='inline'
+                    placeholderFloating='Nombre'
+                    customPlaceholder='Federico Croce'
+                    validate={config.fieldValidations.validations.name}
+                />
 
                 <input type="submit" value="Submit" />
+
+                
             </form>
         );
     }
@@ -64,9 +81,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        actionsReduxForm(action, value) {
-            actions.actionsReduxForm(dispatch, action, value)
-        }
+        actionsReduxForm: actions.actionsReduxForm
     };
 }
 
