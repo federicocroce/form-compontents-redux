@@ -43,7 +43,7 @@ class Home extends React.Component {
         const props = this.props;
 
         const gender = {
-            name: 'radioOptions',
+            name: 'gender',
             style: 'inline',
             type: 'radio',
             options: [
