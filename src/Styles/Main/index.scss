@@ -1,6 +1,13 @@
-@import "../base";
+@import "../_base";
 // @import "../app";
-@import "../cv";
-@import "../utilities";
+// @import "../cv";
+// @import "../utilities";
+// @import "../../Components/**/*";
+// @import "../../Components/Utilities/InputText/*.scss"
+@import 'src/Components/Utilities/InputText/_InputText';
+@import 'src/Components/Utilities/Button/_Button';
+@import 'src/Components/Utilities/SwitchesGroup/_SwitchesGroup';
 // @import "../users";
 // @import "../comobox";
+
+

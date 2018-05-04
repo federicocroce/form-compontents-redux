@@ -9,9 +9,9 @@ class Input extends React.Component {
     }
 
  
-    componentDidMount() {
+    componentWillMount() {
         const inputValueDetails = {};        
-        this.inputProps.actionsReduxForm.setValues('');
+        // this.inputProps.actionsReduxForm.setValues('');
         this.inputProps.actionsReduxForm.setInputDetails(this.setDetails('', true, ''));
     }
 

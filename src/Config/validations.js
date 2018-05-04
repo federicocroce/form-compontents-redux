@@ -27,8 +27,8 @@ fieldValidations.getValidation = (validations, value, form, required) => {
         if (index != array.length - 1) {
             return val(value);
         }
-        else if (index == array.length - 1 && required) { 
-           return val(value) 
+        else if (index == array.length - 1 && required) { // si el campo no esta requerido entonces no se ejecuta la ultima funcion
+            return val(value)
         }
     }).filter(val => val != undefined);
     let invalid = !functions.isUndefinedOrNullOrEmpty(error) ? true : false;

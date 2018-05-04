@@ -15,6 +15,7 @@
     "node-sass-chokidar": "^1.1.2",
     "nodemon": "^1.17.2",
     "npm-run-all": "^4.1.2",
+    "react-json-view": "^1.16.6",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
@@ -23,7 +24,7 @@
     "redux-devtools-extension": "^2.13.2"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/Styles/Main/index.scss src/Styles/Main/index.css",
+    "build-css": "node-sass-chokidar src/Styles/Main/index.scss src/Styles/Main/index.css --source-map true --source-map-contents sass --include-path",
     "watch-css": "nodemon -e scss -x npm-run-all build-css",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",

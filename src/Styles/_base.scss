@@ -3,7 +3,8 @@ $primary-color-light: #3aa7de;
 $color-aca: #398aca;
 $color-1e0: #6eb1e0;
 $color-f6e: #002f6e;
-$color-515: #151515;;
+$color-515: #151515;
+;
 $primary-color-dark: #002f6c;
 $primary-color-text: #ffffff;
 $secondary-color: #263238;
@@ -11,16 +12,7 @@ $grey-dark: #737373;
 $secondary-color-light: #e3e3e3;
 $secondary-color-dark: #000a12;
 $secondary-color-text: #ffffff;
-
-$color-919 : #191919;
-
-
-
-
-
-
-
-
+$color-919: #191919;
 // @import url('https://fonts.googleapis.com/css?family=Mina');
 // @import url('https://fonts.googleapis.com/css?family=Raleway');
 // @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
@@ -33,9 +25,7 @@ $color-919 : #191919;
 // @import url('https://fonts.googleapis.com/css?family=Merriweather');
 // @import url('https://fonts.googleapis.com/css?family=Exo+2:600');
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-
-body{
+body {
     // font-family: 'Mina', sans-serif;
     // font-family: 'Raleway', sans-serif;
     // font-family: 'Titillium Web', sans-serif;
@@ -48,15 +38,38 @@ body{
     // font-family: 'Merriweather', serif;
     // font-family: 'Exo 2', sans-serif;
     font-family: 'Montserrat', sans-serif;
-
+    font-size: 14px;
 }
 
 .table {
     display: table;
     width: 100%;
-    > * {display: table-cell; vertical-align: top;}
+    >* {
+        display: table-cell;
+        vertical-align: top;
+    }
 }
 
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.error-text {
+    display: block;
+    text-align: left;
+    color: red;
+    left: 0;
+    bottom: -20px;
+    pointer-events: none;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    font-size: .7em;
+    margin-top: 5px;
+}
 
 // h1{
 //     text-align: center;
@@ -65,6 +78,3 @@ body{
 //     z-index: 1;
 //     color: white
 // }
-
-
-

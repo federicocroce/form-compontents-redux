@@ -1,4 +1,4 @@
-import React, { actions, components, config } from 'react';
+import React, { actions, components, config, functions } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Parser from 'html-react-parser';
@@ -23,6 +23,11 @@ class Home extends React.Component {
         // alert('A name was submitted: ' + this.state.value);
         this.props.actionsReduxForm.setSubmite(true);
         event.preventDefault();
+
+        if(!this.props.reduxForm.invalid){
+            alert('Este form no posee errores.');            
+        }
+        
     }
 
     componentDidMount() {
@@ -37,6 +42,41 @@ class Home extends React.Component {
 
         const props = this.props;
 
+        const gender = {
+            name: 'radioOptions',
+            style: 'inline',
+            type: 'radio',
+            options: [
+                {
+                    value: 'male',
+                    label: 'Hombre'
+                },
+                {
+                    value: 'female',
+                    label: 'Mujer'
+                }
+            ]
+        }
+
+        const checkboxProps = {
+            name: 'checkboxOptions',
+            style: '',
+            type: 'checkbox',
+            options: [
+                {
+                    value: 'checkbox1',
+                    label: 'Checkbox 1'
+                },
+                {
+                    value: 'checkbox2',
+                    label: 'Checkbox 2'
+                },
+                {
+                    value: 'checkbox3',
+                    label: 'Checkbox 3'
+                }
+            ]
+        }
 
 
         return (
@@ -46,7 +86,7 @@ class Home extends React.Component {
                 {/* <pre>Algo : {props.reduxForm.values}</pre> */}
                 {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
-                <components.Input
+                <components.InputText
                     props={props}
                     name='edad'
                     style='inline'
@@ -57,7 +97,7 @@ class Home extends React.Component {
                 />
 
 
-                <components.Input
+                <components.InputText
                     props={props}
                     name='nombre'
                     style='inline'
@@ -66,19 +106,24 @@ class Home extends React.Component {
                     validate={config.fieldValidations.validations.name}
                 />
 
-                <components.Input
+                <components.InputText
                     props={props}
                     name='localidad'
                     style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
                     validate={config.fieldValidations.validations.name}
-                    required={true}
+                    required={false}
                 />
 
-                <input type="submit" value="Submit" />
+                <components.SwitchesGroup switchesProps={gender} props={props}/>
+
+                <components.SwitchesGroup switchesProps={checkboxProps} props={props}/>
+
+                <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
                 
+                {functions.jsonView(props.reduxForm)}
             </form>
         );
     }
