@@ -13,24 +13,18 @@ class SwitchesGroup extends React.Component {
 
 
     componentWillMount() {
-        // const inputValue = {};
-
-        this.props.switchesProps.options.map((option, index) => {
-            const name = this.returnNameFromType(option);
-            const value = this.props.switchesProps.type == "radio" ? '' : false;
-            if (this.props.switchesProps.type != "radio") this.setState({ [name]: false })
-            // inputValue[name] = '';
-            this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
+        this.props.switchesProps.options.map((option, index) => {            
+            const value = this.props.switchesProps.type == "radio" ? '' : false;            
+            this.setErrorInputDetails(value, option);
         })
-
     }
 
-    // componentDidUpdate(prevProps) {
-    //     this.inputProps = this.props.props;
-    //     if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
-    //         this.handleChange(this.inputProps.reduxForm.values[this.props.switchesProps.name]);
-    //     }
-    // }
+    componentDidUpdate(prevProps) {
+        this.inputProps = this.props.props;
+        // if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
+        //     this.handleChange(this.inputProps.reduxForm.values[this.props.switchesProps.name]);
+        // }
+    }
 
     handleChange = (value, option) => {
 
@@ -53,10 +47,16 @@ class SwitchesGroup extends React.Component {
 
         setTimeout(() => {
             this.inputProps.actionsReduxForm.setValues(inputValue);
-            // this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
         }, 500);
 
 
+    }
+
+    setErrorInputDetails = (value, option) => {
+        // const resultError = this.setError();
+        const name = this.returnNameFromType(option);
+        if (this.props.switchesProps.type != "radio") this.setState({ [name]: false })
+        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
     }
 
     // setError = () => {
@@ -126,6 +126,9 @@ class SwitchesGroup extends React.Component {
                 }
 
                 )}
+
+                {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
+                <label className="error-text">Seleccione</label>
             </ul>
         )
     }

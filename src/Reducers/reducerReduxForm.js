@@ -20,6 +20,7 @@ const reducerReduxForm = (state = data, action) => {
             return {
                 ...state,
                 values: Object.assign(state.values, action.payload)
+                // values: action.payload
             };
         case 'SET_SUBMITE':
             return {

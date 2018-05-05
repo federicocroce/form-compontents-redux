@@ -21,7 +21,7 @@ fieldValidations.validations = {
     name: [notNumber('Su nombre'), required('su nombre')]
 }
 
-fieldValidations.getValidation = (validations, value, form, required) => {
+fieldValidations.getValidation = (validations, value, required) => {
     // if(!required) validations.splice(-1,1);
     let error = validations.map((val, index, array) => {
         if (index != array.length - 1) {
@@ -41,7 +41,6 @@ fieldValidations.getValidation = (validations, value, form, required) => {
 
 
 export default fieldValidations;
-
 
 
 // const formatValidateArray = (validate) => {

@@ -1,10 +1,10 @@
-import React, { config } from 'react';
+import React, {config, functions } from 'react';
 
 class Input extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { error: '', showError: false };
+        this.state = { error: '', showError: false, value: '' };
         this.inputProps = this.props.props;
     }
 
@@ -21,18 +21,23 @@ class Input extends React.Component {
     }
 
     handleChange = (value) => {
+        this.setState({value : value});
         this.inputProps.actionsReduxForm.setValues({[this.props.name] : value});
         this.setErrorInputDetails(value);
     }
 
     setError = () => {
-        let resultError = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.name], this.inputProps.reduxForm, this.props.required);
+        const resultError = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.name], this.props.required);
         this.setState({ error: resultError.error });
         return resultError;
     }
 
     setErrorInputDetails = (value) => {
-        const resultError = this.setError();
+        let resultError = {
+            invalid: false,
+            error: ''
+        }
+        if(!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError();
         this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
     }
 
@@ -57,7 +62,7 @@ class Input extends React.Component {
 
             <div className='input-text-container'>
                 <div>
-                    <input className="inputMaterial" placeholder=" " type="text" value={value != undefined ? value : ''} onChange={(event) => this.handleChange(event.target.value)} />
+                    <input className="inputMaterial" placeholder=" " type="text" value={this.state.value} onChange={(event) => this.handleChange(event.target.value)} />
                     <label className="floating">{props.placeholderFloating}</label>
                     <div className="container-placeholder">
                         <label className="placeholder">{props.customPlaceholder}</label>

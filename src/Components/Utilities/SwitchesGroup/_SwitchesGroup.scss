@@ -96,6 +96,8 @@ $input-box-check-size: 20px;
     &:first-child input {
         // margin-left: 0;
     } // }
+
+    .error-text{position: initial;}
 }
 
 @keyframes click-wave {
