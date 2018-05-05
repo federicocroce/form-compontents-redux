@@ -6,7 +6,8 @@ class SwitchesGroup extends React.Component {
         super(props);
         this.state = {
             error: '',
-            checked: ''
+            checked: '',
+            someCheked: false
         };
         this.inputProps = this.props.props;
     }
@@ -32,10 +33,12 @@ class SwitchesGroup extends React.Component {
 
         if (this.props.switchesProps.type == "radio") {
             this.setState({ checked: value });
+            this.state.checked != '' ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
         }
         else {
             checkedValue = !this.state[option.value];
             this.setState({ [option.value]: checkedValue });
+            this.props.switchesProps.options.filter(option => option.value == true) ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
         }
 
         const name = this.returnNameFromType(option);
@@ -59,16 +62,16 @@ class SwitchesGroup extends React.Component {
         this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
     }
 
-    // setError = () => {
-    //     this.inputProps = this.props.props;
-    //     if (this.inputProps.reduxForm.submite) {
-    //         let result = {};
-    //         if (this.inputProps.reduxForm.submite) {
-    //             result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.switchesProps.name], this.inputProps.reduxForm, this.props.required);
-    //         }
-    //         return result;
-    //     }
-    // }
+    setError = () => {
+        this.inputProps = this.props.props;
+        if (this.inputProps.reduxForm.submite) {
+            let result = {};
+            if (this.inputProps.reduxForm.submite) {
+                result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values, this.inputProps.reduxForm, this.props.required);
+            }
+            return result;
+        }
+    }
 
     setDetails = (name, value, invalid, error) => {
         const inputValueDetails = {};
@@ -121,6 +124,7 @@ class SwitchesGroup extends React.Component {
                             // checked={}
                             />
                             {option.label}
+                            
                         </label>
                     )
                 }
@@ -129,6 +133,7 @@ class SwitchesGroup extends React.Component {
 
                 {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
                 <label className="error-text">Seleccione</label>
+                {this.state.someCheked.toString()}
             </ul>
         )
     }

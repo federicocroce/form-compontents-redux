@@ -62,6 +62,7 @@ class Home extends React.Component {
             name: 'checkboxOptions',
             style: '',
             type: 'checkbox',
+            validation: config.fieldValidations.validations.cheked,
             options: [
                 {
                     value: 'checkbox1',

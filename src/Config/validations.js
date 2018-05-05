@@ -2,7 +2,7 @@ import React, { functions, actions } from 'react';
 
 const fieldValidations = {}
 
-const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? undefined : 'Ingrese ' + params;
+const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? undefined : params;
 
 // const required = (params) => value => value ? undefined : 'Ingrese ' + params;
 
@@ -13,13 +13,20 @@ const notNumber = params => value => value && value.match(/\d/g) ? params + ' so
 
 const minValue = (min, label) => value => value && value < min ? label : undefined;
 
-const test = params => value => params + value + 'algo';
+// const someSelected = (min, label) => value => value && value < min ? label : undefined;
+
+// const requiredSelected = (min, label) => value => value && value < min ? label : undefined;
+
+const requiredSelected = params => array => array.length == 0 ? params : null;
 
 fieldValidations.validations = {
     // age: [test('Su edad ')],
-    age: [number('Su edad '), minValue(18, 'Su edad debe ser igual o mayor a ' + 18 + ' años'), required('su edad')],
-    name: [notNumber('Su nombre'), required('su nombre')]
-}
+    age: [number('Su edad '), minValue(18, 'Su edad debe ser igual o mayor a ' + 18 + ' años'), required('Ingrese su edad')],
+    name: [notNumber('Su nombre'), required('Ingrese su nombre')],
+    cheked: [requiredSelected('Seleccione al menos uno')]
+};
+
+// fieldValidations.required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? undefined : 'Ingrese ' + params;
 
 fieldValidations.getValidation = (validations, value, required) => {
     // if(!required) validations.splice(-1,1);
