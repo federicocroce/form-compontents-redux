@@ -4,55 +4,47 @@ class Input extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { error: '' };
+        this.state = { error: '', showError: false };
         this.inputProps = this.props.props;
     }
 
- 
+
     componentWillMount() {
-        const inputValueDetails = {};        
-        // this.inputProps.actionsReduxForm.setValues('');
-        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails('', true, ''));
+        this.setErrorInputDetails('');
     }
 
     componentDidUpdate(prevProps) {
         this.inputProps = this.props.props;
-        if(this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite){
-            this.handleChange(this.inputProps.reduxForm.values[this.props.name]);
+        if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
+            this.setState({ showError: !this.state.showError })
         }
-
-        // if(!this.props.required) this.props.validate.splice(-1,1);
-
-        // console.log(this.inputProps.reduxForm);
     }
 
-    handleChange = (value) =>{
-        const inputValue = {};
-        inputValue[this.props.name] = value;
-        this.inputProps.actionsReduxForm.setValues(inputValue);
-        const result = this.setError();
-        this.setState({ error: result.error });
-        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(value, result.invalid, result.error));
+    handleChange = (value) => {
+        this.inputProps.actionsReduxForm.setValues({[this.props.name] : value});
+        this.setErrorInputDetails(value);
     }
 
-    setError = () =>{
-        let result = {};
-        if (this.inputProps.reduxForm.submite) {
-            result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.name], this.inputProps.reduxForm, this.props.required);
-        }
-        return result;
+    setError = () => {
+        let resultError = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.name], this.inputProps.reduxForm, this.props.required);
+        this.setState({ error: resultError.error });
+        return resultError;
     }
 
-    setDetails = (value, invalid, error) =>{
-        const inputValueDetails = {};
+    setErrorInputDetails = (value) => {
+        const resultError = this.setError();
+        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
+    }
 
-         inputValueDetails[this.props.name] = {
-            value: value,
-            invalid: invalid,
-            error: error
+
+    setDetails = (value, invalid, error) => {
+        return {
+            [this.props.name] : {
+                value: value,
+                invalid: invalid,
+                error: error
+            }
         }
-
-        return inputValueDetails;
     }
 
 
@@ -66,15 +58,13 @@ class Input extends React.Component {
             <div className='input-text-container'>
                 <div>
                     <input className="inputMaterial" placeholder=" " type="text" value={value != undefined ? value : ''} onChange={(event) => this.handleChange(event.target.value)} />
-                    {/*                  <input {...field.input} id={fieldProps.id} className="inputMaterial" placeholder=" " required={fieldProps.required} /> */}
                     <label className="floating">{props.placeholderFloating}</label>
                     <div className="container-placeholder">
                         <label className="placeholder">{props.customPlaceholder}</label>
                     </div>
                     <hr />
                 </div>
-                {/* <label className="error-text">{this.setError().error}</label> */}
-                <label className="error-text">{this.state.error}</label>
+                {this.state.showError ? <label className="error-text">{this.state.error}</label> : null}
             </div>
         );
     }

@@ -25,12 +25,12 @@ class SwitchesGroup extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps) {
-        this.inputProps = this.props.props;
-        if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
-            this.handleChange(this.inputProps.reduxForm.values[this.props.switchesProps.name]);
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     this.inputProps = this.props.props;
+    //     if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
+    //         this.handleChange(this.inputProps.reduxForm.values[this.props.switchesProps.name]);
+    //     }
+    // }
 
     handleChange = (value, option) => {
 
@@ -41,35 +41,34 @@ class SwitchesGroup extends React.Component {
         }
         else {
             checkedValue = !this.state[option.value];
-            this.setState({ [option.value]:checkedValue });
+            this.setState({ [option.value]: checkedValue });
         }
 
-        
         const name = this.returnNameFromType(option);
         value = this.props.switchesProps.type == "radio" ? value : checkedValue;
 
         const inputValue = {};
-        // setTimeout(function () {
+
         inputValue[name] = value;
-        this.inputProps.actionsReduxForm.setValues(inputValue);
-        // const result = this.setError();
-        // this.setState({ error: result.error });
-        // this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(this.props.switchesProps.name, value, result.invalid, result.error));
-        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
-        // }, 0.1);
+
+        setTimeout(() => {
+            this.inputProps.actionsReduxForm.setValues(inputValue);
+            // this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
+        }, 500);
 
 
-
-        // this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(this.returnNameFromType(option), value, result.invalid, result.error));
     }
 
-    setError = () => {
-        let result = {};
-        if (this.inputProps.reduxForm.submite) {
-            result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.switchesProps.name], this.inputProps.reduxForm, this.props.required);
-        }
-        return result;
-    }
+    // setError = () => {
+    //     this.inputProps = this.props.props;
+    //     if (this.inputProps.reduxForm.submite) {
+    //         let result = {};
+    //         if (this.inputProps.reduxForm.submite) {
+    //             result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.switchesProps.name], this.inputProps.reduxForm, this.props.required);
+    //         }
+    //         return result;
+    //     }
+    // }
 
     setDetails = (name, value, invalid, error) => {
         const inputValueDetails = {};
