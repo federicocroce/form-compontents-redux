@@ -10,12 +10,17 @@ class SwitchesGroup extends React.Component {
             someCheked: false
         };
         this.inputProps = this.props.props;
+
+        this.handleChange = this.handleChange.bind(this);
+        this.setErrorInputDetails = this.setErrorInputDetails.bind(this);
+        this.checked = this.checked.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
     }
 
 
     componentWillMount() {
-        this.props.switchesProps.options.map((option, index) => {            
-            const value = this.props.switchesProps.type == "radio" ? '' : false;            
+        this.props.switchesProps.options.map((option, index) => {
+            const value = this.props.switchesProps.type == "radio" ? '' : false;
             this.setErrorInputDetails(value, option);
         })
     }
@@ -33,12 +38,12 @@ class SwitchesGroup extends React.Component {
 
         if (this.props.switchesProps.type == "radio") {
             this.setState({ checked: value });
-            this.state.checked != '' ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
         }
         else {
             checkedValue = !this.state[option.value];
             this.setState({ [option.value]: checkedValue });
-            this.props.switchesProps.options.filter(option => option.value == true) ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
+
+            // const algo = this.props.switchesProps.options.filter(option => option.value == true && option.groupName == this.props.switchesProps.groupName) ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
         }
 
         const name = this.returnNameFromType(option);
@@ -50,7 +55,20 @@ class SwitchesGroup extends React.Component {
 
         setTimeout(() => {
             this.inputProps.actionsReduxForm.setValues(inputValue);
+            this.setErrorInputDetails(value, option);
+            if (this.props.switchesProps.type != "radio") {
+
+                const cheked = this.props.switchesProps.options.map(option => this.inputProps.reduxForm.inputDetails[option.value].value).filter(val => val == true);
+
+                cheked.length > 0 ? this.setState({ someCheked: true }) : this.setState({ someCheked: false })
+
+                // console.log();
+            }
+            else{
+                this.state.checked != '' ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
+            }
         }, 500);
+
 
 
     }
@@ -58,7 +76,7 @@ class SwitchesGroup extends React.Component {
     setErrorInputDetails = (value, option) => {
         // const resultError = this.setError();
         const name = this.returnNameFromType(option);
-        if (this.props.switchesProps.type != "radio") this.setState({ [name]: false })
+        // if (this.props.switchesProps.type != "radio") this.setState({ [name]: false })
         this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
     }
 
@@ -77,6 +95,7 @@ class SwitchesGroup extends React.Component {
         const inputValueDetails = {};
 
         inputValueDetails[name] = {
+            groupName: this.props.switchesProps.groupName,
             value: value,
             invalid: invalid,
             error: error
@@ -87,7 +106,7 @@ class SwitchesGroup extends React.Component {
 
     returnNameFromType = (option) => {
         const switchesProps = this.props.switchesProps;
-        return switchesProps.type == "radio" ? switchesProps.name : option.value;
+        return switchesProps.type == "radio" ? switchesProps.nameGroup : option.value;
     }
 
     getInputDetail = () => {
@@ -98,13 +117,16 @@ class SwitchesGroup extends React.Component {
         )
     };
 
+    checked = (option) => {
+        return this.props.switchesProps.type == "radio" ? option.value === this.state.checked : this.state[option.value] == true;
+    }
 
     render() {
         const props = this.props;
         const inputProps = props.props;
-        let value = inputProps.reduxForm.values[props.switchesProps.name];
+        let value = inputProps.reduxForm.values[props.switchesProps.nameGroup];
 
-        const checked = (option) => this.props.switchesProps.type == "radio" ? option.value === this.state.checked : this.state[option.value] == true;
+
 
         return (
             <ul className="switches-container">
@@ -119,12 +141,12 @@ class SwitchesGroup extends React.Component {
                                 type={props.switchesProps.type}
                                 name={this.returnNameFromType(option)}
                                 value={option.value}
-                                checked={checked(option)}
+                                checked={this.checked(option)}
                                 onChange={(event) => this.handleChange(event.target.value, option)}
                             // checked={}
                             />
                             {option.label}
-                            
+
                         </label>
                     )
                 }
@@ -132,8 +154,8 @@ class SwitchesGroup extends React.Component {
                 )}
 
                 {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
-                <label className="error-text">Seleccione</label>
-                {this.state.someCheked.toString()}
+                {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null}
+                
             </ul>
         )
     }

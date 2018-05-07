@@ -43,7 +43,7 @@ class Home extends React.Component {
         const props = this.props;
 
         const gender = {
-            name: 'gender',
+            groupName: 'gender',
             style: 'inline',
             type: 'radio',
             options: [
@@ -59,7 +59,7 @@ class Home extends React.Component {
         }
 
         const checkboxProps = {
-            name: 'checkboxOptions',
+            groupName: 'checkboxOptions',
             style: '',
             type: 'checkbox',
             validation: config.fieldValidations.validations.cheked,
@@ -123,6 +123,7 @@ class Home extends React.Component {
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
+                <input type="date" name="bday" max="1979-12-31"/>
                 
                 {functions.jsonView(props.reduxForm)}
             </form>
