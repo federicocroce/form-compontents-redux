@@ -28,7 +28,7 @@ $input-box-check-size: 20px;
             vertical-align: middle;
             position: absolute;
             left: 0;
-            transition: all 100ms ease;
+            transition: all 50ms ease;
             cursor: pointer;
             display: inline-block;
             outline: none;
@@ -89,7 +89,7 @@ $input-box-check-size: 20px;
                 }
             }
             &:active {
-                transform: scale3d(.4, .4, .4);
+                transform: scale3d(.3, .3, .3);
             }
             
             &[class='0'] {
