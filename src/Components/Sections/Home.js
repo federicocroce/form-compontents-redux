@@ -113,7 +113,7 @@ class Home extends React.Component {
                     style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
-                    validate={config.fieldValidations.validations.name}
+                    validate={config.fieldValidations.validations.city}
                     required={false}
                 />
 

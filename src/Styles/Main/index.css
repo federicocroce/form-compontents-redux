@@ -187,6 +187,8 @@ body {
           left: 50%; }
       .switches-container label input:active {
         transform: scale3d(0.4, 0.4, 0.4); }
+      .switches-container label input[class='0'] {
+        margin-left: 0; }
   .switches-container .error-text {
     position: initial; }
 

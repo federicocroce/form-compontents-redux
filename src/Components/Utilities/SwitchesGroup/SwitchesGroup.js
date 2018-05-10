@@ -137,6 +137,7 @@ class SwitchesGroup extends React.Component {
                     return (
                         <label key={index}  >
                             <input
+                                className={index}
                                 key={index}
                                 type={props.switchesProps.type}
                                 name={this.returnNameFromType(option)}
@@ -146,7 +147,6 @@ class SwitchesGroup extends React.Component {
                             // checked={}
                             />
                             {option.label}
-
                         </label>
                     )
                 }

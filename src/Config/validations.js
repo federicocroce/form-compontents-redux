@@ -4,29 +4,30 @@ import React, { functions, actions } from 'react';
 
 const fieldValidations = {}
 
-const setObjetError = (fn, msg) => {return{fn: fn.name, msg}};
+const setObjetError = (name, msg) => {return{name , msg}};
 
-const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? undefined : setObjetError(required, params) ;
+const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? undefined : setObjetError("required", params) ;
 
 // const required = (params) => value => value ? undefined : 'Ingrese ' + params;
 
-const number = params => value => value && isNaN(Number(value)) ? setObjetError(number, params) : undefined;
+const number = params => value => value && isNaN(Number(value)) ? setObjetError("number", params) : undefined;
 // const number = params => value => value && isNaN(Number(value)) ? params + ' solo puede ser numérica' : undefined;
 
-const notNumber = params => value => value && value.match(/\d/g) ? setObjetError(notNumber, params) : undefined;
+const notNumber = params => value => value && value.match(/\d/g) ? setObjetError("notNumber", params) : undefined;
 
-const minValue = (min, label) => value => value && value <  min ? setObjetError(minValue, label) : undefined;
+const minValue = (min, label) => value => value && value <  min ? setObjetError("minValue", label) : undefined;
 
 // const someSelected = (min, label) => value => value && value < min ? label : undefined;
 
 // const requiredSelected = (min, label) => value => value && value < min ? label : undefined;
 
-const requiredSelected = params => array => array.length == 0 ? setObjetError(requiredSelected, params) : null;
+const requiredSelected = params => array => array.length == 0 ? setObjetError("requiredSelected", params) : null;
 
 
 fieldValidations.validations = {
     age: [number('Su edad solo puede ser numérica'), minValue(18, 'Su edad debe ser igual o mayor a ' + 18 + ' años'),required('Ingrese su edad')],
     name: [notNumber('Su nombre solo puede contener letras'), required('Ingrese su nombre')],
+    city: [notNumber('Su localidad solo puede contener letras'), required('Ingrese su localidad')],
     cheked: [requiredSelected('Seleccione al menos uno')]
 };
 
@@ -37,7 +38,7 @@ fieldValidations.validations = {
 
 
 
-const req = params =>(value) => setObjetError(req, params);
+const req = params =>(value) => setObjetError("req", params);
 
 
 const a = [req('Fede')];
@@ -85,14 +86,17 @@ fieldValidations.getValidation = (validations, value, required) => {
 
         // if(functions.isUndefinedOrNullOrEmpty(result)) return undefined;
 
-        return functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.fn == "required" && required || result.fn != "required" ? result.msg : null;
+        const a = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result.msg : null;
+        return a;
         // if (index != array.length - 1) {
         //     return val(value);
         // }
         // else if (index == array.length - 1 && required) { // si el campo no esta requerido entonces no se ejecuta la ultima funcion
         //     return val(value)
         // }
-    }).filter(val => val != undefined);
+    }).filter(val => {
+       return val != undefined
+    });
     let invalid = !functions.isUndefinedOrNullOrEmpty(error) ? true : false;
 
     return {
