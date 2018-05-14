@@ -24,9 +24,9 @@ class Home extends React.Component {
         this.props.actionsReduxForm.setSubmite(true);
         event.preventDefault();
 
-        if(!this.props.reduxForm.invalid){
-            alert('Este form no posee errores.');            
-        }
+        // if(!this.props.reduxForm.invalid){
+        //     alert('Este form no posee errores.');            
+        // }
         
     }
 
@@ -88,7 +88,7 @@ class Home extends React.Component {
                 {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
                 <components.InputText
-                    props={props}
+                    
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
@@ -99,7 +99,7 @@ class Home extends React.Component {
 
 
                 <components.InputText
-                    props={props}
+                    
                     name='nombre'
                     style='inline'
                     placeholderFloating='Nombre'
@@ -108,7 +108,7 @@ class Home extends React.Component {
                 />
 
                 <components.InputText
-                    props={props}
+                   
                     name='localidad'
                     style='inline'
                     placeholderFloating='Localidad'
@@ -117,15 +117,15 @@ class Home extends React.Component {
                     required={false}
                 />
 
-                <components.SwitchesGroup switchesProps={gender} props={props}/>
+                {/*<components.SwitchesGroup switchesProps={gender} props={props}/>
 
-                <components.SwitchesGroup switchesProps={checkboxProps} props={props}/>
+                <components.SwitchesGroup switchesProps={checkboxProps} props={props}/>*/}
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
-                <input type="date" name="bday" max="1979-12-31"/>
+                {/*<input type="date" name="bday" max="1979-12-31"/>
                 
-                {functions.jsonView(props.reduxForm)}
+                {functions.jsonView(props.reduxForm)}*/}
             </form>
         );
     }
@@ -133,7 +133,7 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        reduxForm: state.reduxForm
+        // reduxForm: state.reduxForm
     };
 }
 

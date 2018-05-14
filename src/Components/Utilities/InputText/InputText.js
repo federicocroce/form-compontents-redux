@@ -1,29 +1,30 @@
-import React, {config, functions } from 'react';
+import React, { config, functions, actions } from 'react';
 
 class Input extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = { error: '', showError: false, value: '' };
-        this.inputProps = this.props.props;
+        // this.inputProps = this.props.props;
     }
 
 
     componentWillMount() {
-        this.setErrorInputDetails('');
+        // this.setErrorInputDetails('');
     }
 
     componentDidUpdate(prevProps) {
-        this.inputProps = this.props.props;
-        if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
-            this.setState({ showError: !this.state.showError })
-        }
+        console.log(prevProps);
+        // this.inputProps = this.props.props;
+        // if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
+        //     this.setState({ showError: !this.state.showError })
+        // }
     }
 
     handleChange = (value) => {
-        this.setState({value : value});
-        this.inputProps.actionsReduxForm.setValues({[this.props.name] : value});
-        this.setErrorInputDetails(value);
+        this.setState({ value: value });
+        actions.actionsReduxForm.setValues({ [this.props.name]: value });
+        // this.setErrorInputDetails(value);
     }
 
     setError = () => {
@@ -37,14 +38,14 @@ class Input extends React.Component {
             invalid: false,
             error: ''
         }
-        if(!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError();
-        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
+        if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError();
+        actions.actionsReduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
     }
 
 
     setDetails = (value, invalid, error) => {
         return {
-            [this.props.name] : {
+            [this.props.name]: {
                 value: value,
                 invalid: invalid,
                 error: error
@@ -55,8 +56,9 @@ class Input extends React.Component {
 
     render() {
         const props = this.props;
-        const inputProps = props.props;
-        let value = inputProps.reduxForm.values[props.name];
+        // const inputProps = props.props;
+        // let value = inputProps.reduxForm.values[props.name];
+
 
         return (
 
