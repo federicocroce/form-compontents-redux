@@ -1,4 +1,4 @@
-import React, { config } from 'react';
+import React, { config, functions, actions } from 'react';
 
 class SwitchesGroup extends React.Component {
 
@@ -9,7 +9,7 @@ class SwitchesGroup extends React.Component {
             checked: '',
             someCheked: false
         };
-        this.inputProps = this.props.props;
+        // this.inputProps = this.props.props;
 
         this.handleChange = this.handleChange.bind(this);
         this.setErrorInputDetails = this.setErrorInputDetails.bind(this);
@@ -25,12 +25,12 @@ class SwitchesGroup extends React.Component {
         })
     }
 
-    componentDidUpdate(prevProps) {
-        this.inputProps = this.props.props;
-        // if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
-        //     this.handleChange(this.inputProps.reduxForm.values[this.props.switchesProps.name]);
-        // }
-    }
+    // componentDidUpdate(prevProps) {
+    //     this.inputProps = this.props.props;
+    //     // if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
+    //     //     this.handleChange(this.inputProps.reduxForm.values[this.props.switchesProps.name]);
+    //     // }
+    // }
 
     handleChange = (value, option) => {
 
@@ -42,32 +42,32 @@ class SwitchesGroup extends React.Component {
         else {
             checkedValue = !this.state[option.value];
             this.setState({ [option.value]: checkedValue });
-
-            // const algo = this.props.switchesProps.options.filter(option => option.value == true && option.groupName == this.props.switchesProps.groupName) ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
         }
 
         const name = this.returnNameFromType(option);
         value = this.props.switchesProps.type == "radio" ? value : checkedValue;
 
-        const inputValue = {};
+        const input = {
+            value: { [name]: value },
+            inputDetails: this.setDetails(name, value, false, '')
+        }
+        actions.actionsReduxForm.setValues(input);
 
-        inputValue[name] = value;
+        // setTimeout(() => {
+        //     // this.inputProps.actionsReduxForm.setValues(inputValue);
+        //     // this.setErrorInputDetails(value, option);
+        //     if (this.props.switchesProps.type != "radio") {
 
-        setTimeout(() => {
-            this.inputProps.actionsReduxForm.setValues(inputValue);
-            this.setErrorInputDetails(value, option);
-            if (this.props.switchesProps.type != "radio") {
+        //         const cheked = this.props.switchesProps.options.map(option => this.inputProps.reduxForm.inputDetails[option.value].value).filter(val => val == true);
 
-                const cheked = this.props.switchesProps.options.map(option => this.inputProps.reduxForm.inputDetails[option.value].value).filter(val => val == true);
+        //         cheked.length > 0 ? this.setState({ someCheked: true }) : this.setState({ someCheked: false })
 
-                cheked.length > 0 ? this.setState({ someCheked: true }) : this.setState({ someCheked: false })
-
-                // console.log();
-            }
-            else{
-                this.state.checked != '' ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
-            }
-        }, 500);
+        //         // console.log();
+        //     }
+        //     else {
+        //         this.state.checked != '' ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
+        //     }
+        // }, 500);
 
 
 
@@ -76,20 +76,20 @@ class SwitchesGroup extends React.Component {
     setErrorInputDetails = (value, option) => {
         // const resultError = this.setError();
         const name = this.returnNameFromType(option);
-        // if (this.props.switchesProps.type != "radio") this.setState({ [name]: false })
-        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
+        if (this.props.switchesProps.type != "radio") this.setState({ [name]: false })
+        // return this.setDetails(name, value, false, '');
     }
 
-    setError = () => {
-        this.inputProps = this.props.props;
-        if (this.inputProps.reduxForm.submite) {
-            let result = {};
-            if (this.inputProps.reduxForm.submite) {
-                result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values, this.inputProps.reduxForm, this.props.required);
-            }
-            return result;
-        }
-    }
+    // setError = () => {
+    //     this.inputProps = this.props.props;
+    //     if (this.inputProps.reduxForm.submite) {
+    //         let result = {};
+    //         if (this.inputProps.reduxForm.submite) {
+    //             result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values, this.inputProps.reduxForm, this.props.required);
+    //         }
+    //         return result;
+    //     }
+    // }
 
     setDetails = (name, value, invalid, error) => {
         const inputValueDetails = {};
@@ -106,7 +106,7 @@ class SwitchesGroup extends React.Component {
 
     returnNameFromType = (option) => {
         const switchesProps = this.props.switchesProps;
-        return switchesProps.type == "radio" ? switchesProps.nameGroup : option.value;
+        return switchesProps.type == "radio" ? switchesProps.groupName : option.value;
     }
 
     getInputDetail = () => {
@@ -123,8 +123,7 @@ class SwitchesGroup extends React.Component {
 
     render() {
         const props = this.props;
-        const inputProps = props.props;
-        let value = inputProps.reduxForm.values[props.switchesProps.nameGroup];
+        // let value = inputProps.reduxForm.values[props.switchesProps.nameGroup];
 
 
 
@@ -155,7 +154,7 @@ class SwitchesGroup extends React.Component {
 
                 {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
                 {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null}
-                
+
             </ul>
         )
     }
