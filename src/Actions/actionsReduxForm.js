@@ -1,5 +1,6 @@
 import React, { config } from 'react';
 
+const functionsAction = {};
 // let dispatch = {};
 
 // setDispatch()
@@ -13,43 +14,40 @@ import React, { config } from 'react';
 //     functionsAction[action](dispatch, value);
 // };
 
-const setValues = (value) =>{
+const setDispatch = (type, payload) =>{
     config.storeHistory.dispatch({
-        type: 'SET_VALUES',
-        payload: value
+        type,
+        payload
     });
+}
+
+functionsAction.getForm = () => config.storeHistory.store.getState().reduxForm;
+
+functionsAction.setValues = (input) =>{
+    // console.log(config.storeHistory.store.getState());
+    setDispatch('SET_VALUES', input);
 };
 
-const setInputDetails = (details) =>{
-    config.storeHistory.dispatch({
-        type: 'SET_INPUT_DETAILS',
-        payload: details
-    });
-};
+// functionsAction.setInputDetails = (details) =>{
+//     config.storeHistory.dispatch({
+//         type: 'SET_INPUT_DETAILS',
+//         payload: details
+//     });
+// };
 
-const setSubmite = (submite) =>{
+functionsAction.setSubmite = (submite) =>{
     config.storeHistory.dispatch({
         type: 'SET_SUBMITE',
         payload: submite
     });
 };
 
-const setInvalid = (state) =>{
-    config.storeHistory.dispatch({
-        type: 'SET_INVALID',
-        payload: state
-    });
-};
+// functionsAction.setInvalid = (state) =>{
+//     config.storeHistory.dispatch({
+//         type: 'SET_INVALID',
+//         payload: state
+//     });
+// };
 
-const functionsAction = {
-    setValues,
-    setSubmite,
-    setInvalid,
-    setInputDetails
-}
-
-
-
-// actions.removeItem = (dispatch, id) => React.config.fireStoreApp.removeItem(dispatch, collection, id);
 
 export default functionsAction;

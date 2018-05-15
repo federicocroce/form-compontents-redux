@@ -21,7 +21,7 @@ class Home extends React.Component {
 
     handleSubmit(event) {
         // alert('A name was submitted: ' + this.state.value);
-        this.props.actionsReduxForm.setSubmite(true);
+        actions.actionsReduxForm.setSubmite(true);
         event.preventDefault();
 
         // if(!this.props.reduxForm.invalid){
@@ -88,31 +88,31 @@ class Home extends React.Component {
                 {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
                 <components.InputText
-                    
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
                     customPlaceholder='29'
                     validate={config.fieldValidations.validations.age}
+                    submite={props.submite}
                     required={true}
                 />
 
 
                 <components.InputText
-                    
                     name='nombre'
                     style='inline'
                     placeholderFloating='Nombre'
                     customPlaceholder='Federico Croce'
+                    submite={props.submite}
                     validate={config.fieldValidations.validations.name}
                 />
 
                 <components.InputText
-                   
                     name='localidad'
                     style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
+                    submite={props.submite}
                     validate={config.fieldValidations.validations.name}
                     required={false}
                 />
@@ -133,17 +133,17 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        // reduxForm: state.reduxForm
+        submite: state.reduxForm.submite
     };
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        actionsReduxForm: actions.actionsReduxForm
-    };
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         actionsReduxForm: actions.actionsReduxForm
+//     };
+// }
 
 export default withRouter(connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(Home));

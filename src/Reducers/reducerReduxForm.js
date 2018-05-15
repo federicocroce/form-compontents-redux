@@ -16,10 +16,23 @@ const reducerReduxForm = (state = data, action) => {
     // console.error("ENTRA");
     switch (action.type) {
         case 'SET_VALUES':
+            const setInvalid = () => {
+                let inputDetails = state.inputDetails;
+                let result = false;
+                Object.keys(state.inputDetails).forEach( key => {
+                    if (inputDetails[key].invalid) {
+                        result = true;
+                        return;
+                    }
+                });
 
+                return result;
+            }
             return {
                 ...state,
-                values: Object.assign(state.values, action.payload)
+                values: Object.assign(state.values, action.payload.value),
+                inputDetails: Object.assign(state.inputDetails, action.payload.inputDetails),
+                invalid: setInvalid()
                 // values: action.payload
             };
         case 'SET_SUBMITE':
@@ -33,18 +46,7 @@ const reducerReduxForm = (state = data, action) => {
                 invalid: action.state
             };
         case 'SET_INPUT_DETAILS':
-            const setInvalid = () => {
-                let inputDetails = state.inputDetails;
-                let result = false;
-                Object.keys(state.inputDetails).forEach( key => {
-                    if (inputDetails[key].invalid) {
-                        result = true;
-                        return;
-                    }
-                });
-
-                return result;
-            }
+            
             return {
                 ...state,
                 inputDetails: Object.assign(state.inputDetails, action.payload),
