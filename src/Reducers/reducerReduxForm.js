@@ -5,6 +5,7 @@ import React from 'react';
 
 const data = {
     values: {},
+    initialValues: {},
     invalid: false,
     submite: false,
     inputDetails: {}
@@ -34,6 +35,11 @@ const reducerReduxForm = (state = data, action) => {
                 inputDetails: Object.assign(state.inputDetails, action.payload.inputDetails),
                 invalid: setInvalid()
                 // values: action.payload
+            };
+        case 'SET_INITIAL_VALUES':
+            return {
+                ...state,
+                initialValues: Object.assign(state.initialValues, action.payload.value)
             };
         case 'SET_SUBMITE':
             return {

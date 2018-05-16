@@ -21,12 +21,12 @@ class Home extends React.Component {
 
     handleSubmit(event) {
         // alert('A name was submitted: ' + this.state.value);
-        actions.actionsReduxForm.setSubmite(true);
+        actions.reduxForm.setSubmite(true);
         event.preventDefault();
 
-        // if(!this.props.reduxForm.invalid){
-        //     alert('Este form no posee errores.');            
-        // }
+        if(!actions.reduxForm.getForm().invalid){
+            alert('Este form no posee errores.');            
+        }
         
     }
 
@@ -93,7 +93,7 @@ class Home extends React.Component {
                     placeholderFloating='Edad'
                     customPlaceholder='29'
                     validate={config.fieldValidations.validations.age}
-                    submite={props.submite}
+                    submite={props.reduxForm.submite}
                     required={true}
                 />
 
@@ -103,7 +103,7 @@ class Home extends React.Component {
                     style='inline'
                     placeholderFloating='Nombre'
                     customPlaceholder='Federico Croce'
-                    submite={props.submite}
+                    submite={props.reduxForm.submite}
                     validate={config.fieldValidations.validations.name}
                 />
 
@@ -112,20 +112,20 @@ class Home extends React.Component {
                     style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
-                    submite={props.submite}
+                    submite={props.reduxForm.submite}
                     validate={config.fieldValidations.validations.name}
                     required={false}
                 />
 
-                <components.SwitchesGroup switchesProps={gender} submite={props.submite}/>
+                {/*<components.SwitchesGroup switchesProps={gender} submite={props.submite}/>
 
-                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>
+                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>*/}
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
-                {/*<input type="date" name="bday" max="1979-12-31"/>
+                {/*<input type="date" name="bday" max="1979-12-31"/>*/}
                 
-                {functions.jsonView(props.reduxForm)}*/}
+                {/*{functions.jsonView(props.reduxForm)}*/}
             </form>
         );
     }
@@ -133,13 +133,13 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        submite: state.reduxForm.submite
+        reduxForm: state.reduxForm
     };
 }
 
 // const mapDispatchToProps = dispatch => {
 //     return {
-//         actionsReduxForm: actions.actionsReduxForm
+//         reduxForm: actions.reduxForm
 //     };
 // }
 

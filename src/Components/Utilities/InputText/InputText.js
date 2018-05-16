@@ -10,25 +10,29 @@ class Input extends React.Component {
 
 
     componentWillMount() {
-        // this.setErrorInputDetails('');
+        this.setInputValues("");
     }
 
-    componentDidUpdate(prevProps) {
-        console.log(this.props.name);
-        // this.inputProps = this.props.props;
-        // if (this.props.submite) {
-        //     this.setState({ showError: !this.state.showError })
-        // }
-    }
+    // componentDidUpdate(prevProps) {
+    //     console.log(this.props.name);
+    //     // this.inputProps = this.props.props;
+    //     if (this.props.submite) {
+    //         this.setInputValues("");
+    //     }
+    // }
 
     handleChange = (value) => {
         this.setState({ value: value });
+        this.setInputValues(value);
+        // this.setErrorInputDetails(value);
+    }
+
+    setInputValues = (value) =>{
         const input = {
             value: { [this.props.name]: value },
             inputDetails: this.setErrorInputDetails(value)
         }
-        actions.actionsReduxForm.setValues(input);
-        // this.setErrorInputDetails(value);
+        actions.reduxForm.setValues(input);
     }
 
     setError = (value) => {
@@ -50,7 +54,7 @@ class Input extends React.Component {
 
     // handleChange = (value) => {
     //     this.setState({ value: value });
-    //     actions.actionsReduxForm.setValues({ [this.props.name]: value });
+    //     actions.reduxForm.setValues({ [this.props.name]: value });
     //     this.setErrorInputDetails(value);
     // }
 
@@ -66,7 +70,7 @@ class Input extends React.Component {
     //         error: ''
     //     }
     //     if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError(value);
-    //     actions.actionsReduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
+    //     actions.reduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
     // }
 
 
@@ -84,6 +88,8 @@ class Input extends React.Component {
     render() {
         const props = this.props;
 
+        // console.log(props.submite);
+        console.log(props.name);
         return (
 
             <div className='input-text-container'>

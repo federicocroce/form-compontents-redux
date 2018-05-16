@@ -51,10 +51,10 @@ class SwitchesGroup extends React.Component {
             value: { [name]: value },
             inputDetails: this.setDetails(name, value, false, '')
         }
-        actions.actionsReduxForm.setValues(input);
+        actions.reduxForm.setValues(input);
 
         // setTimeout(() => {
-        //     // this.inputProps.actionsReduxForm.setValues(inputValue);
+        //     // this.inputProps.reduxForm.setValues(inputValue);
         //     // this.setErrorInputDetails(value, option);
         //     if (this.props.switchesProps.type != "radio") {
 
