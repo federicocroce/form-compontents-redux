@@ -1,12 +1,10 @@
 import React, { config, functions, actions } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 class Input extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { error: '', showError: false};
+        this.state = { error: '', showError: false, value: '' };
         // this.inputProps = this.props.props;
     }
 
@@ -24,7 +22,7 @@ class Input extends React.Component {
     // }
 
     handleChange = (value) => {
-        // this.setState({ value: value });
+        this.setState({ value: value });
         this.setInputValues(value);
         // this.setErrorInputDetails(value);
     }
@@ -89,14 +87,14 @@ class Input extends React.Component {
 
     render() {
         const props = this.props;
-        const value = props.value[props.name] != undefined ? props.value[props.name] : '';
+
         // console.log(props.submite);
         console.log(props.name);
         return (
 
             <div className='input-text-container'>
                 <div>
-                    <input className="inputMaterial" placeholder=" " type="text" value={value} onChange={(event) => this.handleChange(event.target.value)} />
+                    <input className="inputMaterial" placeholder=" " type="text" value={this.state.value} onChange={(event) => this.handleChange(event.target.value)} />
                     <label className="floating">{props.placeholderFloating}</label>
                     <div className="container-placeholder">
                         <label className="placeholder">{props.customPlaceholder}</label>
@@ -110,23 +108,4 @@ class Input extends React.Component {
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-    // console.log(ownProps.name);
-    const inputDetails = state.reduxForm.inputDetails[ownProps.name];
-    return {
-        value: state.reduxForm.values,
-        submite: state.reduxForm.submite,
-        invalid: inputDetails != undefined ? inputDetails.invalid : false
-    };
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        reduxForm: actions.reduxForm
-    };
-}
-
-export default withRouter(connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Input));
+export default Input;

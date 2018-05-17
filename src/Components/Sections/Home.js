@@ -93,7 +93,6 @@ class Home extends React.Component {
                     placeholderFloating='Edad'
                     customPlaceholder='29'
                     validate={config.fieldValidations.validations.age}
-                    submite={props.reduxForm.submite}
                     required={true}
                 />
 
@@ -103,7 +102,6 @@ class Home extends React.Component {
                     style='inline'
                     placeholderFloating='Nombre'
                     customPlaceholder='Federico Croce'
-                    submite={props.reduxForm.submite}
                     validate={config.fieldValidations.validations.name}
                 />
 
@@ -112,7 +110,6 @@ class Home extends React.Component {
                     style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
-                    submite={props.reduxForm.submite}
                     validate={config.fieldValidations.validations.name}
                     required={false}
                 />
@@ -133,7 +130,7 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        reduxForm: state.reduxForm
+        // reduxForm: state.reduxForm
     };
 }
 
