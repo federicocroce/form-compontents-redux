@@ -1,12 +1,13 @@
 import React, { config, functions, actions } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 
 class Input extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { error: '', showError: false};
+        this.state = { error: '', focus: false };
         // this.inputProps = this.props.props;
     }
 
@@ -29,7 +30,15 @@ class Input extends React.Component {
         // this.setErrorInputDetails(value);
     }
 
-    setInputValues = (value) =>{
+    onFocus = () => {
+        this.setState({ focus: true });
+    }
+
+    onBlur = () => {
+        this.setState({ focus: false });
+    }
+
+    setInputValues = (value) => {
         const input = {
             value: { [this.props.name]: value },
             inputDetails: this.setErrorInputDetails(value)
@@ -44,12 +53,12 @@ class Input extends React.Component {
     }
 
     setErrorInputDetails = (value) => {
-        let resultError = {
+        let resultValidations = {
             invalid: false,
             error: ''
         }
-        if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError(value);
-        return this.setDetails(value, resultError.invalid, resultError.error);
+        if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
+        return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
     }
 
 
@@ -76,12 +85,12 @@ class Input extends React.Component {
     // }
 
 
-    setDetails = (value, invalid, error) => {
+    setDetails = (value, invalid, validations) => {
         return {
             [this.props.name]: {
-                value: value,
-                invalid: invalid,
-                error: error
+                value,
+                invalid,
+                validations
             }
         }
     }
@@ -89,21 +98,47 @@ class Input extends React.Component {
 
     render() {
         const props = this.props;
-        const value = props.value[props.name] != undefined ? props.value[props.name] : '';
-        // console.log(props.submite);
-        console.log(props.name);
+        const value = props.value != undefined ? props.value : '';
+
+
+        const inputText = classNames({
+            'input-text-container': true,
+            'input-error': props.inputDetails != undefined ? props.inputDetails.invalid : false,
+        });
+
         return (
 
-            <div className='input-text-container'>
+            <div className={inputText}>
                 <div>
-                    <input className="inputMaterial" placeholder=" " type="text" value={value} onChange={(event) => this.handleChange(event.target.value)} />
+                    <input
+                        className="inputMaterial"
+                        placeholder=" "
+                        type="text"
+                        value={value}
+                        onChange={(event) => this.handleChange(event.target.value)}
+                        onFocus={this.onFocus}
+                        onBlur={this.onBlur}
+                    />
                     <label className="floating">{props.placeholderFloating}</label>
                     <div className="container-placeholder">
                         <label className="placeholder">{props.customPlaceholder}</label>
                     </div>
                     <hr />
                 </div>
-                {props.submite ? <label className="error-text">{this.state.error}</label> : null}
+
+                {
+                    props.inputDetails && this.state.focus ?
+                        props.inputDetails.validations.map((validation, index) => {
+                            console.log(validation);
+                            return (
+                                <label key={index} className="error-text">{validation.msg}</label>
+                            )
+                        }
+                        )
+                        : null
+                }
+
+
             </div>
         );
     }
@@ -114,9 +149,9 @@ const mapStateToProps = (state, ownProps) => {
     // console.log(ownProps.name);
     const inputDetails = state.reduxForm.inputDetails[ownProps.name];
     return {
-        value: state.reduxForm.values,
+        value: state.reduxForm.values[ownProps.name],
         submite: state.reduxForm.submite,
-        invalid: inputDetails != undefined ? inputDetails.invalid : false
+        inputDetails: state.reduxForm.inputDetails[ownProps.name]
     };
 }
 

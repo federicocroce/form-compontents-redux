@@ -96,7 +96,7 @@ class Home extends React.Component {
                     required={true}
                 />
 
-
+               
                 <components.InputText
                     name='nombre'
                     style='inline'
@@ -110,7 +110,7 @@ class Home extends React.Component {
                     style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
-                    validate={config.fieldValidations.validations.name}
+                    validate={config.fieldValidations.validations.city}
                     required={false}
                 />
 
@@ -121,6 +121,7 @@ class Home extends React.Component {
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
                 {/*<input type="date" name="bday" max="1979-12-31"/>*/}
+
                 
                 {/*{functions.jsonView(props.reduxForm)}*/}
             </form>
