@@ -128,26 +128,28 @@ class Input extends React.Component {
                     <hr />
                 </div>
 
+
+
                 {
-                    props.inputDetails ?
-                        // <div className='validations-container'>
-                        <div className={`validations-container ${this.state.focus ? "visible" : ''}`}>
-                            {props.inputDetails.validations.map((validation, index) => {
-                                console.log(validation);
+                    props.inputDetails && props.submite ?
+                        props.showAllValidations ?
+                            <div className={`validations-container ${this.state.focus ? "visible" : ''}`}>
+                                {props.inputDetails.validations.map((validation, index) => {
+                                    console.log(validation);
 
-                                const classValidationsText = classNames({
-                                    'validation-text': true,
-                                    'error-text': validation.invalid && props.submite,
-                                    'succes-text': !validation.invalid && props.submite,
-                                });
-                                return (
-                                    <label key={index} className={classValidationsText}>{validation.msg}</label>
-                                )
-                            })
-                            }
-                        </div>
-
-
+                                    const classValidationsText = classNames({
+                                        'validation-text': true,
+                                        'error-text': validation.invalid && props.submite,
+                                        'succes-text': !validation.invalid && props.submite,
+                                    });
+                                    return (
+                                        <label key={index} className={classValidationsText}>{validation.msg}</label>
+                                    )
+                                })
+                                }
+                            </div>
+                            :
+                            <label className="error-text">{this.state.error}</label>
                         : null
                 }
 

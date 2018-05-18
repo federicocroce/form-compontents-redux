@@ -93,6 +93,7 @@ class Home extends React.Component {
                     placeholderFloating='Edad'
                     customPlaceholder='29'
                     validate={config.fieldValidations.validations.age}
+                    showAllValidations={false}
                     required={true}
                 />
 
