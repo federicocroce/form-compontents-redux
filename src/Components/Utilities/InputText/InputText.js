@@ -101,14 +101,16 @@ class Input extends React.Component {
         const value = props.value != undefined ? props.value : '';
 
 
-        const inputText = classNames({
+        const classInputText = classNames({
             'input-text-container': true,
-            'input-error': props.inputDetails != undefined ? props.inputDetails.invalid : false,
+            'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
         });
+
+
 
         return (
 
-            <div className={inputText}>
+            <div className={classInputText}>
                 <div>
                     <input
                         className="inputMaterial"
@@ -127,14 +129,25 @@ class Input extends React.Component {
                 </div>
 
                 {
-                    props.inputDetails && this.state.focus ?
-                        props.inputDetails.validations.map((validation, index) => {
-                            console.log(validation);
-                            return (
-                                <label key={index} className="error-text">{validation.msg}</label>
-                            )
-                        }
-                        )
+                    props.inputDetails ?
+                        // <div className='validations-container'>
+                        <div className={`validations-container ${this.state.focus ? "visible" : ''}`}>
+                            {props.inputDetails.validations.map((validation, index) => {
+                                console.log(validation);
+
+                                const classValidationsText = classNames({
+                                    'validation-text': true,
+                                    'error-text': validation.invalid && props.submite,
+                                    'succes-text': !validation.invalid && props.submite,
+                                });
+                                return (
+                                    <label key={index} className={classValidationsText}>{validation.msg}</label>
+                                )
+                            })
+                            }
+                        </div>
+
+
                         : null
                 }
 

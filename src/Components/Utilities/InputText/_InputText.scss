@@ -31,7 +31,7 @@
                     font-size: .8em;
                 }
                 &~hr {
-                    transform: scale3d(1,0,0);
+                    transform: scale3d(1,1,1);
                     border-bottom: 2px solid $primary-color;
                 }
             }
@@ -96,7 +96,34 @@
         }
         input~hr {
             border-bottom: 2px solid red !important;
-            transform: scale3d(1,0,0);
+            transform: scale3d(1,1,1);
+        }
+    }
+    div.validations-container {
+        margin: 0;
+        border: none;
+        opacity: 0;
+        display: none;
+        transition: all 0.5s ease-out;
+        &.visible{
+            opacity: 1;
+            display: block;
+        }
+        .validation-text {
+            display: block;
+            text-align: left;
+            left: 0;
+            bottom: -20px;
+            pointer-events: none;
+            transition: all 2s ease-out;
+            font-size: .7em;
+            margin-top: 5px;
+            &.error-text {
+                color: red;
+            }
+            &.succes-text {
+                color: green;
+            }
         }
     }
 }
