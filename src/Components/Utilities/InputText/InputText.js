@@ -39,16 +39,17 @@ class Input extends React.Component {
     }
 
     setInputValues = (value) => {
-        const input = {
-            value: { [this.props.name]: value },
-            inputDetails: this.setErrorInputDetails(value)
-        }
-        actions.reduxForm.setValues(input);
+        // const input = {
+        //     value: { [this.props.name]: value },
+        //     inputDetails: this.setErrorInputDetails(value)
+        // }
+        actions.reduxForm.setValues({ [this.props.name]: value });
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails(value));
     }
 
     setError = (value) => {
-        const resultError = config.fieldValidations.getValidation(this.props.validate, value, this.props.required);
-        this.setState({ error: resultError.error });
+        const resultError = this.props.showAllValidations ? config.fieldValidations.getAllValidations(this.props.validate, value, this.props.required) : config.fieldValidations.getOneValidation(this.props.validate, value, this.props.required);
+        // this.setState({ error: resultError.error });
         return resultError;
     }
 
@@ -132,28 +133,27 @@ class Input extends React.Component {
 
                 {
                     props.inputDetails && props.submite ?
-                        props.showAllValidations ?
-                            <div className={`validations-container ${this.state.focus ? "visible" : ''}`}>
-                                {props.inputDetails.validations.map((validation, index) => {
-                                    console.log(validation);
+                        <div className={`validations-container ${this.state.focus ? "visible" : ''}`}>
+                            {
+                                props.showAllValidations ?
+                                    props.inputDetails.validations.map((validation, index) => {
+                                        console.log(validation);
 
-                                    const classValidationsText = classNames({
-                                        'validation-text': true,
-                                        'error-text': validation.invalid && props.submite,
-                                        'succes-text': !validation.invalid && props.submite,
-                                    });
-                                    return (
-                                        <label key={index} className={classValidationsText}>{validation.msg}</label>
-                                    )
-                                })
-                                }
-                            </div>
-                            :
-                            <label className="error-text">{this.state.error}</label>
+                                        const classValidationsText = classNames({
+                                            'validation-text': true,
+                                            'error-text': validation.invalid && props.submite,
+                                            'succes-text': !validation.invalid && props.submite,
+                                        });
+                                        return (
+                                            <label key={index} className={classValidationsText}>{validation.msg}</label>
+                                        )
+                                    })
+                                    :
+                                    props.inputDetails.validations[0].invalid ? <label className="validation-text error-text">{props.inputDetails.validations[0].msg}</label> : null
+                            }
+                        </div>
                         : null
                 }
-
-
             </div>
         );
     }

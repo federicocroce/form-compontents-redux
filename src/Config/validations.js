@@ -32,62 +32,12 @@ fieldValidations.validations = {
 };
 
 
+fieldValidations.getAllValidations = (validationsFunctions, value, required) => {
 
-
-
-
-
-
-// const req = params =>(value) => setObjetError("req", params);
-
-
-// const a = [req('Fede')];
-// const a = requ();
-
-// console.log(a[0](123))
-// console.log(setObjetError('Fede', 'Genio'))
-
-// console.log(requ().next().value);
-
-// // console.log(
-// //    () => a[0]
-// // ) //=== 'sayHello'
-// console.log(a[0](345)); //=== 'sayHello'
-
-
-// function callerName() {
-//     try {
-//       throw new Error();
-//     }
-//     catch (e) {
-//       try {
-//         return e.stack.split('at ')[3].split(' ')[0];
-//       } catch (e) {
-//         return '';
-//       }
-//     }
-
-//   }
-
-// const b = a[0](567);
-
-// function foo() { bar(); }
-
-// function bar() { 
-//     console.log(bar.caller.name); 
-// }
-
-// foo();
-
-fieldValidations.getValidation = (validationsFunctions, value, required) => {
-    // if(!required) validations.splice(-1,1);
     let validations = validationsFunctions.map((val, index, array) => {
         let validation = {};
 
         const result = val(value);
-
-
-        // if(functions.isUndefinedOrNullOrEmpty(result)) return undefined;
 
         const validationResult = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
 
@@ -100,10 +50,40 @@ fieldValidations.getValidation = (validationsFunctions, value, required) => {
         return validation;
 
     });
-    // console.log(validations);
 
     let invalid = !functions.isUndefinedOrNullOrEmpty(validations.filter(val => {
-       return val.invalid })) ? true : false;
+        return val.invalid
+    })) ? true : false;
+
+    return {
+        validations,
+        invalid
+    }
+};
+
+
+fieldValidations.getOneValidation = (validationsFunctions, value, required) => {
+    let validations = validationsFunctions.map((val, index, array) => {
+        let validation = {};
+
+        const result = val(value);
+
+        const validationResult = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
+
+        if (!functions.isUndefinedOrNullOrEmpty(validationResult))
+            validation = {
+                msg: validationResult.msg,
+                invalid: validationResult.invalid
+            }
+
+        return validation;
+    }).filter(val => {
+        return val != undefined
+    });
+
+    let invalid = !functions.isUndefinedOrNullOrEmpty(validations.filter(val => {
+        return val.invalid
+    })) ? true : false;
 
     return {
         validations,

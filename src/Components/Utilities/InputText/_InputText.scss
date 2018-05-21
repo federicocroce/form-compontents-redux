@@ -109,21 +109,23 @@
             opacity: 1;
             display: block;
         }
-        .validation-text {
-            display: block;
-            text-align: left;
-            left: 0;
-            bottom: -20px;
-            pointer-events: none;
-            transition: all 0.5s ease-out;
-            font-size: .7em;
-            margin-top: 5px;
-            &.error-text {
-                color: red;
-            }
-            &.succes-text {
-                color: green;
-            }
-        }
+        
+    }
+    .validation-text {
+        display: block;
+        text-align: left;
+        left: 0;
+        bottom: -20px;
+        pointer-events: none;
+        transition: all 0.5s ease-out;
+        font-size: .7em;
+        margin-top: 5px;
+        
+    }
+    .error-text {
+        color: red;
+    }
+    .succes-text {
+        color: green;
     }
 }

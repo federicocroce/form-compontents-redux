@@ -28,12 +28,12 @@ functionsAction.setValues = (input) =>{
     setDispatch('SET_VALUES', input);
 };
 
-// functionsAction.setInputDetails = (details) =>{
-//     config.storeHistory.dispatch({
-//         type: 'SET_INPUT_DETAILS',
-//         payload: details
-//     });
-// };
+functionsAction.setInputDetails = (details) =>{
+    config.storeHistory.dispatch({
+        type: 'SET_INPUT_DETAILS',
+        payload: details
+    });
+};
 
 functionsAction.setSubmite = (submite) =>{
     config.storeHistory.dispatch({
