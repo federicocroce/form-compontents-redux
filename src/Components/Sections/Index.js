@@ -4,6 +4,7 @@ import React, {components, config} from 'react';
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "react-router-redux";
 import { Switch, Route, NavLink } from 'react-router-dom';
+import JSONTree from 'react-json-tree';
 
 // import Test from './test'
 // import MinCV from './MinCV'
@@ -20,7 +21,7 @@ const Index = () => {
       <ConnectedRouter history={config.storeHistory.history}>
         <div>
           <components.Home />
-          {/* <components.ShowResult /> */}
+          <components.ShowResult />
           <div className="nav-bar-container">
             <Switch>
 
