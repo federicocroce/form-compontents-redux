@@ -1,0 +1,118 @@
+///////////////// RADIO BUTTON / CHECK BOX ////////////////////////////
+$input-radio-size: 20px;
+$input-radio-check-size: 10px;
+$input-box-size: 20px;
+$input-box-check-size: 20px;
+.switches-container {
+    list-style-type: none;
+    margin: 20px 0; // li {
+    &.inline {
+        display: inline-block;
+    }
+    label {
+        position: relative;
+        &:hover {
+            cursor: pointer;
+            // color: $secondary-color-light;
+            // border-color: $secondary-color-light;
+            input {
+                // border-color: $secondary-color-light;
+            }
+        }
+        input {
+            appearance: none;
+            position: relative;
+            width: $input-radio-size;
+            height: $input-radio-size;
+            border: 2px solid $secondary-color;
+            vertical-align: middle;
+            position: absolute;
+            left: 0;
+            transition: all 50ms ease;
+            cursor: pointer;
+            display: inline-block;
+            outline: none;
+            position: relative;
+            background: transparent;
+            pointer-events: none;
+            margin: 0 10px;
+            li:first-child {
+                margin-left: 0;
+            }
+            &[type="radio"] {
+                border-radius: 50px;
+                &:before,
+                &:after {
+                    border-radius: 50px;
+                }
+                &:checked:before {
+                    transform: scale3d(1, 1, 1);
+                }
+            }
+            &[type="checkbox"] {
+                &:checked:before {
+                    transform: scale3d(1, 1, 1);
+                    content: ""
+                }
+            }
+            &:before {
+                // The checkmark
+                content: "";
+                display: inline-block;
+                width: $input-radio-check-size;
+                height: $input-radio-check-size;
+                position: relative;
+                background: $primary-color;
+                left: 2.9px;
+                top: 1.3px;
+                opacity: 0;
+                transform: scale3d(0, 0, 0);
+                transition: all 100ms ease;
+            }
+            &:checked {
+                border-color: $primary-color;
+                &:before {
+                    // The checkmark
+                    opacity: 1;
+                }
+                &:after {
+                    // Ripple
+                    animation: click-wave 0.65s;
+                    background: $primary-color;
+                    content: '';
+                    display: block;
+                    position: relative;
+                    z-index: 100;
+                    transform: translate(-50%, -50%);
+                    top: -50%;
+                    left: 50%;
+                }
+            }
+            &:active {
+                transform: scale3d(.3, .3, .3);
+            }
+            
+            &[class='0'] {
+                margin-left: 0;
+            } 
+        }
+        
+    }
+    
+
+    .error-text{position: initial;}
+}
+
+@keyframes click-wave {
+    0% {
+        height: $input-radio-size;
+        width: $input-radio-size;
+        opacity: 0.35;
+        position: relative;
+    }
+    100% {
+        height: $input-radio-check-size * 5;
+        width: $input-radio-check-size * 5;
+        opacity: 0.0;
+    }
+}

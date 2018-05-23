@@ -116,7 +116,7 @@ class Home extends React.Component {
 
                 <components.SwitchesGroup switchesProps={gender} submite={props.submite}/>
 
-                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>
+                {/*<components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>*/}
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
