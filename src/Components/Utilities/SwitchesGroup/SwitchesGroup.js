@@ -1,4 +1,6 @@
 import React, { config, functions, actions } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class SwitchesGroup extends React.Component {
 
@@ -153,7 +155,7 @@ class SwitchesGroup extends React.Component {
                 )}
 
                 {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
-                {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null}
+                {/* {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null} */}
 
             </ul>
         )
@@ -161,4 +163,24 @@ class SwitchesGroup extends React.Component {
 
 }
 
-export default SwitchesGroup;
+
+const mapStateToProps = (state, ownProps) => {
+    // console.log(ownProps.name);
+    const inputDetails = state.reduxForm.inputDetails[ownProps.name];
+    return {
+        value: state.reduxForm.values[ownProps.name],
+        submite: state.reduxForm.submite,
+        inputDetails: state.reduxForm.inputDetails[ownProps.name]
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        reduxForm: actions.reduxForm
+    };
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SwitchesGroup));

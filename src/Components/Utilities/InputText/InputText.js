@@ -8,7 +8,6 @@ class Input extends React.Component {
     constructor(props) {
         super(props);
         this.state = { error: '', focus: false };
-        // this.inputProps = this.props.props;
     }
 
 
@@ -16,18 +15,8 @@ class Input extends React.Component {
         this.setInputValues("");
     }
 
-    // componentDidUpdate(prevProps) {
-    //     console.log(this.props.name);
-    //     // this.inputProps = this.props.props;
-    //     if (this.props.submite) {
-    //         this.setInputValues("");
-    //     }
-    // }
-
     handleChange = (value) => {
-        // this.setState({ value: value });
         this.setInputValues(value);
-        // this.setErrorInputDetails(value);
     }
 
     onFocus = () => {
@@ -39,17 +28,12 @@ class Input extends React.Component {
     }
 
     setInputValues = (value) => {
-        // const input = {
-        //     value: { [this.props.name]: value },
-        //     inputDetails: this.setErrorInputDetails(value)
-        // }
         actions.reduxForm.setValues({ [this.props.name]: value });
         actions.reduxForm.setInputDetails(this.setErrorInputDetails(value));
     }
 
     setError = (value) => {
         const resultError = this.props.showAllValidations ? config.fieldValidations.getAllValidations(this.props.validate, value, this.props.required) : config.fieldValidations.getOneValidation(this.props.validate, value, this.props.required);
-        // this.setState({ error: resultError.error });
         return resultError;
     }
 
@@ -61,29 +45,6 @@ class Input extends React.Component {
         if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
         return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
     }
-
-
-
-    // handleChange = (value) => {
-    //     this.setState({ value: value });
-    //     actions.reduxForm.setValues({ [this.props.name]: value });
-    //     this.setErrorInputDetails(value);
-    // }
-
-    // setError = (value) => {
-    //     const resultError = config.fieldValidations.getValidation(this.props.validate, value, this.props.required);
-    //     this.setState({ error: resultError.error });
-    //     return resultError;
-    // }
-
-    // setErrorInputDetails = (value) => {
-    //     let resultError = {
-    //         invalid: false,
-    //         error: ''
-    //     }
-    //     if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError(value);
-    //     actions.reduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
-    // }
 
 
     setDetails = (value, invalid, validations) => {
@@ -112,7 +73,7 @@ class Input extends React.Component {
         return (
 
             <div className={classInputText}>
-                <div>
+                <div className='custom-input'>
                     <input
                         className="inputMaterial"
                         placeholder=" "

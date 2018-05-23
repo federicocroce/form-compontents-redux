@@ -87,7 +87,7 @@ class Home extends React.Component {
                 {/* <pre>Algo : {props.reduxForm.values}</pre> */}
                 {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
-                <components.InputText
+                {/* <components.InputText
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
@@ -97,7 +97,6 @@ class Home extends React.Component {
                     required={true}
                 />
 
-               
                 <components.InputText
                     name='nombre'
                     style='inline'
@@ -113,11 +112,11 @@ class Home extends React.Component {
                     customPlaceholder='CABA'
                     validate={config.fieldValidations.validations.city}
                     required={false}
-                />
+                /> */}
 
-                {/*<components.SwitchesGroup switchesProps={gender} submite={props.submite}/>
+                <components.SwitchesGroup switchesProps={gender} submite={props.submite}/>
 
-                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>*/}
+                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 

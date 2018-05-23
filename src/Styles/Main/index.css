@@ -18,13 +18,39 @@ body {
   position: absolute;
   z-index: -1; }
 
+div.validations-container {
+  margin: 0;
+  border: none;
+  opacity: 0;
+  display: none;
+  transition: all 0.5s ease-out; }
+  div.validations-container.visible {
+    opacity: 1;
+    display: block; }
+
+.validation-text {
+  display: block;
+  text-align: left;
+  left: 0;
+  bottom: -20px;
+  pointer-events: none;
+  transition: all 0.5s ease-out;
+  font-size: .7em;
+  margin-top: 5px; }
+
+.error-text {
+  color: red; }
+
+.succes-text {
+  color: green; }
+
 .input-text-container {
   position: relative;
   width: 250px;
   padding: 10px; }
   .input-text-container.inline {
     display: inline-grid; }
-  .input-text-container > div {
+  .input-text-container > div.custom-input {
     position: relative;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     text-align: left;
@@ -32,43 +58,43 @@ body {
     font-size: 1.1em;
     margin-top: 20px;
     width: 100%; }
-    .input-text-container > div input {
+    .input-text-container > div.custom-input input {
       border: none;
       outline: none;
       width: 100%; }
-      .input-text-container > div input:focus ~ label.floating, .input-text-container > div input:not(:placeholder-shown) ~ label.floating {
+      .input-text-container > div.custom-input input:focus ~ label.floating, .input-text-container > div.custom-input input:not(:placeholder-shown) ~ label.floating {
         color: #01579b;
         transform: translate3d(0, -14px, 0);
         font-size: .8em; }
-      .input-text-container > div input:focus:placeholder-shown ~ div label.placeholder, .input-text-container > div input:not(:placeholder-shown):placeholder-shown ~ div label.placeholder {
+      .input-text-container > div.custom-input input:focus:placeholder-shown ~ div label.placeholder, .input-text-container > div.custom-input input:not(:placeholder-shown):placeholder-shown ~ div label.placeholder {
         color: rgba(0, 0, 0, 0.3);
         font-size: .8em; }
-      .input-text-container > div input:focus ~ hr, .input-text-container > div input:not(:placeholder-shown) ~ hr {
+      .input-text-container > div.custom-input input:focus ~ hr, .input-text-container > div.custom-input input:not(:placeholder-shown) ~ hr {
         transform: scale3d(1, 1, 1);
         border-bottom: 2px solid #01579b; }
-      .input-text-container > div input:active ~ .ripple {
+      .input-text-container > div.custom-input input:active ~ .ripple {
         opacity: 1;
         transform: scale3d(1, 1, 1); }
-    .input-text-container > div label.floating {
+    .input-text-container > div.custom-input label.floating {
       position: absolute;
       color: rgba(0, 0, 0, 0.3);
       left: 0;
       top: 0px;
       pointer-events: none;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; }
-    .input-text-container > div .container-placeholder {
+    .input-text-container > div.custom-input .container-placeholder {
       position: absolute;
       left: 0;
       top: 0px;
       pointer-events: none;
       overflow: hidden;
       width: 100%; }
-      .input-text-container > div .container-placeholder label.placeholder {
+      .input-text-container > div.custom-input .container-placeholder label.placeholder {
         color: transparent;
         pointer-events: none;
         transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
         white-space: nowrap; }
-    .input-text-container > div hr {
+    .input-text-container > div.custom-input hr {
       width: 100%;
       border: none;
       border-bottom: 1px solid #01579b;
@@ -77,7 +103,7 @@ body {
       transform: scale3d(0, 0, 0);
       position: absolute;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; }
-    .input-text-container > div div.ripple {
+    .input-text-container > div.custom-input div.ripple {
       position: absolute;
       top: 0px;
       left: 0px;
@@ -95,28 +121,6 @@ body {
   .input-text-container.input-error input ~ hr {
     border-bottom: 2px solid red !important;
     transform: scale3d(1, 1, 1); }
-  .input-text-container div.validations-container {
-    margin: 0;
-    border: none;
-    opacity: 0;
-    display: none;
-    transition: all 0.5s ease-out; }
-    .input-text-container div.validations-container.visible {
-      opacity: 1;
-      display: block; }
-  .input-text-container .validation-text {
-    display: block;
-    text-align: left;
-    left: 0;
-    bottom: -20px;
-    pointer-events: none;
-    transition: all 0.5s ease-out;
-    font-size: .7em;
-    margin-top: 5px; }
-  .input-text-container .error-text {
-    color: red; }
-  .input-text-container .succes-text {
-    color: green; }
 
 .button-container button {
   border-radius: 2px;
