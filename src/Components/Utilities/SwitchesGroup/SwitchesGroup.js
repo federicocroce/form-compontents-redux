@@ -12,54 +12,59 @@ class SwitchesGroup extends React.Component {
 
 
     componentWillMount() {
-        const value = this.isRadio() ? '' : false;
-        this.setInputValues(value);
+        if (this.isRadio()) {
+            this.setInputValues('');
+        }
+        else {
+            this.props.switchesProps.options.map((option, index) => {
+                this.setInputValues(false, option);
+            });
+        }
+
     }
 
-    handleChange = (value) => {
-        this.setInputValues(value);
+    handleChange = (value, option) => {
+        const name = this.returnNameFromType(option);
+        const newValue = this.isRadio() ? value : !actions.reduxForm.getForm().values[name];
+        this.setInputValues(newValue, option);
     }
 
-    onFocus = () => {
-        this.setState({ focus: true });
-    }
+    // onFocus = () => {
+    //     this.setState({ focus: true });
+    // }
 
-    onBlur = () => {
-        this.setState({ focus: false });
-    }
+    // onBlur = () => {
+    //     this.setState({ focus: false });
+    // }
 
     setInputValues = (value, option) => {
-        // this.props.switchesProps.options.map((option, index) => {
-
-            const newValue = this.isRadio() ? value : option;
-            const name = this.returnNameFromType(option);
-
-            // this.setErrorInputDetails(value, option);
-            actions.reduxForm.setValues({ [name]: newValue });
-            // actions.reduxForm.setInputDetails(this.setErrorInputDetails(value));
-        // })
+        const name = this.returnNameFromType(option);
+        actions.reduxForm.setValues({ [name]: value });
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails(value, name));
     };
 
-    isRadio = () =>  this.props.switchesProps.type == "radio" ? true : false;
+    isRadio = () => this.props.switchesProps.type == "radio" ? true : false;
 
     setError = (value) => {
         const resultError = this.props.showAllValidations ? config.fieldValidations.getAllValidations(this.props.validate, value, this.props.required) : config.fieldValidations.getOneValidation(this.props.validate, value, this.props.required);
         return resultError;
     }
 
-    setErrorInputDetails = (value) => {
+    setErrorInputDetails = (value, name) => {
         let resultValidations = {
             invalid: false,
             error: ''
         }
-        if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
-        return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
+        // if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
+        // return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
+        return this.setDetails(name, value, resultValidations.invalid, resultValidations.validations);
     }
 
 
-    setDetails = (value, invalid, validations) => {
+    setDetails = (name, value, invalid, validations) => {
         return {
-            [this.props.name]: {
+            [name]: {
+                groupName: this.props.switchesProps.groupName,
                 value,
                 invalid,
                 validations
@@ -68,8 +73,7 @@ class SwitchesGroup extends React.Component {
     };
 
     returnNameFromType = (option) => {
-        const switchesProps = this.props.switchesProps;
-        return switchesProps.type == "radio" ? switchesProps.groupName : option.value;
+        return this.isRadio() ? this.props.switchesProps.groupName : option.value;
     }
 
     getInputDetail = () => {
@@ -80,8 +84,8 @@ class SwitchesGroup extends React.Component {
         )
     };
 
-    checked = (option, value) => {
-        return this.props.switchesProps.type == "radio" ? option.value === value : this.state[option.value] == true;
+    checked = (option, value, name) => {
+        return this.isRadio() ? option.value === value : actions.reduxForm.getForm().values[name];
     }
 
 
@@ -89,6 +93,7 @@ class SwitchesGroup extends React.Component {
         const props = this.props;
         const value = props.value != undefined ? props.value : '';
 
+        console.log(value);
 
         const classInputText = classNames({
             'input-text-container': true,
@@ -102,15 +107,16 @@ class SwitchesGroup extends React.Component {
 
                 {props.switchesProps.options.map((option, index) => {
                     // let value = inputProps.reduxForm.values[option.name];
+                    const name = this.returnNameFromType(option);
                     return (
                         <label key={index}  >
                             <input
                                 className={index}
                                 key={index}
                                 type={props.switchesProps.type}
-                                name={this.returnNameFromType(option)}
+                                name={name}
                                 value={option.value}
-                                checked={this.checked(option, value)}
+                                checked={this.checked(option, value, name)}
                                 onChange={(event) => this.handleChange(event.target.value, option)}
                             // checked={}
                             />
@@ -140,10 +146,10 @@ const mapStateToProps = (state, ownProps) => {
             return state.reduxForm.values[groupName];
         }
         else {
-            const values = [];
-            ownProps.switchesProps.options.map((option) => {
-                values.push(state.reduxForm.values[option.value]);
-            });
+            const values = {};
+            // ownProps.switchesProps.options.map((option) => {
+            //     values[state.reduxForm.values[option.value]];
+            // });
             return values;
         }
     };
@@ -151,7 +157,10 @@ const mapStateToProps = (state, ownProps) => {
 
 
     return {
-        value: value(),
+        values: ownProps.switchesProps.options.map((option) => {
+            return [state.reduxForm.values[option.value]];
+        }),
+        value: state.reduxForm.values[groupName],
         submite: state.reduxForm.submite,
         inputDetails: state.reduxForm.inputDetails[groupName]
     };

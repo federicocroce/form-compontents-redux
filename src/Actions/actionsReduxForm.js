@@ -24,7 +24,6 @@ const setDispatch = (type, payload) =>{
 functionsAction.getForm = () => config.storeHistory.store.getState().reduxForm;
 
 functionsAction.setValues = (input) =>{
-    // console.log(config.storeHistory.store.getState());
     setDispatch('SET_VALUES', input);
 };
 
