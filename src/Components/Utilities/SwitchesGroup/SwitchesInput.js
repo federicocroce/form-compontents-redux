@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 
-class SwitchesGroup extends React.Component {
+class SwitchesInput extends React.Component {
 
     constructor(props) {
         super(props);
@@ -102,35 +102,15 @@ class SwitchesGroup extends React.Component {
 
 
         return (
-            <ul className="switches-container">
-
-
-                {props.switchesProps.options.map((option, index) => {
-                    // let value = inputProps.reduxForm.values[option.name];
-                    const name = this.returnNameFromType(option);
-                    return (
-                        
-                        <label key={index}  >
-                            <components.SwitchesInput
-                                index={index}
-                                key={index}
-                                type={props.switchesProps.type}
-                                name={name}
-                                value={option.value}
-                                checked={this.checked}
-                                onChange={this.handleChange}
-                            />
-                            {option.label}
-                        </label>
-                    )
-                }
-
-                )}
-
-                {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
-                {/* {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null} */}
-
-            </ul>
+            <input
+                className={props.index}
+                key={props.index}
+                type={props.switchesProps.type}
+                name={props.name}
+                value={props.option.value}
+                checked={props.checked(props.option, props.value, props.name)}
+                onChange={(event) => props.onChange(event.target.value, props.option)}
+            />
         )
     }
 }
@@ -157,9 +137,6 @@ const mapStateToProps = (state, ownProps) => {
 
 
     return {
-        values: ownProps.switchesProps.options.map((option) => {
-            return [state.reduxForm.values[option.value]];
-        }),
         value: state.reduxForm.values[groupName],
         submite: state.reduxForm.submite,
         inputDetails: state.reduxForm.inputDetails[groupName]
@@ -175,4 +152,4 @@ const mapDispatchToProps = dispatch => {
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(SwitchesGroup));
+)(SwitchesInput));

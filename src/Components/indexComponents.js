@@ -5,6 +5,7 @@ import ShowResult from "./Utilities/ShowResult";
 import InputText from "./Utilities/InputText/InputText";
 import Button from "./Utilities/Button/Button";
 import SwitchesGroup from "./Utilities/SwitchesGroup/SwitchesGroup";
+import SwitchesInput from "./Utilities/SwitchesGroup/SwitchesInput";
 
 
 const components = {   
@@ -13,7 +14,8 @@ const components = {
     ShowResult,
     InputText,
     Button,
-    SwitchesGroup
+    SwitchesGroup,
+    SwitchesInput
 }
 
 export default components;
