@@ -25,7 +25,9 @@ class Home extends React.Component {
         event.preventDefault();
 
         if(!actions.reduxForm.getForm().invalid){
-            alert('Este form no posee errores.');            
+            alert('Este form no posee errores.' + "\n\n values: \t"
+            + "\t" + JSON.stringify(actions.reduxForm.getForm().values , null, "\t")
+            );            
         }
         
     }
