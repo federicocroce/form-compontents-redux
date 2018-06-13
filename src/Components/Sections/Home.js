@@ -81,6 +81,12 @@ class Home extends React.Component {
             ]
         }
 
+        const listItemsCombobox = [
+            "Fede",
+            "Nico",
+            "Pablo"
+        ];
+
 
         return (
 
@@ -109,7 +115,6 @@ class Home extends React.Component {
 
                 <components.InputText
                     name='localidad'
-                    style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
                     validate={config.fieldValidations.validations.city}
@@ -119,6 +124,8 @@ class Home extends React.Component {
                 <components.SwitchesGroup switchesProps={gender} submite={props.submite}/>
 
                 <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>
+
+                 <components.SelectPicker listItems={listItemsCombobox} name='nombdeHombre'/>
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 

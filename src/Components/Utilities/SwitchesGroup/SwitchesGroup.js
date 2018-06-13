@@ -112,7 +112,7 @@ class SwitchesGroup extends React.Component {
                     const name = this.returnNameFromType(option);
                     return (
                         
-                        <label key={index}  >
+                        <label key={index} className={`${props.switchesProps.style}`} >
                             <components.SwitchesInput
                                 index={index}
                                 option={option}

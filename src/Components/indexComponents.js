@@ -6,6 +6,7 @@ import InputText from "./Utilities/InputText/InputText";
 import Button from "./Utilities/Button/Button";
 import SwitchesGroup from "./Utilities/SwitchesGroup/SwitchesGroup";
 import SwitchesInput from "./Utilities/SwitchesGroup/SwitchesInput";
+import SelectPicker from "./Utilities/SelectPicker/SelectPicker";
 
 
 const components = {   
@@ -15,7 +16,8 @@ const components = {
     InputText,
     Button,
     SwitchesGroup,
-    SwitchesInput
+    SwitchesInput,
+    SelectPicker
 }
 
 export default components;

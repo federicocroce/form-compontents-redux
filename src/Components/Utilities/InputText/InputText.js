@@ -62,18 +62,18 @@ class Input extends React.Component {
         const props = this.props;
         const value = props.value != undefined ? props.value : '';
 
-        console.log(value);
+        // console.log(value);
 
-        const classInputText = classNames({
-            'input-text-container': true,
-            'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
-        });
+        // const classInputText = classNames({
+        //     'input-text-container': true,
+        //     'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
+        // });
 
 
 
         return (
 
-            <div className={classInputText}>
+            <div className={`input-text-container ${props.inputDetails != undefined && props.submite && props.inputDetails.invalid ? 'input-error' : ''} ${props.style}`}>
                 <div className='custom-input'>
                     <input
                         className="inputMaterial"

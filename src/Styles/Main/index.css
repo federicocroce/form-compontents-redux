@@ -140,10 +140,15 @@ div.validations-container {
 .switches-container {
   list-style-type: none;
   margin: 20px 0; }
-  .switches-container.inline {
-    display: inline-block; }
   .switches-container label {
+    display: block;
+    margin: 10px 0;
     position: relative; }
+    .switches-container label.inline {
+      display: inline-block;
+      margin: 0; }
+      .switches-container label.inline input[class='0'] {
+        margin-left: 0; }
     .switches-container label:hover {
       cursor: pointer; }
     .switches-container label input {
@@ -202,8 +207,6 @@ div.validations-container {
           left: 50%; }
       .switches-container label input:active {
         transform: scale3d(0.3, 0.3, 0.3); }
-      .switches-container label input[class='0'] {
-        margin-left: 0; }
   .switches-container .error-text {
     position: initial; }
 
@@ -217,5 +220,46 @@ div.validations-container {
     height: 50px;
     width: 50px;
     opacity: 0.0; } }
+
+.select-picker-container {
+  width: 250px; }
+
+.chosen-value {
+  transition: .3s ease-in-out; }
+  .chosen-value:focus, .chosen-value.open {
+    outline: 0; }
+
+.value-list {
+  list-style: none;
+  overflow: hidden;
+  max-height: 0;
+  transition: .3s ease-in-out;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
+  z-index: 1; }
+  .value-list.open {
+    max-height: 320px;
+    overflow: auto; }
+  .value-list li {
+    position: relative;
+    background-color: #FAFCFD;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color .3s;
+    opacity: 1; }
+    .value-list li:hover {
+      background-color: #3aa7de;
+      color: #ffffff; }
+    .value-list li.closed {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0;
+      opacity: 0; }
 
 /*# sourceMappingURL=index.css.map */
