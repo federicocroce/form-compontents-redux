@@ -62,7 +62,7 @@ class Input extends React.Component {
         const props = this.props;
         const value = props.value != undefined ? props.value : '';
 
-        // console.log(value);
+        console.log(value);
 
         const classInputText = classNames({
             'input-text-container': true,

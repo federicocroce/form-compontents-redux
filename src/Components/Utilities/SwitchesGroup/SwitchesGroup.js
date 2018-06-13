@@ -1,4 +1,4 @@
-import React, { config, functions, actions } from 'react';
+import React, { config, functions, actions, components } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
@@ -25,7 +25,7 @@ class SwitchesGroup extends React.Component {
 
     handleChange = (value, option) => {
         const name = this.returnNameFromType(option);
-        const newValue = this.isRadio() ? value : !actions.reduxForm.getForm().values[name];
+        const newValue = this.isRadio() ? option.value : !actions.reduxForm.getForm().values[name];
         this.setInputValues(newValue, option);
     }
 
@@ -39,6 +39,7 @@ class SwitchesGroup extends React.Component {
 
     setInputValues = (value, option) => {
         const name = this.returnNameFromType(option);
+        console.log("Set Input");
         actions.reduxForm.setValues({ [name]: value });
         actions.reduxForm.setInputDetails(this.setErrorInputDetails(value, name));
     };
@@ -93,11 +94,11 @@ class SwitchesGroup extends React.Component {
         const props = this.props;
         const value = props.value != undefined ? props.value : '';
 
-        console.log(value);
+        console.log("switches-container");
 
         const classInputText = classNames({
             'input-text-container': true,
-            'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
+            // 'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
         });
 
 
@@ -107,16 +108,18 @@ class SwitchesGroup extends React.Component {
 
                 {props.switchesProps.options.map((option, index) => {
                     // let value = inputProps.reduxForm.values[option.name];
+                    // console.log("switches-container");
                     const name = this.returnNameFromType(option);
                     return (
                         
                         <label key={index}  >
                             <components.SwitchesInput
                                 index={index}
+                                option={option}
                                 key={index}
                                 type={props.switchesProps.type}
                                 name={name}
-                                value={option.value}
+                                // value={option.value}
                                 checked={this.checked}
                                 onChange={this.handleChange}
                             />
@@ -138,31 +141,11 @@ class SwitchesGroup extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     // console.log(ownProps.name);
-    const groupName = ownProps.switchesProps.groupName;
-    const inputDetails = state.reduxForm.inputDetails[groupName];
-
-    const value = () => {
-        if (ownProps.switchesProps.type == "radio") {
-            return state.reduxForm.values[groupName];
-        }
-        else {
-            const values = {};
-            // ownProps.switchesProps.options.map((option) => {
-            //     values[state.reduxForm.values[option.value]];
-            // });
-            return values;
-        }
-    };
-
-
+    // const groupName = ownProps.switchesProps.groupName;
 
     return {
-        values: ownProps.switchesProps.options.map((option) => {
-            return [state.reduxForm.values[option.value]];
-        }),
-        value: state.reduxForm.values[groupName],
         submite: state.reduxForm.submite,
-        inputDetails: state.reduxForm.inputDetails[groupName]
+        // inputDetails: state.reduxForm.inputDetails[groupName]
     };
 }
 
