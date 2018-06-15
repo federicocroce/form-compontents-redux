@@ -24,12 +24,12 @@ class Home extends React.Component {
         actions.reduxForm.setSubmite(true);
         event.preventDefault();
 
-        if(!actions.reduxForm.getForm().invalid){
+        if (!actions.reduxForm.getForm().invalid) {
             alert('Este form no posee errores.' + "\n\n values: \t"
-            + "\t" + JSON.stringify(actions.reduxForm.getForm().values , null, "\t")
-            );            
+                + "\t" + JSON.stringify(actions.reduxForm.getForm().values, null, "\t")
+            );
         }
-        
+
     }
 
     componentDidMount() {
@@ -82,9 +82,18 @@ class Home extends React.Component {
         }
 
         const listItemsCombobox = [
-            "Fede",
-            "Nico",
-            "Pablo"
+            {
+                value: "Fede",
+                data: {}
+            },
+            {
+                value: "Nico",
+                data: {}
+            },
+            {
+                value: "Pablo",
+                data: {}
+            }
         ];
 
 
@@ -95,7 +104,7 @@ class Home extends React.Component {
                 {/* <pre>Algo : {props.reduxForm.values}</pre> */}
                 {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
-                 <components.InputText
+                <components.InputText
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
@@ -119,19 +128,19 @@ class Home extends React.Component {
                     customPlaceholder='CABA'
                     validate={config.fieldValidations.validations.city}
                     required={false}
-                /> 
+                />
 
-                <components.SwitchesGroup switchesProps={gender} submite={props.submite}/>
+                <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
 
-                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>
+                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />
 
-                 <components.SelectPicker listItems={listItemsCombobox} name='NombreSelecyPicker'/>
+                <components.SelectPicker listItems={listItemsCombobox} placeholderFloating='Seleccione un nombre' customPlaceholder='Escriba su nombre' name='NombreSelecyPicker' />
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
                 {/*<input type="date" name="bday" max="1979-12-31"/>*/}
 
-                
+
                 {/*{functions.jsonView(props.reduxForm)}*/}
             </form>
         );

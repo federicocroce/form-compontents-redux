@@ -54,14 +54,24 @@ class SelectPicker extends React.Component {
         dropdownItems.forEach(item => {
             item.addEventListener('click', (evt) => {
                 // inputField.value = item.textContent;
-                actions.reduxForm.setValues({ [name]: item.textContent });
+                actions.reduxForm.setValues({ [name]: item.textContent.value });
+                actions.reduxForm.setInputDetails(this.setErrorInputDetails(item.textContent));
                 // Close(evt);
                 // dropdownItems.forEach(dropdown => {
                 //     dropdown.classList.add('closed');                    
                 //     // console.log("Click sobre el elemento");
                 // });
             });
-        })
+        });
+
+        this.setErrorInputDetails = (value) => {
+            let resultValidations = {
+                invalid: false,
+                error: ''
+            }
+            if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
+            return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
+        }
 
         inputField.addEventListener('focus', () => {
             dropdown.classList.add('open');
@@ -74,7 +84,7 @@ class SelectPicker extends React.Component {
             dropdown.classList.remove('open');
         });
 
-        function Close(evt){
+        function Close(evt) {
             const isDropdown = dropdown.contains(evt.target);
             const isInput = inputField.contains(evt.target);
             if (!isDropdown && !isInput) {
@@ -90,16 +100,17 @@ class SelectPicker extends React.Component {
 
     render() {
 
+        const props = this.props;
 
         return (
             <div className="select-picker-container">
 
-                <components.InputText name={this.props.name} style='inline chosen-value' placeholderFloating='Selecciones un nombre' customPlaceholder='Escriba su nombre' type='text' />
+                <components.InputText name={props.name} style='inline chosen-value' placeholderFloating={props.placeholderFloating} customPlaceholder={props.customPlaceholder} type='text' />
 
                 {/*<input className="chosen-value" type="text" placeholder="Seleccione un elemento" />*/}
                 <ul className="value-list">
                     {/*{this.props.listItems}*/}
-                    {this.props.listItems.map((item, index) => { return <li key={index} className="item-combobox">{item}</li> })}
+                    {props.listItems.map((item, index) => { return <li key={index} className="item-combobox">{item}</li> })}
                 </ul>
 
             </div>
