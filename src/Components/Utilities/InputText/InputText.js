@@ -124,6 +124,7 @@ class Input extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     // console.log(ownProps.name);
+    // if(ownProps.name == undefined) return;
     const inputDetails = state.reduxForm.inputDetails[ownProps.name];
     return {
         value: state.reduxForm.values[ownProps.name],

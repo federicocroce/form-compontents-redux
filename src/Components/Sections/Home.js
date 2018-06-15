@@ -125,7 +125,7 @@ class Home extends React.Component {
 
                 <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite}/>
 
-                 <components.SelectPicker listItems={listItemsCombobox} name='nombdeHombre'/>
+                 <components.SelectPicker listItems={listItemsCombobox} name='NombreSelecyPicker'/>
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 

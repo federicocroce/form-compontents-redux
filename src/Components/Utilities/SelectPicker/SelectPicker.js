@@ -17,7 +17,7 @@ class SelectPicker extends React.Component {
         const name = this.props.name;
 
         const dropdownItems = document.querySelectorAll('.item-combobox');
-        dropdown.classList.add('open');
+        // dropdown.classList.add('open');
         inputField.focus(); // Demo purposes only
 
         console.log(dropdownItems);
@@ -53,12 +53,13 @@ class SelectPicker extends React.Component {
 
         dropdownItems.forEach(item => {
             item.addEventListener('click', (evt) => {
-                inputField.value = item.textContent;
-                dropdownItems.forEach(dropdown => {
-                    dropdown.classList.add('closed');
-                    actions.reduxForm.setValues({ [name]: dropdown.textContent });
-                    console.log("Click sobre el elemento");
-                });
+                // inputField.value = item.textContent;
+                actions.reduxForm.setValues({ [name]: item.textContent });
+                // Close(evt);
+                // dropdownItems.forEach(dropdown => {
+                //     dropdown.classList.add('closed');                    
+                //     // console.log("Click sobre el elemento");
+                // });
             });
         })
 
@@ -73,12 +74,16 @@ class SelectPicker extends React.Component {
             dropdown.classList.remove('open');
         });
 
-        document.addEventListener('click', (evt) => {
+        function Close(evt){
             const isDropdown = dropdown.contains(evt.target);
             const isInput = inputField.contains(evt.target);
             if (!isDropdown && !isInput) {
                 dropdown.classList.remove('open');
             }
+        }
+
+        document.addEventListener('click', (evt) => {
+            Close(evt);
         });
 
     }
@@ -89,7 +94,7 @@ class SelectPicker extends React.Component {
         return (
             <div className="select-picker-container">
 
-                <components.InputText style='inline chosen-value' placeholderFloating='Selecciones un nombre' customPlaceholder='Escriba su nombre' type='text' />
+                <components.InputText name={this.props.name} style='inline chosen-value' placeholderFloating='Selecciones un nombre' customPlaceholder='Escriba su nombre' type='text' />
 
                 {/*<input className="chosen-value" type="text" placeholder="Seleccione un elemento" />*/}
                 <ul className="value-list">
@@ -104,7 +109,7 @@ class SelectPicker extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-    //    value: state.reduxForm.values[ownProps.name]
+        //    value: state.reduxForm.values[ownProps.name]
     };
 }
 
