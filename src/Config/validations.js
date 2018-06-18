@@ -28,7 +28,8 @@ fieldValidations.validations = {
     age: [number('Su edad solo puede ser numérica'), minValue(18, 'Su edad debe ser igual o mayor a ' + 18 + ' años'), required('Ingrese su edad')],
     name: [notNumber('Su nombre solo puede contener letras'), required('Ingrese su nombre')],
     city: [notNumber('Su localidad solo puede contener letras'), required('Ingrese su localidad')],
-    cheked: [requiredSelected('Seleccione al menos uno')]
+    cheked: [requiredSelected('Seleccione al menos uno')],
+    selectPicker: [required('Seleccione al menos uno')],
 };
 
 

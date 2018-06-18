@@ -19,12 +19,14 @@ class Input extends React.Component {
         this.setInputValues(value);
     }
 
-    onFocus = () => {
+    onFocus = (onFocus) => {
         this.setState({ focus: true });
+        if(onFocus) onFocus();
     }
 
-    onBlur = () => {
+    onBlur = (onBlur) => {
         this.setState({ focus: false });
+        if(onBlur) onBlur();
     }
 
     setInputValues = (value) => {
@@ -81,8 +83,8 @@ class Input extends React.Component {
                         type="text"
                         value={value}
                         onChange={(event) => this.handleChange(event.target.value)}
-                        onFocus={this.onFocus}
-                        onBlur={this.onBlur}
+                        onFocus={() => this.onFocus(props.onFocus)}
+                        onBlur={() => this.onBlur(props.onBlur)}
                     />
                     <label className="floating">{props.placeholderFloating}</label>
                     <div className="container-placeholder">
@@ -111,7 +113,7 @@ class Input extends React.Component {
                                         )
                                     })
                                     :
-                                    props.inputDetails.validations[0].invalid ? <label className="validation-text error-text">{props.inputDetails.validations[0].msg}</label> : null
+                                    props.inputDetails.validations && props.inputDetails.validations[0].invalid ? <label className="validation-text error-text">{props.inputDetails.validations[0].msg}</label> : null
                             }
                         </div>
                         : null

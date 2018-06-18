@@ -84,15 +84,21 @@ class Home extends React.Component {
         const listItemsCombobox = [
             {
                 value: "Fede",
-                data: {}
+                data: {
+                    long: "Federico"
+                }
             },
             {
                 value: "Nico",
-                data: {}
+                data: {
+                    long: "Nicolas"
+                }
             },
             {
-                value: "Pablo",
-                data: {}
+                value: "Pablin",
+                data: {
+                    long: "Pablo"
+                }
             }
         ];
 
@@ -104,7 +110,10 @@ class Home extends React.Component {
                 {/* <pre>Algo : {props.reduxForm.values}</pre> */}
                 {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
-                <components.InputText
+
+
+
+                {/*<components.InputText
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
@@ -128,13 +137,20 @@ class Home extends React.Component {
                     customPlaceholder='CABA'
                     validate={config.fieldValidations.validations.city}
                     required={false}
-                />
+                />*/}
 
                 <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
 
                 <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />
 
-                <components.SelectPicker listItems={listItemsCombobox} placeholderFloating='Seleccione un nombre' customPlaceholder='Escriba su nombre' name='NombreSelecyPicker' />
+                <components.SelectPicker
+                    listItems={listItemsCombobox}
+                    placeholderFloating='Seleccione un nombre'
+                    customPlaceholder='Escriba su nombre'
+                    name='NombreSelectPicker'
+                    validate={config.fieldValidations.validations.selectPicker}
+                    required={true}
+                />
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
