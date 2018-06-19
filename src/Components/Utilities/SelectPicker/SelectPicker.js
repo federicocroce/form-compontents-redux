@@ -6,12 +6,17 @@ class SelectPicker extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { error: '', focus: false, listItems: [] };
+        this.state = { error: '', focus: false, listItems: [], selected: false };
     }
 
     componentDidMount() {
         this.selectElement({ value: '' });
-        this.setState({ listItems: this.props.listItems });
+        this.setState({ listItems: this.props.listItems, selected: false});
+    }
+
+    selectElementSelectState = (item) =>{
+        this.setState({ selected: true });
+        this.selectElement(item);
     }
 
     selectElement = (item) => {
@@ -43,6 +48,7 @@ class SelectPicker extends React.Component {
 
     setError = (value) => {
         const resultError = config.fieldValidations.getOneValidation(this.props.validate, value, this.props.required);
+        resultError.invalid = !this.state.selected ? true : false;
         return resultError;
     }
 
@@ -59,6 +65,13 @@ class SelectPicker extends React.Component {
 
     //Método para filtrar los items.
     cointainString = (value) => {
+
+        setTimeout(() => {
+            this.setState({ selected: false});
+        }, 100);
+        
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails(value));
+
         const props = this.props;
 
         let filtered = props.listItems.filter(function (item) {
@@ -67,7 +80,7 @@ class SelectPicker extends React.Component {
             return Array.isArray(str.match(rgxp)) && str.match(rgxp).length > 0
         })
 
-        this.setState({ listItems: filtered });
+        this.setState({ listItems: filtered, selected: false});
     }
 
     render() {
@@ -88,11 +101,12 @@ class SelectPicker extends React.Component {
                     onChange={(value) => this.cointainString(value)}
                     validate={props.validate}
                     required={props.required}
+                    error={!this.state.selected}
                 />
 
                 <ul className={`value-list ${this.state.focus ? "open" : ''}`}>
                     {this.state.listItems.map((item, index) => {
-                        return <li key={index} onClick={() => this.selectElement(item)} className="item-combobox">{item.value}</li>
+                        return <li key={index} onClick={() => this.selectElementSelectState(item)} className="item-combobox">{item.value}</li>
                     })}
                 </ul>
             </div>

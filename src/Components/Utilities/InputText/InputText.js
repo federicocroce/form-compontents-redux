@@ -63,11 +63,14 @@ class Input extends React.Component {
 
     render() {
         const props = this.props;
+
+        if(props.error == undefined) props.error = false;
+
         const value = props.value != undefined ? props.value : '';
 
         return (
 
-            <div className={`input-text-container ${props.inputDetails != undefined && props.submite && props.inputDetails.invalid ? 'input-error' : ''} ${props.style}`}>
+            <div className={`input-text-container ${props.inputDetails != undefined && props.submite && props.inputDetails.invalid && props.error? 'input-error' : ''} ${props.style}`}>
                 <div className='custom-input'>
                     <input
                         className="inputMaterial"
@@ -97,8 +100,8 @@ class Input extends React.Component {
 
                                         const classValidationsText = classNames({
                                             'validation-text': true,
-                                            'error-text': validation.invalid && props.submite,
-                                            'succes-text': !validation.invalid && props.submite,
+                                            'error-text': validation.invalid && props.submite && props.error,
+                                            'succes-text': !validation.invalid && props.submite && !props.error,
                                         });
                                         return (
                                             <label key={index} className={classValidationsText}>{validation.msg}</label>
