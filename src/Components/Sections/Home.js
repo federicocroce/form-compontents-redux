@@ -113,7 +113,7 @@ class Home extends React.Component {
 
 
 
-                {/*<components.InputText
+                <components.InputText
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
@@ -137,7 +137,7 @@ class Home extends React.Component {
                     customPlaceholder='CABA'
                     validate={config.fieldValidations.validations.city}
                     required={false}
-                />*/}
+                />
 
                 <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
 
@@ -148,6 +148,7 @@ class Home extends React.Component {
                     placeholderFloating='Seleccione un nombre'
                     customPlaceholder='Escriba su nombre'
                     name='NombreSelectPicker'
+                    callbackSelected={(val) => console.log(val)}
                     validate={config.fieldValidations.validations.selectPicker}
                     required={true}
                 />

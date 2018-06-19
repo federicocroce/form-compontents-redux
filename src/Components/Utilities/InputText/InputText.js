@@ -15,8 +15,9 @@ class Input extends React.Component {
         this.setInputValues("");
     }
 
-    handleChange = (value) => {
+    handleChange = (value, onChange) => {
         this.setInputValues(value);
+        if(onChange) onChange(value);
     }
 
     onFocus = (onFocus) => {
@@ -64,15 +65,6 @@ class Input extends React.Component {
         const props = this.props;
         const value = props.value != undefined ? props.value : '';
 
-        // console.log(value);
-
-        // const classInputText = classNames({
-        //     'input-text-container': true,
-        //     'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
-        // });
-
-
-
         return (
 
             <div className={`input-text-container ${props.inputDetails != undefined && props.submite && props.inputDetails.invalid ? 'input-error' : ''} ${props.style}`}>
@@ -82,7 +74,7 @@ class Input extends React.Component {
                         placeholder=" "
                         type="text"
                         value={value}
-                        onChange={(event) => this.handleChange(event.target.value)}
+                        onChange={(event) => this.handleChange(event.target.value, props.onChange)}
                         onFocus={() => this.onFocus(props.onFocus)}
                         onBlur={() => this.onBlur(props.onBlur)}
                     />
@@ -101,7 +93,7 @@ class Input extends React.Component {
                             {
                                 props.showAllValidations ?
                                     props.inputDetails.validations.map((validation, index) => {
-                                        console.log(validation);
+                                        // console.log(validation);
 
                                         const classValidationsText = classNames({
                                             'validation-text': true,
@@ -125,8 +117,6 @@ class Input extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-    // console.log(ownProps.name);
-    // if(ownProps.name == undefined) return;
     const inputDetails = state.reduxForm.inputDetails[ownProps.name];
     return {
         value: state.reduxForm.values[ownProps.name],
@@ -135,13 +125,7 @@ const mapStateToProps = (state, ownProps) => {
     };
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        reduxForm: actions.reduxForm
-    };
-}
-
 export default withRouter(connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(Input));

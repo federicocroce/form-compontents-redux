@@ -2,14 +2,6 @@
     width: 250px;
 }
 
-.chosen-value,
-.value-list {
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // width: 100%;
-}
-
 .chosen-value {
     // font-weight: 600;
     // letter-spacing: 4px;
@@ -44,9 +36,9 @@
     width: 100%;
     text-align: left;
     padding: 0;
-    margin: 10px;
+    margin: 0px 0px 10px 10px;
     &.open {
-        max-height: 320px;
+        max-height: 200px;
         overflow: auto;
     }
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px,
