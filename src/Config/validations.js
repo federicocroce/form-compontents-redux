@@ -6,6 +6,10 @@ const fieldValidations = {}
 
 const setObjetError = (name, msg, invalid) => { return { name, msg, invalid } };
 
+fieldValidations.requiredSelectPicker = (selected, msg) => value => { 
+    return selected ? setObjetError("requiredSelectPicker", msg, false) : setObjetError("requiredSelectPicker", msg, true)
+};
+
 const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? setObjetError("required", params, false) : setObjetError("required", params, true);
 
 // const required = (params) => value => value ? undefined : 'Ingrese ' + params;
@@ -15,7 +19,7 @@ const number = params => value => value && isNaN(Number(value)) ? setObjetError(
 
 const notNumber = params => value => value && value.match(/\d/g) ? setObjetError("notNumber", params, true) : setObjetError("notNumber", params, false);
 
-const minValue = (min, label) => value => value && value < min ? setObjetError("minValue", label, true) : setObjetError("minValue", label, false);
+const minValue = (min, msg) => value => value && value < min ? setObjetError("minValue", msg, true) : setObjetError("minValue", msg, false);
 
 // const someSelected = (min, label) => value => value && value < min ? label : undefined;
 
@@ -29,7 +33,7 @@ fieldValidations.validations = {
     name: [notNumber('Su nombre solo puede contener letras'), required('Ingrese su nombre')],
     city: [notNumber('Su localidad solo puede contener letras'), required('Ingrese su localidad')],
     cheked: [requiredSelected('Seleccione al menos uno')],
-    selectPicker: [required('Seleccione al menos uno')],
+    selectPicker: [],
 };
 
 
