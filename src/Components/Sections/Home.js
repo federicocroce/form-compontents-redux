@@ -22,18 +22,20 @@ class Home extends React.Component {
     handleSubmit(event) {
         // alert('A name was submitted: ' + this.state.value);
         actions.reduxForm.setSubmite(true);
+
         event.preventDefault();
 
         if (!actions.reduxForm.getForm().invalid) {
-            alert('Este form no posee errores.' + "\n\n values: \t"
-                + "\t" + JSON.stringify(actions.reduxForm.getForm().values, null, "\t")
-            );
+            actions.test.createAutoID(actions.reduxForm.getForm().values);
+            // alert('Este form no posee errores.' + "\n\n values: \t"
+            //     + "\t" + JSON.stringify(actions.reduxForm.getForm().values, null, "\t")
+            // );
         }
 
     }
 
     componentDidMount() {
-
+        actions.test.fetchObjects();
         // this.props.onAuthStateChanged();
 
     }
@@ -105,67 +107,79 @@ class Home extends React.Component {
 
         return (
 
-
-            <form onSubmit={this.handleSubmit}>
-                {/* <pre>Algo : {props.reduxForm.values}</pre> */}
-                {/* {props.reduxForm.values} */}
-                {/* <p>Nombre:</p> */}
-
-
-
-                {/*<components.InputText
-                    name='edad'
-                    style='inline'
-                    placeholderFloating='Edad'
-                    customPlaceholder='29'
-                    validate={config.fieldValidations.validations.age}
-                    showAllValidations={true}
-                    required={true}
-                />
-
-                <components.InputText
-                    name='nombre'
-                    style='inline'
-                    placeholderFloating='Nombre'
-                    customPlaceholder='Federico Croce'
-                    validate={config.fieldValidations.validations.name}
-                />
-
-                <components.InputText
-                    name='localidad'
-                    placeholderFloating='Localidad'
-                    customPlaceholder='CABA'
-                    validate={config.fieldValidations.validations.city}
-                    required={false}
-                />
-
-                <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
-
-                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />*/}
-
-                <components.SelectPicker
-                    listItems={listItemsCombobox}
-                    placeholderFloating='Seleccione un nombre'
-                    customPlaceholder='Escriba su nombre'
-                    name='NombreSelectPicker'
-                    callbackSelected={(val) => console.log(val)}
-                    required={true}
-                />
-
-                <components.Button type='submit' className='primary-button' label='SUBMIT' />
-
-                {/*<input type="date" name="bday" max="1979-12-31"/>*/}
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    {/* <pre>Algo : {props.reduxForm.values}</pre> */}
+                    {/* {props.reduxForm.values} */}
+                    {/* <p>Nombre:</p> */}
 
 
-                {/*{functions.jsonView(props.reduxForm)}*/}
-            </form>
+
+                    <components.InputText
+                        name='edad'
+                        style='inline'
+                        placeholderFloating='Edad'
+                        customPlaceholder='29'
+                        validate={config.fieldValidations.validations.age}
+                        showAllValidations={true}
+                        required={true}
+                    />
+
+                    <components.InputText
+                        name='nombre'
+                        style='inline'
+                        placeholderFloating='Nombre'
+                        customPlaceholder='Federico Croce'
+                        validate={config.fieldValidations.validations.name}
+                    />
+
+                    <components.InputText
+                        name='localidad'
+                        placeholderFloating='Localidad'
+                        customPlaceholder='CABA'
+                        validate={config.fieldValidations.validations.city}
+                        required={false}
+                    />
+
+                    <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
+
+                    <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />
+
+                    <components.SelectPicker
+                        listItems={listItemsCombobox}
+                        placeholderFloating='Seleccione un nombre'
+                        customPlaceholder='Escriba su nombre'
+                        name='NombreSelectPicker'
+                        callbackSelected={(val) => console.log(val)}
+                        required={true}
+                    />
+
+                    <components.Button type='submit' className='primary-button' label='SUBMIT' />
+                    {/* <components.Button onClick={remove()} className='primary-button' label='REMOVE' /> */}
+
+                    {/*<input type="date" name="bday" max="1979-12-31"/>*/}
+
+
+                    {/*{functions.jsonView(props.reduxForm)}*/}
+                </form>
+
+                <div>
+                    {this.props.list.map((item, index)=> {
+                        return(
+                            <div key={index}>
+                                <p>{item.nombre}</p>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        // reduxForm: state.reduxForm
+        list: state.test.list
     };
 }
 

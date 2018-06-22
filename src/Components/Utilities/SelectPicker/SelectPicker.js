@@ -19,14 +19,7 @@ class SelectPicker extends React.Component {
         actions.reduxForm.setInputDetails(this.setErrorInputDetails({value:''}, false));
     }
 
-    selectElementSelectState = (item) => {
-        this.setState({
-            selected: {
-                item,
-                state: true
-            }
-        });
-
+    selectElementSelectState = (item) => {       
         this.selectElement(item);
     }
 
@@ -49,10 +42,10 @@ class SelectPicker extends React.Component {
         return this.setDetails(item, resultValidations.invalid, resultValidations.validations);
     }
 
-    setDetails = (selected, invalid, validations) => {
+    setDetails = (item, invalid, validations) => {
         return {
             [this.props.name]: {
-                item: selected.item,
+                item,
                 invalid,
                 validations
             }
@@ -79,16 +72,9 @@ class SelectPicker extends React.Component {
     //Método para filtrar los items.
     cointainString = (value) => {
 
-        actions.reduxForm.setInputDetails(this.setErrorInputDetails({ value }));
-
-        this.setState({
-            selected: {
-                item: { value },
-                state: false
-            }
-        });
-
         const props = this.props;
+
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails({ value }, false));          
 
         let filtered = props.listItems.filter(function (item) {
             let str = item.value;

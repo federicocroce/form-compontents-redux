@@ -26,7 +26,9 @@ class Input extends React.Component {
     }
 
     onBlur = (onBlur) => {
-        this.setState({ focus: false });
+        setTimeout(() => {
+            this.setState({ focus: false });
+        }, 100);
         if(onBlur) onBlur();
     }
 
