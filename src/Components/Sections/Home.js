@@ -113,7 +113,7 @@ class Home extends React.Component {
 
 
 
-                {/*<components.InputText
+                <components.InputText
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
@@ -141,7 +141,7 @@ class Home extends React.Component {
 
                 <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
 
-                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />*/}
+                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />
 
                 <components.SelectPicker
                     listItems={listItemsCombobox}
