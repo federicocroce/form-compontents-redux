@@ -1,112 +1,80 @@
-import React, { config } from 'react';
+import React, { config, functions, actions, components } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 
 class SwitchesGroup extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            error: '',
-            checked: '',
-            someCheked: false
-        };
-        this.inputProps = this.props.props;
-
-        this.handleChange = this.handleChange.bind(this);
-        this.setErrorInputDetails = this.setErrorInputDetails.bind(this);
-        this.checked = this.checked.bind(this);
-        // this.handleChange = this.handleChange.bind(this);
+        this.state = { error: '', focus: false };
     }
 
 
     componentWillMount() {
-        this.props.switchesProps.options.map((option, index) => {
-            const value = this.props.switchesProps.type == "radio" ? '' : false;
-            this.setErrorInputDetails(value, option);
-        })
-    }
+        if (this.isRadio()) {
+            this.setInputValues('');
+        }
+        else {
+            this.props.switchesProps.options.map((option, index) => {
+                this.setInputValues(false, option);
+            });
+        }
 
-    componentDidUpdate(prevProps) {
-        this.inputProps = this.props.props;
-        // if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
-        //     this.handleChange(this.inputProps.reduxForm.values[this.props.switchesProps.name]);
-        // }
     }
 
     handleChange = (value, option) => {
-
-        let checkedValue = false;
-
-        if (this.props.switchesProps.type == "radio") {
-            this.setState({ checked: value });
-        }
-        else {
-            checkedValue = !this.state[option.value];
-            this.setState({ [option.value]: checkedValue });
-
-            // const algo = this.props.switchesProps.options.filter(option => option.value == true && option.groupName == this.props.switchesProps.groupName) ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
-        }
-
         const name = this.returnNameFromType(option);
-        value = this.props.switchesProps.type == "radio" ? value : checkedValue;
-
-        const inputValue = {};
-
-        inputValue[name] = value;
-
-        setTimeout(() => {
-            this.inputProps.actionsReduxForm.setValues(inputValue);
-            this.setErrorInputDetails(value, option);
-            if (this.props.switchesProps.type != "radio") {
-
-                const cheked = this.props.switchesProps.options.map(option => this.inputProps.reduxForm.inputDetails[option.value].value).filter(val => val == true);
-
-                cheked.length > 0 ? this.setState({ someCheked: true }) : this.setState({ someCheked: false })
-
-                // console.log();
-            }
-            else{
-                this.state.checked != '' ? this.setState({ someCheked: true }) : this.setState({ someCheked: false });
-            }
-        }, 500);
-
-
-
+        const newValue = this.isRadio() ? option.value : !actions.reduxForm.getForm().values[name];
+        this.setInputValues(newValue, option);
     }
 
-    setErrorInputDetails = (value, option) => {
-        // const resultError = this.setError();
+    // onFocus = () => {
+    //     this.setState({ focus: true });
+    // }
+
+    // onBlur = () => {
+    //     this.setState({ focus: false });
+    // }
+
+    setInputValues = (value, option) => {
         const name = this.returnNameFromType(option);
-        // if (this.props.switchesProps.type != "radio") this.setState({ [name]: false })
-        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(name, value, false, ''));
+        console.log("Set Input");
+        actions.reduxForm.setValues({ [name]: value });
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails(value, name));
+    };
+
+    isRadio = () => this.props.switchesProps.type == "radio" ? true : false;
+
+    setError = (value) => {
+        const resultError = this.props.showAllValidations ? config.fieldValidations.getAllValidations(this.props.validate, value, this.props.required) : config.fieldValidations.getOneValidation(this.props.validate, value, this.props.required);
+        return resultError;
     }
 
-    setError = () => {
-        this.inputProps = this.props.props;
-        if (this.inputProps.reduxForm.submite) {
-            let result = {};
-            if (this.inputProps.reduxForm.submite) {
-                result = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values, this.inputProps.reduxForm, this.props.required);
+    setErrorInputDetails = (value, name) => {
+        let resultValidations = {
+            invalid: false,
+            error: ''
+        }
+        // if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
+        // return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
+        return this.setDetails(name, value, resultValidations.invalid, resultValidations.validations);
+    }
+
+
+    setDetails = (name, value, invalid, validations) => {
+        return {
+            [name]: {
+                groupName: this.props.switchesProps.groupName,
+                value,
+                invalid,
+                validations
             }
-            return result;
         }
-    }
-
-    setDetails = (name, value, invalid, error) => {
-        const inputValueDetails = {};
-
-        inputValueDetails[name] = {
-            groupName: this.props.switchesProps.groupName,
-            value: value,
-            invalid: invalid,
-            error: error
-        }
-
-        return inputValueDetails;
-    }
+    };
 
     returnNameFromType = (option) => {
-        const switchesProps = this.props.switchesProps;
-        return switchesProps.type == "radio" ? switchesProps.nameGroup : option.value;
+        return this.isRadio() ? this.props.switchesProps.groupName : option.value;
     }
 
     getInputDetail = () => {
@@ -117,15 +85,21 @@ class SwitchesGroup extends React.Component {
         )
     };
 
-    checked = (option) => {
-        return this.props.switchesProps.type == "radio" ? option.value === this.state.checked : this.state[option.value] == true;
+    checked = (option, value, name) => {
+        return this.isRadio() ? option.value === value : actions.reduxForm.getForm().values[name];
     }
+
 
     render() {
         const props = this.props;
-        const inputProps = props.props;
-        let value = inputProps.reduxForm.values[props.switchesProps.nameGroup];
+        const value = props.value != undefined ? props.value : '';
 
+        console.log("switches-container");
+
+        const classInputText = classNames({
+            'input-text-container': true,
+            // 'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
+        });
 
 
         return (
@@ -134,17 +108,20 @@ class SwitchesGroup extends React.Component {
 
                 {props.switchesProps.options.map((option, index) => {
                     // let value = inputProps.reduxForm.values[option.name];
+                    // console.log("switches-container");
+                    const name = this.returnNameFromType(option);
                     return (
-                        <label key={index}  >
-                            <input
-                                className={index}
+                        
+                        <label key={index} className={`${props.switchesProps.style}`} >
+                            <components.SwitchesInput
+                                index={index}
+                                option={option}
                                 key={index}
                                 type={props.switchesProps.type}
-                                name={this.returnNameFromType(option)}
-                                value={option.value}
-                                checked={this.checked(option)}
-                                onChange={(event) => this.handleChange(event.target.value, option)}
-                            // checked={}
+                                name={name}
+                                // value={option.value}
+                                checked={this.checked}
+                                onChange={this.handleChange}
                             />
                             {option.label}
                         </label>
@@ -154,12 +131,31 @@ class SwitchesGroup extends React.Component {
                 )}
 
                 {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
-                {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null}
-                
+                {/* {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null} */}
+
             </ul>
         )
     }
-
 }
 
-export default SwitchesGroup;
+
+const mapStateToProps = (state, ownProps) => {
+    // console.log(ownProps.name);
+    // const groupName = ownProps.switchesProps.groupName;
+
+    return {
+        submite: state.reduxForm.submite,
+        // inputDetails: state.reduxForm.inputDetails[groupName]
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        reduxForm: actions.reduxForm
+    };
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SwitchesGroup));

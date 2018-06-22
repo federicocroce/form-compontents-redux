@@ -1,79 +1,135 @@
-import React, {config, functions } from 'react';
+import React, { config, functions, actions } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 
 class Input extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { error: '', showError: false, value: '' };
-        this.inputProps = this.props.props;
+        this.state = { error: '', focus: false };
     }
 
 
     componentWillMount() {
-        this.setErrorInputDetails('');
+        this.setInputValues("");
     }
 
-    componentDidUpdate(prevProps) {
-        this.inputProps = this.props.props;
-        if (this.inputProps.reduxForm.submite != prevProps.props.reduxForm.submite) {
-            this.setState({ showError: !this.state.showError })
-        }
+    handleChange = (value, onChange) => {
+        this.setInputValues(value);
+        if(onChange) onChange(value);
     }
 
-    handleChange = (value) => {
-        this.setState({value : value});
-        this.inputProps.actionsReduxForm.setValues({[this.props.name] : value});
-        this.setErrorInputDetails(value);
+    onFocus = (onFocus) => {
+        this.setState({ focus: true });
+        if(onFocus) onFocus();
     }
 
-    setError = () => {
-        const resultError = config.fieldValidations.getValidation(this.props.validate, this.inputProps.reduxForm.values[this.props.name], this.props.required);
-        this.setState({ error: resultError.error });
+    onBlur = (onBlur) => {
+        this.setState({ focus: false });
+        if(onBlur) onBlur();
+    }
+
+    setInputValues = (value) => {
+        actions.reduxForm.setValues({ [this.props.name]: value });
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails(value));
+    }
+
+    setError = (value) => {
+        const resultError = this.props.showAllValidations ? config.fieldValidations.getAllValidations(this.props.validate, value, this.props.required) : config.fieldValidations.getOneValidation(this.props.validate, value, this.props.required);
         return resultError;
     }
 
     setErrorInputDetails = (value) => {
-        let resultError = {
+        let resultValidations = {
             invalid: false,
             error: ''
         }
-        if(!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError();
-        this.inputProps.actionsReduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
+        if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
+        return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
     }
 
 
-    setDetails = (value, invalid, error) => {
+    setDetails = (value, invalid, validations) => {
         return {
-            [this.props.name] : {
-                value: value,
-                invalid: invalid,
-                error: error
+            [this.props.name]: {
+                value,
+                invalid,
+                validations
             }
         }
     }
 
 
     render() {
-        const props = this.props;
-        const inputProps = props.props;
-        let value = inputProps.reduxForm.values[props.name];
+        let props = this.props;
+
+        let error = props.error != undefined ? props.error : false;
+        // if(props.error == undefined) props.error = false;
+
+        const value = props.value != undefined ? props.value : '';
 
         return (
 
-            <div className='input-text-container'>
-                <div>
-                    <input className="inputMaterial" placeholder=" " type="text" value={this.state.value} onChange={(event) => this.handleChange(event.target.value)} />
+            <div className={`input-text-container ${props.inputDetails != undefined && props.submite && props.inputDetails.invalid || error? 'input-error' : ''} ${props.style}`}>
+                <div className='custom-input'>
+                    <input
+                        className="inputMaterial"
+                        placeholder=" "
+                        type="text"
+                        value={value}
+                        onChange={(event) => this.handleChange(event.target.value, props.onChange)}
+                        onFocus={() => this.onFocus(props.onFocus)}
+                        onBlur={() => this.onBlur(props.onBlur)}
+                    />
                     <label className="floating">{props.placeholderFloating}</label>
                     <div className="container-placeholder">
                         <label className="placeholder">{props.customPlaceholder}</label>
                     </div>
                     <hr />
                 </div>
-                {this.state.showError ? <label className="error-text">{this.state.error}</label> : null}
+
+
+
+                {
+                    props.inputDetails && props.submite ?
+                        <div className={`validations-container ${this.state.focus ? "visible" : ''}`}>
+                            {
+                                props.showAllValidations ?
+                                    props.inputDetails.validations.map((validation, index) => {
+                                        // console.log(validation);
+
+                                        const classValidationsText = classNames({
+                                            'validation-text': true,
+                                            'error-text': validation.invalid && props.submite && props.error,
+                                            'succes-text': !validation.invalid && props.submite && !props.error,
+                                        });
+                                        return (
+                                            <label key={index} className={classValidationsText}>{validation.msg}</label>
+                                        )
+                                    })
+                                    :
+                                    props.inputDetails.validations && props.inputDetails.validations[0].invalid ? <label className="validation-text error-text">{props.inputDetails.validations[0].msg}</label> : null
+                            }
+                        </div>
+                        : null
+                }
             </div>
         );
     }
 }
 
 
-export default Input;
+const mapStateToProps = (state, ownProps) => {
+    const inputDetails = state.reduxForm.inputDetails[ownProps.name];
+    return {
+        value: state.reduxForm.values[ownProps.name],
+        submite: state.reduxForm.submite,
+        inputDetails: state.reduxForm.inputDetails[ownProps.name]
+    };
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    null
+)(Input));

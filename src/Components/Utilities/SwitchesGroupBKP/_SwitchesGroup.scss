@@ -6,18 +6,10 @@ $input-box-check-size: 20px;
 .switches-container {
     list-style-type: none;
     margin: 20px 0; // li {
+    &.inline {
+        display: inline-block;
+    }
     label {
-        display: block;
-        margin: 10px 0;
-        &.inline {
-            display: inline-block;
-            margin: 0;
-            input {
-                &[class='0'] {
-                    margin-left: 0;
-                }
-            }
-        }
         position: relative;
         &:hover {
             cursor: pointer;
@@ -99,11 +91,16 @@ $input-box-check-size: 20px;
             &:active {
                 transform: scale3d(.3, .3, .3);
             }
+            
+            &[class='0'] {
+                margin-left: 0;
+            } 
         }
+        
     }
-    .error-text {
-        position: initial;
-    }
+    
+
+    .error-text{position: initial;}
 }
 
 @keyframes click-wave {

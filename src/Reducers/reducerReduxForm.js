@@ -5,6 +5,7 @@ import React from 'react';
 
 const data = {
     values: {},
+    initialValues: {},
     invalid: false,
     submite: false,
     inputDetails: {}
@@ -16,11 +17,17 @@ const reducerReduxForm = (state = data, action) => {
     // console.error("ENTRA");
     switch (action.type) {
         case 'SET_VALUES':
-
             return {
                 ...state,
-                values: Object.assign(state.values, action.payload)
+                values: Object.assign(state.values, action.payload),
+                // inputDetails: Object.assign(state.inputDetails, action.payload.inputDetails),
+                // invalid: setInvalid()
                 // values: action.payload
+            };
+        case 'SET_INITIAL_VALUES':
+            return {
+                ...state,
+                initialValues: Object.assign(state.initialValues, action.payload.value)
             };
         case 'SET_SUBMITE':
             return {
@@ -36,7 +43,7 @@ const reducerReduxForm = (state = data, action) => {
             const setInvalid = () => {
                 let inputDetails = state.inputDetails;
                 let result = false;
-                Object.keys(state.inputDetails).forEach( key => {
+                Object.keys(state.inputDetails).forEach(key => {
                     if (inputDetails[key].invalid) {
                         result = true;
                         return;

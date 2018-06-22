@@ -18,16 +18,31 @@ body {
   position: absolute;
   z-index: -1; }
 
-.error-text {
+div.validations-container {
+  margin: 0;
+  border: none;
+  opacity: 0;
+  display: none;
+  transition: all 0.5s ease-out; }
+  div.validations-container.visible {
+    opacity: 1;
+    display: block; }
+
+.validation-text {
   display: block;
   text-align: left;
-  color: red;
   left: 0;
   bottom: -20px;
   pointer-events: none;
-  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  transition: all 0.5s ease-out;
   font-size: .7em;
   margin-top: 5px; }
+
+.error-text {
+  color: red; }
+
+.succes-text {
+  color: green; }
 
 .input-text-container {
   position: relative;
@@ -35,7 +50,7 @@ body {
   padding: 10px; }
   .input-text-container.inline {
     display: inline-grid; }
-  .input-text-container > div {
+  .input-text-container > div.custom-input {
     position: relative;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     text-align: left;
@@ -43,43 +58,43 @@ body {
     font-size: 1.1em;
     margin-top: 20px;
     width: 100%; }
-    .input-text-container > div input {
+    .input-text-container > div.custom-input input {
       border: none;
       outline: none;
       width: 100%; }
-      .input-text-container > div input:focus ~ label.floating, .input-text-container > div input:not(:placeholder-shown) ~ label.floating {
+      .input-text-container > div.custom-input input:focus ~ label.floating, .input-text-container > div.custom-input input:not(:placeholder-shown) ~ label.floating {
         color: #01579b;
         transform: translate3d(0, -14px, 0);
         font-size: .8em; }
-      .input-text-container > div input:focus:placeholder-shown ~ div label.placeholder, .input-text-container > div input:not(:placeholder-shown):placeholder-shown ~ div label.placeholder {
+      .input-text-container > div.custom-input input:focus:placeholder-shown ~ div label.placeholder, .input-text-container > div.custom-input input:not(:placeholder-shown):placeholder-shown ~ div label.placeholder {
         color: rgba(0, 0, 0, 0.3);
         font-size: .8em; }
-      .input-text-container > div input:focus ~ hr, .input-text-container > div input:not(:placeholder-shown) ~ hr {
-        transform: scale3d(1, 0, 0);
+      .input-text-container > div.custom-input input:focus ~ hr, .input-text-container > div.custom-input input:not(:placeholder-shown) ~ hr {
+        transform: scale3d(1, 1, 1);
         border-bottom: 2px solid #01579b; }
-      .input-text-container > div input:active ~ .ripple {
+      .input-text-container > div.custom-input input:active ~ .ripple {
         opacity: 1;
         transform: scale3d(1, 1, 1); }
-    .input-text-container > div label.floating {
+    .input-text-container > div.custom-input label.floating {
       position: absolute;
       color: rgba(0, 0, 0, 0.3);
       left: 0;
       top: 0px;
       pointer-events: none;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; }
-    .input-text-container > div .container-placeholder {
+    .input-text-container > div.custom-input .container-placeholder {
       position: absolute;
       left: 0;
       top: 0px;
       pointer-events: none;
       overflow: hidden;
       width: 100%; }
-      .input-text-container > div .container-placeholder label.placeholder {
+      .input-text-container > div.custom-input .container-placeholder label.placeholder {
         color: transparent;
         pointer-events: none;
         transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
         white-space: nowrap; }
-    .input-text-container > div hr {
+    .input-text-container > div.custom-input hr {
       width: 100%;
       border: none;
       border-bottom: 1px solid #01579b;
@@ -88,7 +103,7 @@ body {
       transform: scale3d(0, 0, 0);
       position: absolute;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms; }
-    .input-text-container > div div.ripple {
+    .input-text-container > div.custom-input div.ripple {
       position: absolute;
       top: 0px;
       left: 0px;
@@ -105,7 +120,7 @@ body {
     color: red !important; }
   .input-text-container.input-error input ~ hr {
     border-bottom: 2px solid red !important;
-    transform: scale3d(1, 0, 0); }
+    transform: scale3d(1, 1, 1); }
 
 .button-container button {
   border-radius: 2px;
@@ -125,10 +140,15 @@ body {
 .switches-container {
   list-style-type: none;
   margin: 20px 0; }
-  .switches-container.inline {
-    display: inline-block; }
   .switches-container label {
+    display: block;
+    margin: 10px 0;
     position: relative; }
+    .switches-container label.inline {
+      display: inline-block;
+      margin: 0; }
+      .switches-container label.inline input[class='0'] {
+        margin-left: 0; }
     .switches-container label:hover {
       cursor: pointer; }
     .switches-container label input {
@@ -187,8 +207,6 @@ body {
           left: 50%; }
       .switches-container label input:active {
         transform: scale3d(0.3, 0.3, 0.3); }
-      .switches-container label input[class='0'] {
-        margin-left: 0; }
   .switches-container .error-text {
     position: initial; }
 
@@ -202,5 +220,46 @@ body {
     height: 50px;
     width: 50px;
     opacity: 0.0; } }
+
+.select-picker-container {
+  width: 250px; }
+
+.chosen-value {
+  transition: .3s ease-in-out; }
+  .chosen-value:focus, .chosen-value.open {
+    outline: 0; }
+
+.value-list {
+  list-style: none;
+  overflow: hidden;
+  max-height: 0;
+  transition: .3s ease-in-out;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  margin: 0px 0px 10px 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
+  z-index: 1; }
+  .value-list.open {
+    max-height: 200px;
+    overflow: auto; }
+  .value-list li {
+    position: relative;
+    background-color: #FAFCFD;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color .3s;
+    opacity: 1; }
+    .value-list li:hover {
+      background-color: #3aa7de;
+      color: #ffffff; }
+    .value-list li.closed {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0;
+      opacity: 0; }
 
 /*# sourceMappingURL=index.css.map */

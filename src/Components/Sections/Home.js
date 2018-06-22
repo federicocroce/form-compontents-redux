@@ -21,13 +21,15 @@ class Home extends React.Component {
 
     handleSubmit(event) {
         // alert('A name was submitted: ' + this.state.value);
-        this.props.actionsReduxForm.setSubmite(true);
+        actions.reduxForm.setSubmite(true);
         event.preventDefault();
 
-        if(!this.props.reduxForm.invalid){
-            alert('Este form no posee errores.');            
+        if (!actions.reduxForm.getForm().invalid) {
+            alert('Este form no posee errores.' + "\n\n values: \t"
+                + "\t" + JSON.stringify(actions.reduxForm.getForm().values, null, "\t")
+            );
         }
-        
+
     }
 
     componentDidMount() {
@@ -79,6 +81,27 @@ class Home extends React.Component {
             ]
         }
 
+        const listItemsCombobox = [
+            {
+                value: "Fede",
+                data: {
+                    long: "Federico"
+                }
+            },
+            {
+                value: "Nico",
+                data: {
+                    long: "Nicolas"
+                }
+            },
+            {
+                value: "Pablin",
+                data: {
+                    long: "Pablo"
+                }
+            }
+        ];
+
 
         return (
 
@@ -87,19 +110,20 @@ class Home extends React.Component {
                 {/* <pre>Algo : {props.reduxForm.values}</pre> */}
                 {/* {props.reduxForm.values} */}
                 {/* <p>Nombre:</p> */}
+
+
+
                 <components.InputText
-                    props={props}
                     name='edad'
                     style='inline'
                     placeholderFloating='Edad'
                     customPlaceholder='29'
                     validate={config.fieldValidations.validations.age}
+                    showAllValidations={true}
                     required={true}
                 />
 
-               
                 <components.InputText
-                    props={props}
                     name='nombre'
                     style='inline'
                     placeholderFloating='Nombre'
@@ -108,24 +132,32 @@ class Home extends React.Component {
                 />
 
                 <components.InputText
-                    props={props}
                     name='localidad'
-                    style='inline'
                     placeholderFloating='Localidad'
                     customPlaceholder='CABA'
                     validate={config.fieldValidations.validations.city}
                     required={false}
                 />
 
-                <components.SwitchesGroup switchesProps={gender} props={props}/>
+                <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
 
-                <components.SwitchesGroup switchesProps={checkboxProps} props={props}/>
+                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />
+
+                <components.SelectPicker
+                    listItems={listItemsCombobox}
+                    placeholderFloating='Seleccione un nombre'
+                    customPlaceholder='Escriba su nombre'
+                    name='NombreSelectPicker'
+                    callbackSelected={(val) => console.log(val)}
+                    required={true}
+                />
 
                 <components.Button type='submit' className='primary-button' label='SUBMIT' />
 
-                {/* <input type="date" name="bday" max="1979-12-31"/> */}
-                
-                {functions.jsonView(props.reduxForm)}
+                {/*<input type="date" name="bday" max="1979-12-31"/>*/}
+
+
+                {/*{functions.jsonView(props.reduxForm)}*/}
             </form>
         );
     }
@@ -133,17 +165,17 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        reduxForm: state.reduxForm
+        // reduxForm: state.reduxForm
     };
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        actionsReduxForm: actions.actionsReduxForm
-    };
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         reduxForm: actions.reduxForm
+//     };
+// }
 
 export default withRouter(connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(Home));

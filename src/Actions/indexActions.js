@@ -1,8 +1,8 @@
-import actionsReduxForm from "./actionsReduxForm";
+import reduxForm from "./actionsReduxForm";
 
 
 const actions = {    
-    actionsReduxForm
+    reduxForm
 }
 
 export default actions;
