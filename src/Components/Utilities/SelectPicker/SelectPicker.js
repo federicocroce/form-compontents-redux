@@ -9,6 +9,7 @@ class SelectPicker extends React.Component {
         this.state = {
             error: '',
             focus: false,
+            selected:false,
             listItems: []
         };
     }
@@ -19,7 +20,13 @@ class SelectPicker extends React.Component {
         actions.reduxForm.setInputDetails(this.setErrorInputDetails({value:''}, false));
     }
 
-    selectElementSelectState = (item) => {       
+    UNSAFE_componentWillReceiveProps(nextProps){
+        const act = actions;
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails({value: act.reduxForm.getForm().values[this.props.name]}));
+    }
+
+    selectElementSelectState = (item) => {
+        this.setState({selected: true});      
         this.selectElement(item);
     }
 
@@ -65,13 +72,13 @@ class SelectPicker extends React.Component {
         setTimeout(() => {
             this.setState({ focus: false });
         }, 100);
-
     }
 
 
     //Método para filtrar los items.
     cointainString = (value) => {
 
+        this.setState({selected: false});      
         const props = this.props;
 
         actions.reduxForm.setInputDetails(this.setErrorInputDetails({ value }, false));          
@@ -92,7 +99,7 @@ class SelectPicker extends React.Component {
         return (
             <div className="select-picker-container">
 
-                <components.InputText
+                <components.InputTextLocalState
                     name={props.name}
                     style="inline chosen-value"
                     placeholderFloating={props.placeholderFloating}
@@ -102,6 +109,7 @@ class SelectPicker extends React.Component {
                     onBlur={() => this.onBlur()}
                     onChange={(value) => this.cointainString(value)}
                     validate={props.validate}
+                    localState={!this.state.selected}
                     required={props.required}
                 />
 
@@ -115,4 +123,15 @@ class SelectPicker extends React.Component {
     }
 }
 
-export default SelectPicker;
+
+const mapStateToProps = (state) => {
+
+    return {
+        selected: state.reduxForm.selected.state,
+    };
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    null
+)(SelectPicker));
