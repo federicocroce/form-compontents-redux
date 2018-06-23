@@ -78,17 +78,18 @@ fireStoreApp.fetchObjects = (collection, action) => {
   db.collection(collection).onSnapshot(function (snapshot) {
     // snapshot.docChanges.forEach(function (change) {
 
-    const array = [];
+    let array = [];
     snapshot.forEach((doc) => {
-
-      const newDoc = doc.data();
-      newDoc.id = doc.id;
-      array.push(newDoc);
-
+      array.push({
+        data: doc.data(),
+        id: doc.id
+      });
     });
+
     config.storeHistory.dispatch({
       type: action,
-      payload: array.length > 1 ? array : array[0]
+      payload: array
+      // payload: array.length > 1 ? array : array[0]
     });
     React.actions.actionsLoading.setLoading(false);
   });
@@ -114,6 +115,14 @@ fireStoreApp.createAutoID = (collection, document) => {
 fireStoreApp.removeItem = (collection, id) => {
   db.collection(collection).doc(id).delete().then(function () {
     React.actions.actionsToast.setToast("Se eliminó correctamente.", 'successfully');
+  }).catch(function (error) {
+    React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
+  });
+}
+
+fireStoreApp.updateItem = (collection, id, document) => {
+  db.collection(collection).doc(id).update(document).then(function () {
+    React.actions.actionsToast.setToast("Se actualizó correctamente.", 'successfully');
   }).catch(function (error) {
     React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
   });

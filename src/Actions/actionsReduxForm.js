@@ -27,6 +27,14 @@ functionsAction.setValues = (input) =>{
     setDispatch('SET_VALUES', input);
 };
 
+functionsAction.clearForm = () =>{
+    setDispatch('CLEAR_FORM', {});
+};
+
+functionsAction.setSelected = (state, id) =>{
+    setDispatch('SET_SELECTED', {state, id});
+};
+
 functionsAction.setInputDetails = (details) =>{
     config.storeHistory.dispatch({
         type: 'SET_INPUT_DETAILS',

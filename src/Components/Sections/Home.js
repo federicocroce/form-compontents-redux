@@ -9,38 +9,36 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { value: '' };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = { value: '', formState: 'new' };
     }
 
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
-
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         // alert('A name was submitted: ' + this.state.value);
         actions.reduxForm.setSubmite(true);
 
         event.preventDefault();
 
-        if (!actions.reduxForm.getForm().invalid) {
-            actions.test.createAutoID(actions.reduxForm.getForm().values);
-            // alert('Este form no posee errores.' + "\n\n values: \t"
-            //     + "\t" + JSON.stringify(actions.reduxForm.getForm().values, null, "\t")
-            // );
+        let form = actions.reduxForm.getForm();
+
+        if (!form.invalid) {
+            form.selected.state == 'new'  ? actions.test.createAutoID(form.values) : actions.test.updateItem(form.selected.id, form.values);
         }
 
     }
 
     componentDidMount() {
         actions.test.fetchObjects();
-        // this.props.onAuthStateChanged();
-
     }
 
+    itemSelected = item => {
+        actions.reduxForm.setValues(item.data);
+        actions.reduxForm.setSelected('update', item.id);
+    }
 
+    clearForm = () => {
+        actions.reduxForm.clearForm();
+        actions.reduxForm.setSelected('new', null);
+    }
 
     render() {
 
@@ -154,7 +152,8 @@ class Home extends React.Component {
                         required={true}
                     />
 
-                    <components.Button type='submit' className='primary-button' label='SUBMIT' />
+                    <components.Button type='submit' className='primary-button' label={actions.reduxForm.getForm().selected.state == 'new' ? 'NUEVO' : 'ACTUALIZAR'} />
+                    <components.Button className='primary-button' label='CANCELAR' onClick={() => this.clearForm()} />
                     {/* <components.Button onClick={remove()} className='primary-button' label='REMOVE' /> */}
 
                     {/*<input type="date" name="bday" max="1979-12-31"/>*/}
@@ -165,9 +164,10 @@ class Home extends React.Component {
 
                 <div>
                     {this.props.list.map((item, index)=> {
+                        const data = item.data;
                         return(
-                            <div key={index}>
-                                <p>{item.nombre}</p>
+                            <div key={index} onClick={() => this.itemSelected(item)}>
+                                <p>{data.nombre}</p>
                             </div>
                         )
                     })}

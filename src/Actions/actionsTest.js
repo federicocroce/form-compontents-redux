@@ -22,7 +22,8 @@ const actions = {};
 // }
 
 actions.fetchObjects = () => React.config.fireStoreApp.fetchObjects(collection, 'FETCH_TEST');
-actions.createAutoID = (document) => React.config.fireStoreApp.createAutoID(collection, document);
+actions.createAutoID = document => React.config.fireStoreApp.createAutoID(collection, document);
 actions.removeItem = id => React.config.fireStoreApp.removeItem(collection, id);
+actions.updateItem = (id, document) => React.config.fireStoreApp.updateItem(collection, id, document);
 
 export default actions;
