@@ -11,6 +11,7 @@ const data = {
     },
     invalid: false,
     submite: false,
+    clear: true,
     inputDetails: {}
 }
 // const initialData = {
@@ -30,7 +31,8 @@ const reducerReduxForm = (state = data, action) => {
         case 'SET_VALUES':
             return {
                 ...state,
-                values: { ...state.values, ...action.payload },
+                values: { ...state.values, ...action.payload.value },
+                clear: action.payload.clear
             };
         case 'CLEAR_FORM':
             return data;

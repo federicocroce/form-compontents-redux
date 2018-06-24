@@ -9,7 +9,7 @@ class SelectPicker extends React.Component {
         this.state = {
             error: '',
             focus: false,
-            selected:false,
+            lastFilterString: '',
             listItems: []
         };
     }
@@ -17,22 +17,23 @@ class SelectPicker extends React.Component {
     componentDidMount() {
         this.selectElement({ value: '' });
         this.setState({ listItems: this.props.listItems });
-        actions.reduxForm.setInputDetails(this.setErrorInputDetails({value:''}, false));
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails({ value: '' }, false));
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        const act = actions;
-        actions.reduxForm.setInputDetails(this.setErrorInputDetails({value: act.reduxForm.getForm().values[this.props.name]}));
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        const form = actions.reduxForm.getForm();
+        
+        form.clear ? this.cointainString('', false) : form.selected.id != null ? nextProps.value != '' ? this.cointainString(nextProps.value, false) : this.cointainString(this.state.lastFilterString, false) : null;
     }
 
     selectElementSelectState = (item) => {
-        this.setState({selected: true});      
         this.selectElement(item);
     }
 
     selectElement = (item) => {
         actions.reduxForm.setValues({ [this.props.name]: item.value });
         actions.reduxForm.setInputDetails(this.setErrorInputDetails(item, true));
+        this.filtered(item.value);
         if (this.props.callbackSelected) this.props.callbackSelected(item);
     }
 
@@ -43,9 +44,7 @@ class SelectPicker extends React.Component {
             error: ''
         };
 
-        const validate = this.props.required ? [config.fieldValidations.requiredSelectPicker(selected, 'Seleccione al menos uno elemento')] : [];
-
-        if (!functions.isUndefinedOrNullOrEmpty(validate)) resultValidations = this.setError(item.value, validate);
+        resultValidations = this.setError(item.value, this.props.validate);
         return this.setDetails(item, resultValidations.invalid, resultValidations.validations);
     }
 
@@ -60,7 +59,7 @@ class SelectPicker extends React.Component {
     }
 
     setError = (value, validate) => {
-        const resultError = config.fieldValidations.getOneValidation(validate, value, this.props.required);
+        const resultError = config.fieldValidations.getOneValidation(validate, actions.reduxForm.getForm().values[this.props.name], this.props.required);
         return resultError;
     }
 
@@ -76,14 +75,15 @@ class SelectPicker extends React.Component {
 
 
     //Método para filtrar los items.
-    cointainString = (value) => {
+    cointainString = (value, setState) => {
+        this.setState({ lastFilterString: value });
+        setState ? actions.reduxForm.setValues({ [this.props.name]: '' }) : null;
+        actions.reduxForm.setInputDetails(this.setErrorInputDetails({ value }, false));
+        this.filtered(value);
+    }
 
-        this.setState({selected: false});      
-        const props = this.props;
-
-        actions.reduxForm.setInputDetails(this.setErrorInputDetails({ value }, false));          
-
-        let filtered = props.listItems.filter(function (item) {
+    filtered = (value) => {
+        let filtered = this.props.listItems.filter(function (item) {
             let str = item.value;
             let rgxp = new RegExp(value, "gi");
             return Array.isArray(str.match(rgxp)) && str.match(rgxp).length > 0
@@ -95,6 +95,7 @@ class SelectPicker extends React.Component {
     render() {
 
         const props = this.props;
+        const selected = functions.isUndefinedOrNullOrEmpty(this.props.value) ? false : true;
 
         return (
             <div className="select-picker-container">
@@ -107,9 +108,9 @@ class SelectPicker extends React.Component {
                     type='text'
                     onFocus={() => this.onFocus()}
                     onBlur={() => this.onBlur()}
-                    onChange={(value) => this.cointainString(value)}
+                    onChange={(value) => this.cointainString(value, true)}
                     validate={props.validate}
-                    localState={!this.state.selected}
+                    localState={!selected}
                     required={props.required}
                 />
 
@@ -124,10 +125,11 @@ class SelectPicker extends React.Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
 
     return {
-        selected: state.reduxForm.selected.state,
+        value: state.reduxForm.values[ownProps.name],
+        submite: state.reduxForm.submite
     };
 }
 

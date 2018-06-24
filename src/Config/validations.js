@@ -33,7 +33,7 @@ fieldValidations.validations = {
     name: [notNumber('Su nombre solo puede contener letras'), required('Ingrese su nombre')],
     city: [notNumber('Su localidad solo puede contener letras'), required('Ingrese su localidad')],
     cheked: [requiredSelected('Seleccione al menos uno')],
-    selectPicker: [],
+    selectPicker: [required('Ingrese su localidad')],
 };
 
 

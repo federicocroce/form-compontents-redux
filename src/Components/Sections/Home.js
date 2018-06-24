@@ -148,6 +148,7 @@ class Home extends React.Component {
                         placeholderFloating='Seleccione un nombre'
                         customPlaceholder='Escriba su nombre'
                         name='NombreSelectPicker'
+                        validate={config.fieldValidations.validations.selectPicker}
                         callbackSelected={(val) => console.log(val)}
                         required={true}
                     />
