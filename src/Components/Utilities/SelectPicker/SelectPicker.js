@@ -21,9 +21,11 @@ class SelectPicker extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        const form = actions.reduxForm.getForm();
-        
-        form.clear ? this.cointainString('', false) : form.selected.id != null ? nextProps.value != '' ? this.cointainString(nextProps.value, false) : this.cointainString(this.state.lastFilterString, false) : null;
+        setTimeout(() => {
+            const form = actions.reduxForm.getForm();
+
+            form.clear ? this.cointainString('', false) : form.selected.id != null ? nextProps.value.value != '' ? this.cointainString(nextProps.value.value, false) : this.cointainString(this.state.lastFilterString, false) : null;
+        }, 100);
     }
 
     selectElementSelectState = (item) => {
@@ -31,7 +33,7 @@ class SelectPicker extends React.Component {
     }
 
     selectElement = (item) => {
-        actions.reduxForm.setValues({ [this.props.name]: item.value });
+        actions.reduxForm.setValues({ [this.props.name]: item });
         actions.reduxForm.setInputDetails(this.setErrorInputDetails(item, true));
         this.filtered(item.value);
         if (this.props.callbackSelected) this.props.callbackSelected(item);
@@ -77,7 +79,7 @@ class SelectPicker extends React.Component {
     //Método para filtrar los items.
     cointainString = (value, setState) => {
         this.setState({ lastFilterString: value });
-        setState ? actions.reduxForm.setValues({ [this.props.name]: '' }) : null;
+        setState ? actions.reduxForm.setValues({ [this.props.name]: { value: '' } }) : null;
         actions.reduxForm.setInputDetails(this.setErrorInputDetails({ value }, false));
         this.filtered(value);
     }
@@ -95,7 +97,8 @@ class SelectPicker extends React.Component {
     render() {
 
         const props = this.props;
-        const selected = functions.isUndefinedOrNullOrEmpty(this.props.value) ? false : true;
+
+        const selected = !functions.isUndefinedOrNullOrEmpty(props.value) ? functions.isUndefinedOrNullOrEmpty(props.value.value) ? false : true : false;
 
         return (
             <div className="select-picker-container">

@@ -29,14 +29,6 @@ class SwitchesGroup extends React.Component {
         this.setInputValues(newValue, option);
     }
 
-    // onFocus = () => {
-    //     this.setState({ focus: true });
-    // }
-
-    // onBlur = () => {
-    //     this.setState({ focus: false });
-    // }
-
     setInputValues = (value, option) => {
         const name = this.returnNameFromType(option);
         console.log("Set Input");
@@ -56,8 +48,6 @@ class SwitchesGroup extends React.Component {
             invalid: false,
             error: ''
         }
-        // if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
-        // return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
         return this.setDetails(name, value, resultValidations.invalid, resultValidations.validations);
     }
 
@@ -94,11 +84,8 @@ class SwitchesGroup extends React.Component {
         const props = this.props;
         const value = props.value != undefined ? props.value : '';
 
-        console.log("switches-container");
-
         const classInputText = classNames({
-            'input-text-container': true,
-            // 'input-error': props.inputDetails != undefined && props.submite ? props.inputDetails.invalid : false,
+            'input-text-container': true
         });
 
 
@@ -107,8 +94,7 @@ class SwitchesGroup extends React.Component {
 
 
                 {props.switchesProps.options.map((option, index) => {
-                    // let value = inputProps.reduxForm.values[option.name];
-                    // console.log("switches-container");
+
                     const name = this.returnNameFromType(option);
                     return (
                         
@@ -119,7 +105,6 @@ class SwitchesGroup extends React.Component {
                                 key={index}
                                 type={props.switchesProps.type}
                                 name={name}
-                                // value={option.value}
                                 checked={this.checked}
                                 onChange={this.handleChange}
                             />
@@ -130,9 +115,6 @@ class SwitchesGroup extends React.Component {
 
                 )}
 
-                {/* {this.state.showError ? <label className="error-text">{this.state.error}</label> : null} */}
-                {/* {!this.state.someCheked ? <label className="error-text">Seleccione al menos uno.</label> : null} */}
-
             </ul>
         )
     }
@@ -140,22 +122,13 @@ class SwitchesGroup extends React.Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-    // console.log(ownProps.name);
-    // const groupName = ownProps.switchesProps.groupName;
 
     return {
         submite: state.reduxForm.submite,
-        // inputDetails: state.reduxForm.inputDetails[groupName]
-    };
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        reduxForm: actions.reduxForm
     };
 }
 
 export default withRouter(connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(SwitchesGroup));

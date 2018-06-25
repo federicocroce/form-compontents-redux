@@ -21,24 +21,24 @@ const Card = (props) => {
             },
             {
                 key: 'checkbox 1',
-                value: item.checkbox1.toString()
+                value: item.checkbox1 != undefined ? item.checkbox1.toString() : ''
             },
             {
                 key: 'checkbox 2',
-                value: item.checkbox2.toString()
+                value: item.checkbox1 != undefined ? item.checkbox2.toString() : ''
             },
             {
                 key: 'checkbox 3',
-                value: item.checkbox3.toString()
+                value: item.checkbox1 != undefined ? item.checkbox3.toString() : ''
             },
             {
                 key: 'Color',
-                value: item.color
+                value: item.color.value
             }
         ]
     }
 
-    const back = '#eee';
+    const back = item.color.data.color;
 
     let backColor = {
         backgroundColor: back

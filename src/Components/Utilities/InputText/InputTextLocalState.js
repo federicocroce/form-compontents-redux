@@ -14,7 +14,7 @@ class InputTextLocalState extends React.Component {
         setTimeout(() => {
             const form = actions.reduxForm.getForm()
             const reduxValue = form.values[this.props.name];
-            let value = nextProps.localState ? this.state.localValue  :  reduxValue;
+            let value = nextProps.localState ? this.state.localValue  :  reduxValue.value;
             if(form.clear){
                 value = '';
                 this.setState({ localValue: value });

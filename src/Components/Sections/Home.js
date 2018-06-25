@@ -50,11 +50,11 @@ class Home extends React.Component {
             type: 'radio',
             options: [
                 {
-                    value: 'Hombre',
+                    value: 'hombre',
                     label: 'Hombre'
                 },
                 {
-                    value: 'Mujer',
+                    value: 'mujer',
                     label: 'Mujer'
                 }
             ]
