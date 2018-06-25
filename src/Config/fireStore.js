@@ -96,6 +96,28 @@ fireStoreApp.fetchObjects = (collection, action) => {
 };
 
 
+// fireStoreApp.fetchObjects = (collection, dispatch, action) => {
+//   React.actions.actionsLoading.setLoading(dispatch, true);
+//   db.collection(collection).onSnapshot(function (snapshot) {
+//     // snapshot.docChanges.forEach(function (change) {
+
+//     const array = [];
+//     snapshot.forEach((doc) => {
+
+//       const newDoc = doc.data();
+//       newDoc.id = doc.id;
+//       array.push(newDoc);
+
+//     });
+//     dispatch({
+//       type: action,
+//       payload: array.length > 1 ? array : array[0]
+//     });
+//     React.actions.actionsLoading.setLoading(dispatch, false);
+//   });
+// };
+
+
 fireStoreApp.createAutoID = (collection, document) => {
   React.actions.actionsLoading.setLoading(true);
   db.collection(collection).add(document)

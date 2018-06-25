@@ -45,16 +45,16 @@ class Home extends React.Component {
         const props = this.props;
 
         const gender = {
-            groupName: 'gender',
+            groupName: 'genero',
             style: 'inline',
             type: 'radio',
             options: [
                 {
-                    value: 'male',
+                    value: 'Hombre',
                     label: 'Hombre'
                 },
                 {
-                    value: 'female',
+                    value: 'Mujer',
                     label: 'Mujer'
                 }
             ]
@@ -83,21 +83,21 @@ class Home extends React.Component {
 
         const listItemsCombobox = [
             {
-                value: "Fede",
+                value: "Azul",
                 data: {
-                    long: "Federico"
+                    color: '#1565C0'
                 }
             },
             {
-                value: "Nico",
+                value: "Verde",
                 data: {
-                    long: "Nicolas"
+                    color: "#00695C"
                 }
             },
             {
-                value: "Pablin",
+                value: "Rojo",
                 data: {
-                    long: "Pablo"
+                    color: "#D84315"
                 }
             }
         ];
@@ -105,17 +105,24 @@ class Home extends React.Component {
 
         return (
 
-            <div>
+            <div className='home table'>
                 <form onSubmit={this.handleSubmit}>
                     {/* <pre>Algo : {props.reduxForm.values}</pre> */}
                     {/* {props.reduxForm.values} */}
                     {/* <p>Nombre:</p> */}
 
 
+                    <components.InputText
+                        name='nombre'
+                        // style='inline'
+                        placeholderFloating='Nombre'
+                        customPlaceholder='Federico Croce'
+                        validate={config.fieldValidations.validations.name}
+                    />
 
                     <components.InputText
                         name='edad'
-                        style='inline'
+                        // style='inline'
                         placeholderFloating='Edad'
                         customPlaceholder='29'
                         validate={config.fieldValidations.validations.age}
@@ -124,18 +131,10 @@ class Home extends React.Component {
                     />
 
                     <components.InputText
-                        name='nombre'
-                        style='inline'
-                        placeholderFloating='Nombre'
-                        customPlaceholder='Federico Croce'
-                        validate={config.fieldValidations.validations.name}
-                    />
-
-                    <components.InputText
-                        name='localidad'
-                        placeholderFloating='Localidad'
-                        customPlaceholder='CABA'
-                        validate={config.fieldValidations.validations.city}
+                        name='email'
+                        placeholderFloating='Email'
+                        customPlaceholder='fede.croce.123@gmail.com'
+                        validate={config.fieldValidations.validations.email}
                         required={false}
                     />
 
@@ -145,9 +144,9 @@ class Home extends React.Component {
 
                     <components.SelectPicker
                         listItems={listItemsCombobox}
-                        placeholderFloating='Seleccione un nombre'
-                        customPlaceholder='Escriba su nombre'
-                        name='NombreSelectPicker'
+                        placeholderFloating='Seleccione un color'
+                        customPlaceholder='Escriba su color'
+                        name='color'
                         validate={config.fieldValidations.validations.selectPicker}
                         callbackSelected={(val) => console.log(val)}
                         required={true}
@@ -167,9 +166,7 @@ class Home extends React.Component {
                     {this.props.list.map((item, index)=> {
                         const data = item.data;
                         return(
-                            <div key={index} onClick={() => this.itemSelected(item)}>
-                                <p>{data.nombre}</p>
-                            </div>
+                            <components.Card item={item} key={index} onClick={() => this.itemSelected(item)}/>
                         )
                     })}
                 </div>

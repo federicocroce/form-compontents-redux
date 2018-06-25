@@ -8,7 +8,8 @@ body {
   width: 100%; }
   .table > * {
     display: table-cell;
-    vertical-align: top; }
+    vertical-align: top;
+    width: 50%; }
 
 .inputfile {
   width: 0.1px;
@@ -44,10 +45,21 @@ div.validations-container {
 .succes-text {
   color: green; }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none; }
+
+.home {
+  padding: 20px; }
+  .home form {
+    width: 15%; }
+
 .input-text-container {
   position: relative;
   width: 250px;
-  padding: 10px; }
+  padding: 10px 0; }
   .input-text-container.inline {
     display: inline-grid; }
   .input-text-container > div.custom-input {
@@ -147,8 +159,10 @@ div.validations-container {
     .switches-container label.inline {
       display: inline-block;
       margin: 0; }
-      .switches-container label.inline input[class='0'] {
-        margin-left: 0; }
+      .switches-container label.inline input {
+        margin-left: 10px; }
+        .switches-container label.inline input[class='0'] {
+          margin-left: 0; }
     .switches-container label:hover {
       cursor: pointer; }
     .switches-container label input {
@@ -167,7 +181,7 @@ div.validations-container {
       position: relative;
       background: transparent;
       pointer-events: none;
-      margin: 0 10px; }
+      margin: 0 10px 0 0; }
       .switches-container label input li:first-child {
         margin-left: 0; }
       .switches-container label input[type="radio"] {
@@ -237,7 +251,6 @@ div.validations-container {
   width: 100%;
   text-align: left;
   padding: 0;
-  margin: 0px 0px 10px 10px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   border-radius: 2px;
   z-index: 1; }
@@ -261,5 +274,27 @@ div.validations-container {
       overflow: hidden;
       padding: 0;
       opacity: 0; }
+
+.card {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  padding: 20px;
+  width: 20%;
+  display: inline-block;
+  margin: 1%;
+  transition: all .3s; }
+  .card h2 {
+    margin-bottom: 15px; }
+  .card:hover {
+    cursor: pointer;
+    transform: scale3d(1.1, 1.1, 1.1); }
+  .card:active {
+    background: #dddddd !important; }
+
+.key-value .container {
+  margin: 10px 0; }
+  .key-value .container label {
+    pointer-events: none; }
+    .key-value .container label:first-of-type {
+      font-weight: bold; }
 
 /*# sourceMappingURL=index.css.map */

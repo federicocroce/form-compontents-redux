@@ -10,6 +10,8 @@ import Button from "./Utilities/Button/Button";
 import SwitchesGroup from "./Utilities/SwitchesGroup/SwitchesGroup";
 import SwitchesInput from "./Utilities/SwitchesGroup/SwitchesInput";
 import SelectPicker from "./Utilities/SelectPicker/SelectPicker";
+import Card from "./Utilities/Card/Card";
+import KeyValue from "./Utilities/KeyValue/KeyValue";
 
 
 const components = {   
@@ -22,7 +24,9 @@ const components = {
     Button,
     SwitchesGroup,
     SwitchesInput,
-    SelectPicker
+    SelectPicker,
+    Card,
+    KeyValue
 }
 
 export default components;

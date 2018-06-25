@@ -19,6 +19,8 @@ const number = params => value => value && isNaN(Number(value)) ? setObjetError(
 
 const notNumber = params => value => value && value.match(/\d/g) ? setObjetError("notNumber", params, true) : setObjetError("notNumber", params, false);
 
+const email = params => value => !functions.isUndefinedOrNullOrEmpty(value) && value.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) ? setObjetError("email", params, false) : setObjetError("email", params, true);
+
 const minValue = (min, msg) => value => value && value < min ? setObjetError("minValue", msg, true) : setObjetError("minValue", msg, false);
 
 // const someSelected = (min, label) => value => value && value < min ? label : undefined;
@@ -33,7 +35,8 @@ fieldValidations.validations = {
     name: [notNumber('Su nombre solo puede contener letras'), required('Ingrese su nombre')],
     city: [notNumber('Su localidad solo puede contener letras'), required('Ingrese su localidad')],
     cheked: [requiredSelected('Seleccione al menos uno')],
-    selectPicker: [required('Ingrese su localidad')],
+    selectPicker: [required('Seleccione un item')],
+    email: [email('Email inválido'), required('Ingrese un email')],
 };
 
 

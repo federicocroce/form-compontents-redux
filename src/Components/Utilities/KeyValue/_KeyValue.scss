@@ -1,0 +1,11 @@
+.key-value {
+    .container {
+        margin: 10px 0;
+        label {
+            pointer-events: none;
+            &:first-of-type {
+                font-weight: bold;
+            }
+        }
+    }
+}
