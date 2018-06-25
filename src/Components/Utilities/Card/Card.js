@@ -13,23 +13,23 @@ const Card = (props) => {
             },
             {
                 key: 'Mail',
-                value: item.mail
+                value: item.email
             },
             {
-                key: 'Genero',
+                key: 'Género',
                 value: item.genero
             },
             {
-                key: 'checkbox 1',
+                key: 'Checkbox 1',
                 value: item.checkbox1 != undefined ? item.checkbox1.toString() : ''
             },
             {
-                key: 'checkbox 2',
-                value: item.checkbox1 != undefined ? item.checkbox2.toString() : ''
+                key: 'Checkbox 2',
+                value: item.checkbox2 != undefined ? item.checkbox2.toString() : ''
             },
             {
-                key: 'checkbox 3',
-                value: item.checkbox1 != undefined ? item.checkbox3.toString() : ''
+                key: 'Checkbox 3',
+                value: item.checkbox3 != undefined ? item.checkbox3.toString() : ''
             },
             {
                 key: 'Color',
@@ -38,16 +38,26 @@ const Card = (props) => {
         ]
     }
 
-    const back = item.color.data.color;
 
     let backColor = {
-        backgroundColor: back
+        backgroundColor: '#CFD8DC'
+    };
+
+    if (item.color.data) {
+        const back = item.color.data.color;
+
+        backColor = {
+            backgroundColor: back
+        }
     }
 
     return (
-        <div className='card' style={backColor} onClick={() => props.onClick(item)}>
-            <h2>{item.nombre}</h2>
-            <components.KeyValue data={dataFormated()} />
+        <div className='card' style={backColor}>
+            <i className='icon-delete' onClick={() => props.removeItem(props.item.id)}></i>
+            <div onClick={() => props.onClick(item)}>
+                <h2>{item.nombre}</h2>
+                <components.KeyValue data={dataFormated()} />
+            </div>
         </div>
     )
 };

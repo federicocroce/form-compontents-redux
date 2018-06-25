@@ -24,6 +24,8 @@ class Home extends React.Component {
             form.selected.state == 'new'  ? actions.test.createAutoID(form.values) : actions.test.updateItem(form.selected.id, form.values);
         }
 
+        // this.clearForm();
+
     }
 
     componentDidMount() {
@@ -38,6 +40,11 @@ class Home extends React.Component {
     clearForm = () => {
         actions.reduxForm.clearForm();
         actions.reduxForm.setSelected('new', null);
+    }
+
+    removeItem = (id) =>{
+        actions.test.removeItem(id);
+        this.clearForm();
     }
 
     render() {
@@ -85,19 +92,19 @@ class Home extends React.Component {
             {
                 value: "Azul",
                 data: {
-                    color: '#1565C0'
+                    color: '#81D4FA'
                 }
             },
             {
                 value: "Verde",
                 data: {
-                    color: "#00695C"
+                    color: "#80CBC4"
                 }
             },
             {
                 value: "Rojo",
                 data: {
-                    color: "#D84315"
+                    color: "#e57373"
                 }
             }
         ];
@@ -153,7 +160,7 @@ class Home extends React.Component {
                     />
 
                     <components.Button type='submit' className='primary-button' label={actions.reduxForm.getForm().selected.state == 'new' ? 'NUEVO' : 'ACTUALIZAR'} />
-                    <components.Button className='primary-button' label='CANCELAR' onClick={() => this.clearForm()} />
+                    <components.Button className='primary-button' class={'btn-cancel'} label='CANCELAR' onClick={() => this.clearForm()} />
                     {/* <components.Button onClick={remove()} className='primary-button' label='REMOVE' /> */}
 
                     {/*<input type="date" name="bday" max="1979-12-31"/>*/}
@@ -166,7 +173,7 @@ class Home extends React.Component {
                     {this.props.list.map((item, index)=> {
                         const data = item.data;
                         return(
-                            <components.Card item={item} key={index} onClick={() => this.itemSelected(item)}/>
+                            <components.Card item={item} key={index} removeItem={(id) => this.removeItem(id)} onClick={() => this.itemSelected(item)}/>
                         )
                     })}
                 </div>

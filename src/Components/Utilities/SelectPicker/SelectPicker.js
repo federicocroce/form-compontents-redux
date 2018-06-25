@@ -61,7 +61,7 @@ class SelectPicker extends React.Component {
     }
 
     setError = (value, validate) => {
-        const resultError = config.fieldValidations.getOneValidation(validate, actions.reduxForm.getForm().values[this.props.name], this.props.required);
+        const resultError = config.fieldValidations.getOneValidation(validate, actions.reduxForm.getForm().values[this.props.name].value, this.props.required);
         return resultError;
     }
 

@@ -11,8 +11,8 @@
 
 
 #deve
-/src/Styles/Main/index.css
-/src/Styles/Main/index.map
+*.css
+*.map
 
 
 # misc
