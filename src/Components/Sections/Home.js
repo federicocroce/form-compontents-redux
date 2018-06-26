@@ -9,7 +9,7 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { value: '', formState: 'new' };
+        this.state = { value: '', formState: 'new', showJSON: true };
     }
 
     handleSubmit = (event) => {
@@ -199,7 +199,18 @@ class Home extends React.Component {
                             )
                         })}
                     </div>
+
                 </div>
+
+                <div className='show-result-container'>
+                    <a onClick={() => this.setState(
+                        () => {
+                            return { showJSON: !this.state.showJSON }
+                        }
+                    )}>Mostrar datos del formulario</a>
+                    {this.state.showJSON ? <components.ShowResult /> : null}
+                </div>
+
             </div>
         );
     }

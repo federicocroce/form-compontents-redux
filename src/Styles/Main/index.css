@@ -65,10 +65,18 @@ h1 {
     .home button.btn-cancel {
       margin-top: 0; }
 
+.show-result-container a {
+  margin: 30px 0 10px 0;
+  font-size: 16px; }
+  .show-result-container a:hover {
+    cursor: pointer; }
+
 @media (max-width: 768px) {
   .home .card-container {
     display: table-footer-group;
     width: 100%; }
+    .home .card-container .card {
+      margin: 10px 0; }
   .home form, .home button, .home .input-text-container, .home .select-picker-container, .home .card {
     width: 100%; } }
 
