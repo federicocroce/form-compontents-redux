@@ -46,7 +46,7 @@ class SelectPicker extends React.Component {
             error: ''
         };
 
-        resultValidations = this.setError(item.value, this.props.validate);
+        resultValidations = this.setError(this.props.validate);
         return this.setDetails(item, resultValidations.invalid, resultValidations.validations);
     }
 
@@ -60,8 +60,12 @@ class SelectPicker extends React.Component {
         }
     }
 
-    setError = (value, validate) => {
-        const resultError = config.fieldValidations.getOneValidation(validate, actions.reduxForm.getForm().values[this.props.name].value, this.props.required);
+    setError = (validate) => {
+        const reduxFormVal = actions.reduxForm.getForm().values[this.props.name];
+        const value = reduxFormVal == undefined ? '' : actions.reduxForm.getForm().values[this.props.name].value;
+
+        const resultError = config.fieldValidations.getOneValidation(validate, value, this.props.required);
+
         return resultError;
     }
 

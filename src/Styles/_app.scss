@@ -5,8 +5,11 @@
     text-decoration: none;
 }
 
+h1{text-align: center; margin: 20px 0;}
+
 ////// HOME
 .home {
+    
     padding: 20px;
     form {
         width: 15%;
@@ -14,8 +17,21 @@
     button {
         width: 250px;
         margin: 10px 0;
-        &.btn-cancel{
+        &.btn-cancel {
             margin-top: 0;
+        }
+    }
+    .card-container {}
+}
+
+@media (max-width: 768px) {
+    .home {
+        .card-container {
+            display: table-footer-group;
+            width: 100%;
+        }
+        form, button, .input-text-container, .select-picker-container, .card{
+            width: 100%;
         }
     }
 }

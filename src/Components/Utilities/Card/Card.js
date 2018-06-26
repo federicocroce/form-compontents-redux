@@ -21,15 +21,15 @@ const Card = (props) => {
             },
             {
                 key: 'Checkbox 1',
-                value: item.checkbox1 != undefined ? item.checkbox1.toString() : ''
+                value: item.checkbox1 != undefined ? item.checkbox1 ? "<i className='icon-check'></i>" : "<i className='icon-close'></i>" : "<i className='icon-close'></i>"
             },
             {
                 key: 'Checkbox 2',
-                value: item.checkbox2 != undefined ? item.checkbox2.toString() : ''
+                value: item.checkbox2 != undefined ? item.checkbox2 ? "<i className='icon-check'></i>" : "<i className='icon-close'></i>" : "<i className='icon-close'></i>"
             },
             {
                 key: 'Checkbox 3',
-                value: item.checkbox3 != undefined ? item.checkbox3.toString() : ''
+                value: item.checkbox3 != undefined ? item.checkbox3 ? "<i className='icon-check'></i>" : "<i className='icon-close'></i>" : "<i className='icon-close'></i>"
             },
             {
                 key: 'Color',
@@ -52,9 +52,9 @@ const Card = (props) => {
     }
 
     return (
-        <div className='card' style={backColor}>
+        <div className='card' style={backColor} onClick={() => props.onClick(item)}>
             <i className='icon-delete' onClick={() => props.removeItem(props.item.id)}></i>
-            <div onClick={() => props.onClick(item)}>
+            <div >
                 <h2>{item.nombre}</h2>
                 <components.KeyValue data={dataFormated()} />
             </div>

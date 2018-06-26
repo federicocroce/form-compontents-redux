@@ -13,14 +13,12 @@ class InputTextLocalState extends React.Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         setTimeout(() => {
             const form = actions.reduxForm.getForm()
-            const reduxValue = form.values[this.props.name];
-            let value = nextProps.localState ? this.state.localValue  :  reduxValue.value;
-            if(form.clear){
+            const reduxValue = functions.isUndefinedOrNullOrEmpty(form.values) ? '' : form.values[this.props.name];
+            let value = nextProps.localState ? this.state.localValue : reduxValue.value;
+            if (form.clear) {
                 value = '';
                 this.setState({ localValue: value });
             }
-            // const value = nextProps.localState ? this.state.localValue  : !form.clear ? reduxValue : '';
-            // const value = nextProps.localState && form.clear ? '' : nextProps.localState ? this.state.localValue  : reduxValue;
             this.setState({ value });
         }, 100);
 

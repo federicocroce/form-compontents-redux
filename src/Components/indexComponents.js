@@ -12,6 +12,8 @@ import SwitchesInput from "./Utilities/SwitchesGroup/SwitchesInput";
 import SelectPicker from "./Utilities/SelectPicker/SelectPicker";
 import Card from "./Utilities/Card/Card";
 import KeyValue from "./Utilities/KeyValue/KeyValue";
+import Spinner from "./Utilities/Spinner/Spinner";
+import Toast from "./Utilities/Toast/Toast";
 
 
 const components = {   
@@ -26,7 +28,9 @@ const components = {
     SwitchesInput,
     SelectPicker,
     Card,
-    KeyValue
+    KeyValue,
+    Spinner,
+    Toast
 }
 
 export default components;

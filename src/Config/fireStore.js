@@ -75,7 +75,7 @@ fireStoreApp.getStorageUrlImg = function (path) {
 
 fireStoreApp.fetchObjects = (collection, action) => {
   React.actions.actionsLoading.setLoading(true);
-  db.collection(collection).onSnapshot(function (snapshot) {
+  db.collection(collection).onSnapshot(snapshot => {
     // snapshot.docChanges.forEach(function (change) {
 
     let array = [];
@@ -96,58 +96,59 @@ fireStoreApp.fetchObjects = (collection, action) => {
 };
 
 
-// fireStoreApp.fetchObjects = (collection, dispatch, action) => {
-//   React.actions.actionsLoading.setLoading(dispatch, true);
-//   db.collection(collection).onSnapshot(function (snapshot) {
-//     // snapshot.docChanges.forEach(function (change) {
-
-//     const array = [];
-//     snapshot.forEach((doc) => {
-
-//       const newDoc = doc.data();
-//       newDoc.id = doc.id;
-//       array.push(newDoc);
-
-//     });
-//     dispatch({
-//       type: action,
-//       payload: array.length > 1 ? array : array[0]
-//     });
-//     React.actions.actionsLoading.setLoading(dispatch, false);
-//   });
-// };
-
 
 fireStoreApp.createAutoID = (collection, document) => {
-  React.actions.actionsLoading.setLoading(true);
-  db.collection(collection).add(document)
-    .then(function (docRef) {
-      React.actions.actionsToast.setToast("Se agregó correctamente.", 'successfully');
-      React.actions.actionsLoading.setLoading(false);
-      // console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function (error) {
-      React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
-      React.actions.actionsLoading.setLoading(false);
-      // console.error("Error adding document: ", error);
-    });
+  return new Promise((resolve, reject) => {
+    React.actions.actionsLoading.setLoading(true);
+    db.collection(collection).add(document)
+      .then(function (docRef) {
+        React.actions.actionsToast.setToast("Se agregó correctamente.", 'successfully');
+        React.actions.actionsLoading.setLoading(false);
+        resolve(docRef);
+      })
+      .catch(function (error) {
+        React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
+        React.actions.actionsLoading.setLoading(false);
+        reject(error);
+        // console.error("Error adding document: ", error);
+      })
+      .finally(() =>{
+        React.actions.actionsLoading.setLoading(false);
+      })
+  })
 }
 
 
 fireStoreApp.removeItem = (collection, id) => {
-  db.collection(collection).doc(id).delete().then(function () {
-    React.actions.actionsToast.setToast("Se eliminó correctamente.", 'successfully');
-  }).catch(function (error) {
-    React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
-  });
+  return new Promise((resolve, reject) => {
+    React.actions.actionsLoading.setLoading(true);
+    db.collection(collection).doc(id).delete().then(() => {
+      React.actions.actionsToast.setToast("Se eliminó correctamente.", 'successfully');
+      resolve();
+    }).catch(error =>{
+      React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
+      reject();
+    })
+    .finally(() =>{
+      React.actions.actionsLoading.setLoading(false);
+    })
+  })
 }
 
 fireStoreApp.updateItem = (collection, id, document) => {
-  db.collection(collection).doc(id).update(document).then(function () {
-    React.actions.actionsToast.setToast("Se actualizó correctamente.", 'successfully');
-  }).catch(function (error) {
-    React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
-  });
+  return new Promise((resolve, reject) => {
+    React.actions.actionsLoading.setLoading(true);
+    db.collection(collection).doc(id).update(document).then(() => {
+      React.actions.actionsToast.setToast("Se actualizó correctamente.", 'successfully');
+      resolve();
+    }).catch(error => {
+      React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
+      reject(error);
+    })
+    .finally(() =>{
+      React.actions.actionsLoading.setLoading(false);
+    })
+  })
 }
 
 

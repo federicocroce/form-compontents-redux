@@ -6,18 +6,21 @@ import { withRouter } from 'react-router-dom';
 class SwitchesInput extends React.Component {
     render() {
         const props = this.props;
-        const value = props.value != undefined ? props.value : '';
+
         const isRadio = () => props.type == "radio" ? true : false;
 
+        const value = props.value != undefined ? isRadio() ?  props.value : '' : false;
+        
+
         const checked = (option) => {
-            return isRadio() ? option.value === value : props.value;
+            return isRadio() ? option.value === value : props.value != undefined ? props.value : '';
         }
 
         return (
             <input
                 className={props.index}
                 checked={checked(props.option)}
-                value={props.name}
+                // value={props.name}
                 key={props.index}
                 type={props.type}
                 name={props.name}
