@@ -50,7 +50,8 @@ class Input extends React.Component {
             invalid: false,
             error: ''
         }
-        if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultValidations = this.setError(value);
+        var a = functions.isUndefinedOrNullOrEmpty(this.props.validate);
+        if (!a) resultValidations = this.setError(value);
         return this.setDetails(value, resultValidations.invalid, resultValidations.validations);
     }
 

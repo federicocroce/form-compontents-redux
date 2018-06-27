@@ -146,7 +146,7 @@ class Home extends React.Component {
                             // style='inline'
                             placeholderFloating='Nombre'
                             customPlaceholder='Federico Croce'
-                            validate={config.fieldValidations.validations.name}
+                            validate={config.fieldValidations.validations.name()}
                         />
 
                         <components.InputText
@@ -154,18 +154,18 @@ class Home extends React.Component {
                             // style='inline'
                             placeholderFloating='Edad'
                             customPlaceholder='29'
-                            validate={config.fieldValidations.validations.age}
+                            validate={config.fieldValidations.validations.age(18)}
                             showAllValidations={true}
                             required={true}
                         />
 
-                        {/* <components.InputText
-                        name='email'
-                        placeholderFloating='Email'
-                        customPlaceholder='fede.croce.123@gmail.com'
-                        validate={config.fieldValidations.validations.email}
-                        required={false}
-                    /> */}
+                        {/*<components.InputText
+                            name='email'
+                            placeholderFloating='Email'
+                            customPlaceholder='fede.croce.123@gmail.com'
+                            validate={config.fieldValidations.validations.email()}
+                            required={false}
+                        />*/}
 
                         <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
 
@@ -176,7 +176,7 @@ class Home extends React.Component {
                             placeholderFloating='Seleccione un color'
                             customPlaceholder='Escriba su color'
                             name='color'
-                            validate={config.fieldValidations.validations.selectPicker}
+                            validate={config.fieldValidations.validations.selectPicker()}
                             callbackSelected={(val) => console.log(val)}
                             required={true}
                         />

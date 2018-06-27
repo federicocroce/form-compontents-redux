@@ -6,9 +6,11 @@ const fieldValidations = {}
 
 const setObjetError = (name, msg, invalid) => { return { name, msg, invalid } };
 
-fieldValidations.requiredSelectPicker = (selected, msg) => value => { 
+fieldValidations.requiredSelectPicker = (selected, msg) => value => {
     return selected ? setObjetError("requiredSelectPicker", msg, false) : setObjetError("requiredSelectPicker", msg, true)
 };
+
+fieldValidations.required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? setObjetError("required", params, false) : setObjetError("required", params, true);
 
 const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? setObjetError("required", params, false) : setObjetError("required", params, true);
 
@@ -23,26 +25,73 @@ const email = params => value => !functions.isUndefinedOrNullOrEmpty(value) && v
 
 const minValue = (min, msg) => value => value && value < min ? setObjetError("minValue", msg, true) : setObjetError("minValue", msg, false);
 
+// const maxValue = (max, msg) => value => value && value > max ? setObjetError("maxValue", msg, true) : setObjetError("maxValue", msg, false);
+
 // const someSelected = (min, label) => value => value && value < min ? label : undefined;
 
 // const requiredSelected = (min, label) => value => value && value < min ? label : undefined;
 
+
+
+
+// const minValue = (min) => {
+//     console.log(min);
+// }
+// const maxValue = (max) => {
+//     console.log(max);
+// }
+
+
 const requiredSelected = params => array => array.length == 0 ? setObjetError("requiredSelected", params, true) : setObjetError("requiredSelected", params, false);
 
-
 fieldValidations.validations = {
-    age: [number('Su edad solo puede ser numérica'), minValue(18, 'Su edad debe ser igual o mayor a ' + 18 + ' años'), required('Ingrese su edad')],
-    name: [notNumber('Su nombre solo puede contener letras'), required('Ingrese su nombre')],
-    city: [notNumber('Su localidad solo puede contener letras'), required('Ingrese su localidad')],
-    cheked: [requiredSelected('Seleccione al menos uno')],
-    selectPicker: [required('Seleccione un item')],
-    email: [email('Email inválido'), required('Ingrese un email')],
-};
+
+    // age: (min, max) => [number('Su edad solo puede ser numérica'), minValue(min, 'Su edad debe ser igual o mayor a ' + min + ' años')]
+    age: (min) => new Set([number('Su edad solo puede ser numérica'), minValue(min, 'Su edad debe ser igual o mayor a ' + min + ' años'), required('Ingrese su edad')]),
+    name: () => new Set( [notNumber('Su nombre solo puede contener letras'), required('Ingrese su nombre')]),
+    city: () => new Set( [notNumber('Su localidad solo puede contener letras'), required('Ingrese su localidad')]),
+    cheked: () => new Set( [requiredSelected('Seleccione al menos uno')]),
+    selectPicker: () => new Set( [required('Seleccione un item')]),
+    email: () => new Set( [email('Email inválido'), required('Ingrese un email')])
+}
+
+
+// fieldValidations.getAllValidations = (validationsFunctions, value, required) => {
+
+//     let validations = validationsFunctions.map((val, index, array) => {
+//         let validation = {};
+
+//         const result = val(value);
+
+//         const validationResult = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
+
+//         if (!functions.isUndefinedOrNullOrEmpty(validationResult))
+//             validation = {
+//                 msg: validationResult.msg,
+//                 invalid: validationResult.invalid
+//             }
+
+//         return validation;
+
+//     });
+
+//     let invalid = !functions.isUndefinedOrNullOrEmpty(validations.filter(val => {
+//         return val.invalid
+//     })) ? true : false;
+
+//     return {
+//         validations,
+//         invalid
+//     }
+// };
+
 
 
 fieldValidations.getAllValidations = (validationsFunctions, value, required) => {
 
-    let validations = validationsFunctions.map((val, index, array) => {
+    // validationsFunctions.add(fieldValidations.required('Campo Requerido'));
+
+    let validations = [...validationsFunctions].map((val, index, array) => {
         let validation = {};
 
         const result = val(value);
@@ -71,7 +120,7 @@ fieldValidations.getAllValidations = (validationsFunctions, value, required) => 
 
 
 fieldValidations.getOneValidation = (validationsFunctions, value, required) => {
-    let validations = validationsFunctions.map((val, index, array) => {
+    let validations = [...validationsFunctions].map((val, index, array) => {
         let validation = {};
 
         const result = val(value);
@@ -103,44 +152,5 @@ fieldValidations.getOneValidation = (validationsFunctions, value, required) => {
 
 
 
-// fieldValidations.getValidation = (validations, value, required) => {
-//     // if(!required) validations.splice(-1,1);
-//     let error = validations.map((val, index, array) => {
-//         const result = val(value);
-
-//         // if(functions.isUndefinedOrNullOrEmpty(result)) return undefined;
-
-//         const a = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result.msg : null;
-//         return a;
-//         // if (index != array.length - 1) {
-//         //     return val(value);
-//         // }
-//         // else if (index == array.length - 1 && required) { // si el campo no esta requerido entonces no se ejecuta la ultima funcion
-//         //     return val(value)
-//         // }
-//     }).filter(val => {
-//        return val != undefined
-//     });
-//     let invalid = !functions.isUndefinedOrNullOrEmpty(error) ? true : false;
-
-//     return {
-//         error,
-//         invalid
-//     }
-// }
-
-
 export default fieldValidations;
 
-
-// const formatValidateArray = (validate) => {
-//     if (!validate) return;
-
-//     var validateFunction = [];
-
-//     validate.map((functionName, index) => {
-//         validateFunction.push(eval(functionName));
-//     })
-
-//     return validateFunction;
-// }
