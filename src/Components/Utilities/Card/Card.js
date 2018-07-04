@@ -11,10 +11,10 @@ const Card = (props) => {
                 key: 'Edad',
                 value: item.edad
             },
-            {
-                key: 'Mail',
-                value: item.email
-            },
+            // {
+            //     key: 'Mail',
+            //     value: item.email
+            // },
             {
                 key: 'Género',
                 value: item.genero
