@@ -1,5 +1,5 @@
 @import "../_base";
-// @import "../app";
+@import "../_app";
 // @import "../cv";
 // @import "../utilities";
 // @import "../../Components/**/*";
@@ -8,7 +8,9 @@
 @import 'src/Components/Utilities/Button/_Button';
 @import 'src/Components/Utilities/SwitchesGroup/_SwitchesGroup';
 @import 'src/Components/Utilities/SelectPicker/_SelectPicker';
+@import 'src/Components/Utilities/Card/_Card';
+@import 'src/Components/Utilities/KeyValue/_KeyValue';
+@import 'src/Components/Utilities/Toast/_Toast';
+@import 'src/Components/Utilities/Spinner/_Spinner';
 // @import "../users";
 // @import "../comobox";
-
-

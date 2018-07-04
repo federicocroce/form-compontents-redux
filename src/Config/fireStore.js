@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { config } from 'react';
 import * as firebase from 'firebase';
 // var Firestore = require('@google-cloud/firestore');
 require("firebase/firestore");
@@ -18,20 +18,21 @@ const fireStoreApp = {};
 //   storageBucket: "test-74eeb.appspot.com",
 //   messagingSenderId: "984496005171"
 // };
-var config = {
-  apiKey: "AIzaSyDINSbmIwTdqRE7yDhkow46fs3JxW5y8KM",
-  authDomain: "test-74eeb.firebaseapp.com",
-  databaseURL: "https://test-74eeb.firebaseio.com",
-  projectId: "test-74eeb",
-  storageBucket: "test-74eeb.appspot.com",
-  messagingSenderId: "984496005171"
+const firebaseConfig = {
+  apiKey: "AIzaSyCs7FRRIVakhY4sMVWP3rlJYhRYnZLKAI8",
+  authDomain: "form-compontents-react-redux.firebaseapp.com",
+  databaseURL: "https://form-compontents-react-redux.firebaseio.com",
+  projectId: "form-compontents-react-redux",
+  storageBucket: "form-compontents-react-redux.appspot.com",
+  messagingSenderId: "359556241403"
 };
 
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
 const storage = firebase.storage();
 
 
 const db = firebase.firestore();
+// const dispatch = config.storeHistory.dispatch;
 
 
 fireStoreApp.getStorageUrlImg = function (path) {
@@ -72,55 +73,87 @@ fireStoreApp.getStorageUrlImg = function (path) {
 // });
 
 
-fireStoreApp.fetchObjects = (collection, dispatch, action) => {
-  React.actions.actionsLoading.setLoading(dispatch, true);
-  db.collection(collection).onSnapshot(function (snapshot) {
+fireStoreApp.fetchObjects = (collection, action) => {
+  React.actions.actionsLoading.setLoading(true);
+  db.collection(collection).onSnapshot(snapshot => {
     // snapshot.docChanges.forEach(function (change) {
 
-    const array = [];
+    let array = [];
     snapshot.forEach((doc) => {
-
-      const newDoc = doc.data();
-      newDoc.id = doc.id;
-      array.push(newDoc);
-
+      array.push({
+        data: doc.data(),
+        id: doc.id
+      });
     });
-    dispatch({
+
+    config.storeHistory.dispatch({
       type: action,
-      payload: array.length > 1 ? array : array[0]
+      payload: array
+      // payload: array.length > 1 ? array : array[0]
     });
-    React.actions.actionsLoading.setLoading(dispatch, false);
+    React.actions.actionsLoading.setLoading(false);
   });
 };
 
 
-fireStoreApp.createAutoID = (dispatch, collection, document) => {
-  React.actions.actionsLoading.setLoading(dispatch, true);
-  db.collection(collection).add(document)
-    .then(function (docRef) {
-      React.actions.actionsToast.setToast(dispatch, "Se agregó correctamente.", 'successfully');
-      React.actions.actionsLoading.setLoading(dispatch, false);
-      // console.log("Document written with ID: ", docRef.id);
+
+fireStoreApp.createAutoID = (collection, document) => {
+  return new Promise((resolve, reject) => {
+    React.actions.actionsLoading.setLoading(true);
+    db.collection(collection).add(document)
+      .then(function (docRef) {
+        React.actions.actionsToast.setToast("Se agregó correctamente.", 'successfully');
+        React.actions.actionsLoading.setLoading(false);
+        resolve(docRef);
+      })
+      .catch(function (error) {
+        React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
+        React.actions.actionsLoading.setLoading(false);
+        reject(error);
+        // console.error("Error adding document: ", error);
+      })
+      .finally(() =>{
+        React.actions.actionsLoading.setLoading(false);
+      })
+  })
+}
+
+
+fireStoreApp.removeItem = (collection, id) => {
+  return new Promise((resolve, reject) => {
+    React.actions.actionsLoading.setLoading(true);
+    db.collection(collection).doc(id).delete().then(() => {
+      React.actions.actionsToast.setToast("Se eliminó correctamente.", 'successfully');
+      resolve();
+    }).catch(error =>{
+      React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
+      reject();
     })
-    .catch(function (error) {
-      React.actions.actionsToast.setToast(dispatch, errorMaps[error.code], 'error');
-      React.actions.actionsLoading.setLoading(dispatch, false);
-      // console.error("Error adding document: ", error);
-    });
+    .finally(() =>{
+      React.actions.actionsLoading.setLoading(false);
+    })
+  })
+}
+
+fireStoreApp.updateItem = (collection, id, document) => {
+  return new Promise((resolve, reject) => {
+    React.actions.actionsLoading.setLoading(true);
+    db.collection(collection).doc(id).update(document).then(() => {
+      React.actions.actionsToast.setToast("Se actualizó correctamente.", 'successfully');
+      resolve();
+    }).catch(error => {
+      React.actions.actionsToast.setToast(errorMaps[error.code], 'error');
+      reject(error);
+    })
+    .finally(() =>{
+      React.actions.actionsLoading.setLoading(false);
+    })
+  })
 }
 
 
-fireStoreApp.removeItem = (dispatch, collection, id) => {
-  db.collection(collection).doc(id).delete().then(function () {
-    React.actions.actionsToast.setToast(dispatch, "Se eliminó correctamente.", 'successfully');
-  }).catch(function (error) {
-    React.actions.actionsToast.setToast(dispatch, errorMaps[error.code], 'error');
-  });
-}
-
-
-fireStoreApp.hadleAuth = (dispatch, action) => {
-  React.actions.actionsLoading.setLoading(dispatch, true);
+fireStoreApp.hadleAuth = (action) => {
+  React.actions.actionsLoading.setLoading(true);
   const provider = new firebase.auth.GoogleAuthProvider();
 
   firebase.auth().signInWithPopup(provider).then(function (result) {
@@ -129,18 +162,18 @@ fireStoreApp.hadleAuth = (dispatch, action) => {
       user: result.user,
       loginState: true
     }
-    dispatch({
+    config.storeHistory.dispatch({
       type: action,
       payload: login
     });
-    React.actions.actionsLoading.setLoading(dispatch, false);
-    React.actions.actionsToast.setToast(dispatch, "Bienvenido " + result.user.displayName);
+    React.actions.actionsLoading.setLoading(false);
+    React.actions.actionsToast.setToast("Bienvenido " + result.user.displayName);
     // var token = result.credential.accessToken;
     // // The signed-in user info.
     // var user = result.user;
     // ...
   }).catch(function (error) {
-    React.actions.actionsLoading.setLoading(dispatch, false);
+    React.actions.actionsLoading.setLoading(false);
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
@@ -148,13 +181,13 @@ fireStoreApp.hadleAuth = (dispatch, action) => {
     var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
-    React.actions.actionsToast.setToast(dispatch, errorMessage, "error");
+    React.actions.actionsToast.setToast(errorMessage, "error");
     // ...
   });
 }
 
 
-fireStoreApp.onAuthStateChanged = (dispatch, action) => {
+fireStoreApp.onAuthStateChanged = (action) => {
   firebase.auth().onAuthStateChanged(user => {
     const login = {
       user: {},
@@ -162,14 +195,14 @@ fireStoreApp.onAuthStateChanged = (dispatch, action) => {
     }
     if (user) {
       login.user = user;
-      dispatch({
+      config.storeHistory.dispatch({
         type: action,
         payload: login
       });
     }
     else {
       login.loginState = false;
-      dispatch({
+      config.storeHistory.dispatch({
         type: action,
         payload: login
       });
@@ -178,19 +211,19 @@ fireStoreApp.onAuthStateChanged = (dispatch, action) => {
   });
 };
 
-fireStoreApp.signOut = (dispatch, action) => {
+fireStoreApp.signOut = (action) => {
   firebase.auth().signOut().then(() => {
     const login = {
       user: {},
       loginState: false
     }
-    dispatch({
+    config.storeHistory.dispatch({
       type: action,
       payload: login
     });
-    React.actions.actionsToast.setToast(dispatch, "Desloageado");
+    React.actions.actionsToast.setToast("Desloageado");
   }).catch(function (error) {
-    React.actions.actionsToast.setToast(dispatch, error.message, "error");
+    React.actions.actionsToast.setToast(error.message, "error");
   });
 }
 

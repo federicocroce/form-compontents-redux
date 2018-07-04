@@ -24,7 +24,15 @@ const setDispatch = (type, payload) =>{
 functionsAction.getForm = () => config.storeHistory.store.getState().reduxForm;
 
 functionsAction.setValues = (input) =>{
-    setDispatch('SET_VALUES', input);
+    setDispatch('SET_VALUES', {value: input, clear: false});
+};
+
+functionsAction.clearForm = () =>{
+    setDispatch('CLEAR_FORM', {value: {}, clear: true});
+};
+
+functionsAction.setSelected = (state, id) =>{
+    setDispatch('SET_SELECTED', {state, id});
 };
 
 functionsAction.setInputDetails = (details) =>{

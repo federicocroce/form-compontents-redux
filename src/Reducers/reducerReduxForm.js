@@ -5,11 +5,23 @@ import React from 'react';
 
 const data = {
     values: {},
-    initialValues: {},
+    selected: {
+        state: 'new',
+        id: null
+    },
     invalid: false,
     submite: false,
+    clear: true,
     inputDetails: {}
 }
+// const initialData = {
+//     values: {},
+//     invalid: false,
+//     submite: false,
+//     inputDetails: {}
+// }
+
+// const initialData = Object.assign({}, data);
 
 
 
@@ -19,20 +31,20 @@ const reducerReduxForm = (state = data, action) => {
         case 'SET_VALUES':
             return {
                 ...state,
-                values: Object.assign(state.values, action.payload),
-                // inputDetails: Object.assign(state.inputDetails, action.payload.inputDetails),
-                // invalid: setInvalid()
-                // values: action.payload
+                values: { ...state.values, ...action.payload.value },
+                clear: action.payload.clear
             };
-        case 'SET_INITIAL_VALUES':
-            return {
-                ...state,
-                initialValues: Object.assign(state.initialValues, action.payload.value)
-            };
+        case 'CLEAR_FORM':
+            return data;
         case 'SET_SUBMITE':
             return {
                 ...state,
                 submite: action.payload
+            };
+        case 'SET_SELECTED':
+            return {
+                ...state,
+                selected: action.payload
             };
         case 'SET_INVALID':
             return {

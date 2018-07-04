@@ -24,7 +24,8 @@ $color-919: #191919;
 // @import url('https://fonts.googleapis.com/css?family=PT+Serif');
 // @import url('https://fonts.googleapis.com/css?family=Merriweather');
 // @import url('https://fonts.googleapis.com/css?family=Exo+2:600');
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
+// @import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 body {
     // font-family: 'Mina', sans-serif;
     // font-family: 'Raleway', sans-serif;
@@ -37,7 +38,9 @@ body {
     // font-family: 'PT Serif', serif;
     // font-family: 'Merriweather', serif;
     // font-family: 'Exo 2', sans-serif;
-    font-family: 'Montserrat', sans-serif;
+    // font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
+   
     font-size: 14px;
 }
 
@@ -47,6 +50,7 @@ body {
     >* {
         display: table-cell;
         vertical-align: top;
+        width: 50%;
     }
 }
 

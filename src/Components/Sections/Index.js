@@ -20,7 +20,6 @@ const Index = () => {
       <ConnectedRouter history={config.storeHistory.history}>
         <div>
           <components.Home />
-          <components.ShowResult />
           <div className="nav-bar-container">
             <Switch>
 

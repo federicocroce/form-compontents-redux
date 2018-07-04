@@ -9,52 +9,71 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { value: '' };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = { value: '', formState: 'new', showJSON: true };
     }
 
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
-
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         // alert('A name was submitted: ' + this.state.value);
         actions.reduxForm.setSubmite(true);
+
         event.preventDefault();
 
-        if (!actions.reduxForm.getForm().invalid) {
-            alert('Este form no posee errores.' + "\n\n values: \t"
-                + "\t" + JSON.stringify(actions.reduxForm.getForm().values, null, "\t")
-            );
-        }
+        let form = actions.reduxForm.getForm();
 
+        if (!form.invalid) {
+            form.selected.state == 'new' ? actions.test.createAutoID(form.values)
+                .then(response => {
+                    console.log(response);
+                    this.clearForm();
+                })
+                .catch(error => {
+                    console.log('error');
+                })
+                : actions.test.updateItem(form.selected.id, form.values)
+                    .then((response) => {
+                        this.clearForm();
+                    })
+                    .catch(error => {
+                        console.log('error');
+                    });
+        }
     }
 
     componentDidMount() {
-
-        // this.props.onAuthStateChanged();
-
+        actions.test.fetchObjects();
     }
 
+    itemSelected = item => {
+        actions.reduxForm.setValues(item.data);
+        actions.reduxForm.setSelected('update', item.id);
+    }
 
+    clearForm = () => {
+        actions.reduxForm.clearForm();
+        actions.reduxForm.setSelected('new', null);
+    }
+
+    removeItem = (id) => {
+        actions.test.removeItem(id).then(response => {
+            this.clearForm();
+        });
+    }
 
     render() {
 
         const props = this.props;
 
         const gender = {
-            groupName: 'gender',
+            groupName: 'genero',
             style: 'inline',
             type: 'radio',
             options: [
                 {
-                    value: 'male',
+                    value: 'hombre',
                     label: 'Hombre'
                 },
                 {
-                    value: 'female',
+                    value: 'mujer',
                     label: 'Mujer'
                 }
             ]
@@ -83,21 +102,21 @@ class Home extends React.Component {
 
         const listItemsCombobox = [
             {
-                value: "Fede",
+                value: "Azul",
                 data: {
-                    long: "Federico"
+                    color: '#81D4FA'
                 }
             },
             {
-                value: "Nico",
+                value: "Verde",
                 data: {
-                    long: "Nicolas"
+                    color: "#80CBC4"
                 }
             },
             {
-                value: "Pablin",
+                value: "Rojo",
                 data: {
-                    long: "Pablo"
+                    color: "#e57373"
                 }
             }
         ];
@@ -105,67 +124,104 @@ class Home extends React.Component {
 
         return (
 
+            <div>
 
-            <form onSubmit={this.handleSubmit}>
-                {/* <pre>Algo : {props.reduxForm.values}</pre> */}
-                {/* {props.reduxForm.values} */}
-                {/* <p>Nombre:</p> */}
+                <components.Toast messages={this.props.messages.list} />
+                {this.props.loading.isLoading ? <components.Spinner /> : null}
 
+                {/* <components.Spinner /> */}
 
+                <h1>REDUX FORM COMPONENTS</h1>
 
-                <components.InputText
-                    name='edad'
-                    style='inline'
-                    placeholderFloating='Edad'
-                    customPlaceholder='29'
-                    validate={config.fieldValidations.validations.age}
-                    showAllValidations={true}
-                    required={true}
-                />
+                <div className='home table'>
 
-                <components.InputText
-                    name='nombre'
-                    style='inline'
-                    placeholderFloating='Nombre'
-                    customPlaceholder='Federico Croce'
-                    validate={config.fieldValidations.validations.name}
-                />
-
-                <components.InputText
-                    name='localidad'
-                    placeholderFloating='Localidad'
-                    customPlaceholder='CABA'
-                    validate={config.fieldValidations.validations.city}
-                    required={false}
-                />
-
-                <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
-
-                <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />
-
-                <components.SelectPicker
-                    listItems={listItemsCombobox}
-                    placeholderFloating='Seleccione un nombre'
-                    customPlaceholder='Escriba su nombre'
-                    name='NombreSelectPicker'
-                    callbackSelected={(val) => console.log(val)}
-                    required={true}
-                />
-
-                <components.Button type='submit' className='primary-button' label='SUBMIT' />
-
-                {/*<input type="date" name="bday" max="1979-12-31"/>*/}
+                    <form onSubmit={this.handleSubmit}>
+                        {/* <pre>Algo : {props.reduxForm.values}</pre> */}
+                        {/* {props.reduxForm.values} */}
+                        {/* <p>Nombre:</p> */}
 
 
-                {/*{functions.jsonView(props.reduxForm)}*/}
-            </form>
+                        <components.InputText
+                            name='nombre'
+                            // style='inline'
+                            placeholderFloating='Nombre'
+                            customPlaceholder='Federico Croce'
+                            validate={config.fieldValidations.validations.name()}
+                        />
+
+                        <components.InputText
+                            name='edad'
+                            // style='inline'
+                            placeholderFloating='Edad'
+                            customPlaceholder='29'
+                            validate={config.fieldValidations.validations.age(18)}
+                            showAllValidations={true}
+                            required={true}
+                        />
+
+                        {/*<components.InputText
+                            name='email'
+                            placeholderFloating='Email'
+                            customPlaceholder='fede.croce.123@gmail.com'
+                            validate={config.fieldValidations.validations.email()}
+                            required={false}
+                        />*/}
+
+                        <components.SwitchesGroup switchesProps={gender} submite={props.submite} />
+
+                        <components.SwitchesGroup switchesProps={checkboxProps} submite={props.submite} />
+
+                        <components.SelectPicker
+                            listItems={listItemsCombobox}
+                            placeholderFloating='Seleccione un color'
+                            customPlaceholder='Escriba su color'
+                            name='color'
+                            validate={config.fieldValidations.validations.selectPicker()}
+                            callbackSelected={(val) => console.log(val)}
+                            required={true}
+                        />
+
+                        <components.Button type='submit' className='primary-button' label={props.formState == 'new' ? 'NUEVO' : 'ACTUALIZAR'} />
+                        <components.Button className='primary-button' class={'btn-cancel'} label='CANCELAR' onClick={() => this.clearForm()} />
+                        {/* <components.Button onClick={remove()} className='primary-button' label='REMOVE' /> */}
+
+                        {/*<input type="date" name="bday" max="1979-12-31"/>*/}
+
+
+                        {/*{functions.jsonView(props.reduxForm)}*/}
+                    </form>
+
+                    <div className='card-container'>
+                        {this.props.list.map((item, index) => {
+                            const data = item.data;
+                            return (
+                                <components.Card item={item} key={index} removeItem={(id) => this.removeItem(id)} onClick={() => this.itemSelected(item)} />
+                            )
+                        })}
+                    </div>
+
+                </div>
+
+                <div className='show-result-container'>
+                    <a onClick={() => this.setState(
+                        () => {
+                            return { showJSON: !this.state.showJSON }
+                        }
+                    )}>Mostrar datos del formulario</a>
+                    {this.state.showJSON ? <components.ShowResult /> : null}
+                </div>
+
+            </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        // reduxForm: state.reduxForm
+        formState: state.reduxForm.selected.state,
+        list: state.test.list,
+        messages: state.messages,
+        loading: state.loading
     };
 }
 

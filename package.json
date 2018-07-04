@@ -10,7 +10,7 @@
   "devDependencies": {
     "del-cli": "^1.1.0",
     "firebase": "^4.9.0",
-    "html-react-parser": "^0.4.3",
+    "html-react-parser": "^0.4.6",
     "jquery-lite": "^2.2.3",
     "node-sass-chokidar": "^1.1.2",
     "nodemon": "^1.17.2",
