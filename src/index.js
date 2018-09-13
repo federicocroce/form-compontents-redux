@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 // import './index.css';
 
 import './Styles/Main/index.css';
-import './Assets/icons/style.css';
+// import './Assets/icons/style.css';
 import frameworkConfig from './Config/frameworkConfig';
 
 import registerServiceWorker from './registerServiceWorker';
