@@ -102,7 +102,7 @@ class SelectPicker extends React.Component {
 
         const props = this.props;
 
-        const selected = !functions.isUndefinedOrNullOrEmpty(props.value) ? functions.isUndefinedOrNullOrEmpty(props.value.value) ? false : true : false;
+        const selected = functions.isValue(props.value) ? !functions.isValue(props.value.value) ? false : true : false;
 
         return (
             <div className="select-picker-container">

@@ -155,7 +155,7 @@
 			"const ${1:functionName}ReduxForm = props => {\n",
 			"\tconst { reset } = props;",
 			"\tconst selected = props.state.${2:name}.selected\n",
-			"\tconst isNew = () => React.functions.isUndefinedOrNullOrEmpty(props.initialValues);\n",
+			"\tconst isNew = () => React.functions.isValue(props.initialValues);\n",
 			"\tconst submit = values => {",
 			"\t\tisNew() ? React.actions.actions${1:functionName}.create(values) : React.actions.actions${1:functionName}.update(values, Object.keys(selected)[0]);",
 			"\t\tprops.setSelected({});",

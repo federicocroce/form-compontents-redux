@@ -56,7 +56,7 @@ const frameworkConfig = props => {
 
 
     //////////////  FUNCTIONS //////////////////
-    // React.functions.isUndefinedOrNullOrEmpty = (element) => _.isEmpty(element) || element == null || element == undefined  ? true : false;
+    // React.functions.isValue = (element) => _.isEmpty(element) || element == null || element == undefined  ? true : false;
     ///////////////////////////////////////////
 
     // React.config = config;

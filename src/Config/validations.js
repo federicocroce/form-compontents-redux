@@ -10,9 +10,9 @@ fieldValidations.requiredSelectPicker = (selected, msg) => value => {
     return selected ? setObjetError("requiredSelectPicker", msg, false) : setObjetError("requiredSelectPicker", msg, true)
 };
 
-fieldValidations.required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? setObjetError("required", params, false) : setObjetError("required", params, true);
+fieldValidations.required = params => value => functions.isValue(value) ? setObjetError("required", params, false) : setObjetError("required", params, true);
 
-const required = params => value => !functions.isUndefinedOrNullOrEmpty(value) ? setObjetError("required", params, false) : setObjetError("required", params, true);
+const required = params => value => functions.isValue(value) ? setObjetError("required", params, false) : setObjetError("required", params, true);
 
 // const required = (params) => value => value ? undefined : 'Ingrese ' + params;
 
@@ -21,7 +21,7 @@ const number = params => value => value && isNaN(Number(value)) ? setObjetError(
 
 const notNumber = params => value => value && value.match(/\d/g) ? setObjetError("notNumber", params, true) : setObjetError("notNumber", params, false);
 
-const email = params => value => !functions.isUndefinedOrNullOrEmpty(value) && value.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) ? setObjetError("email", params, false) : setObjetError("email", params, true);
+const email = params => value => functions.isValue(value) && value.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/) ? setObjetError("email", params, false) : setObjetError("email", params, true);
 
 const minValue = (min, msg) => value => value && value < min ? setObjetError("minValue", msg, true) : setObjetError("minValue", msg, false);
 
@@ -63,9 +63,9 @@ fieldValidations.validations = {
 
 //         const result = val(value);
 
-//         const validationResult = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
+//         const validationResult = functions.isValue(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
 
-//         if (!functions.isUndefinedOrNullOrEmpty(validationResult))
+//         if (!functions.isValue(validationResult))
 //             validation = {
 //                 msg: validationResult.msg,
 //                 invalid: validationResult.invalid
@@ -75,7 +75,7 @@ fieldValidations.validations = {
 
 //     });
 
-//     let invalid = !functions.isUndefinedOrNullOrEmpty(validations.filter(val => {
+//     let invalid = !functions.isValue(validations.filter(val => {
 //         return val.invalid
 //     })) ? true : false;
 
@@ -96,9 +96,9 @@ fieldValidations.getAllValidations = (validationsFunctions, value, required) => 
 
         const result = val(value);
 
-        const validationResult = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
+        const validationResult = !functions.isValue(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
 
-        if (!functions.isUndefinedOrNullOrEmpty(validationResult))
+        if (functions.isValue(validationResult))
             validation = {
                 msg: validationResult.msg,
                 invalid: validationResult.invalid
@@ -108,7 +108,7 @@ fieldValidations.getAllValidations = (validationsFunctions, value, required) => 
 
     });
 
-    let invalid = !functions.isUndefinedOrNullOrEmpty(validations.filter(val => {
+    let invalid = functions.isValue(validations.filter(val => {
         return val.invalid
     })) ? true : false;
 
@@ -125,9 +125,9 @@ fieldValidations.getOneValidation = (validationsFunctions, value, required) => {
 
         const result = val(value);
 
-        const validationResult = functions.isUndefinedOrNullOrEmpty(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
+        const validationResult = !functions.isValue(result) ? undefined : result.name == "required" && required || result.name != "required" ? result : null;
 
-        if (!functions.isUndefinedOrNullOrEmpty(validationResult))
+        if (functions.isValue(validationResult))
             validation = {
                 msg: validationResult.msg,
                 invalid: validationResult.invalid
@@ -138,7 +138,7 @@ fieldValidations.getOneValidation = (validationsFunctions, value, required) => {
         return val != undefined
     });
 
-    let invalid = !functions.isUndefinedOrNullOrEmpty(validations.filter(val => {
+    let invalid = functions.isValue(validations.filter(val => {
         return val.invalid
     })) ? true : false;
 

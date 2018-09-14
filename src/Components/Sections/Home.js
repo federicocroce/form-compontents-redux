@@ -1,9 +1,6 @@
 import React, { actions, components, config, functions } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Parser from 'html-react-parser';
-import classNames from 'classnames';
-
 
 class Home extends React.Component {
 

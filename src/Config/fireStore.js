@@ -32,6 +32,7 @@ const storage = firebase.storage();
 
 
 const db = firebase.firestore();
+db.settings({timestampsInSnapshots: true});
 // const dispatch = config.storeHistory.dispatch;
 
 

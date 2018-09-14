@@ -33,7 +33,7 @@ const Card = (props) => {
             },
             {
                 key: 'Color',
-                value: item.color.value
+                value: item.color ? item.color.value : ""
             }
         ]
     }
@@ -43,7 +43,7 @@ const Card = (props) => {
         backgroundColor: '#CFD8DC'
     };
 
-    if (item.color.data) {
+    if (item.color && item.color.data) {
         const back = item.color.data.color;
 
         backColor = {

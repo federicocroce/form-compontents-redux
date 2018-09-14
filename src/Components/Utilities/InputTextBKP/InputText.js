@@ -46,7 +46,7 @@ class Input extends React.Component {
             invalid: false,
             error: ''
         }
-        if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError(value);
+        if (functions.isValue(this.props.validate)) resultError = this.setError(value);
         return this.setDetails(value, resultError.invalid, resultError.error);
     }
 
@@ -69,7 +69,7 @@ class Input extends React.Component {
     //         invalid: false,
     //         error: ''
     //     }
-    //     if (!functions.isUndefinedOrNullOrEmpty(this.props.validate)) resultError = this.setError(value);
+    //     if (!functions.isValue(this.props.validate)) resultError = this.setError(value);
     //     actions.reduxForm.setInputDetails(this.setDetails(value, resultError.invalid, resultError.error));
     // }
 
