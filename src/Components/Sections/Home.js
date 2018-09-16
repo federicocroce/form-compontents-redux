@@ -144,6 +144,7 @@ class Home extends React.Component {
                             placeholderFloating='Nombre'
                             customPlaceholder='Federico Croce'
                             validate={config.fieldValidations.validations.name()}
+                            required={true}
                         />
 
                         <components.InputText
